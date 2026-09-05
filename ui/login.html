@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LandStack — Secure Sign-In</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    background:
+        linear-gradient(rgba(4, 18, 38, 0.78), rgba(4, 18, 38, 0.88)),
+        url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2000&q=80");
+    background-size: cover;
+    background-position: center;
+    color: #ffffff;
+}
+
+/* ==============================
+   GOVERNMENT BAR
+============================== */
+
+.gov-bar {
+    height: 42px;
+    background: #071a32;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 45px;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.gov-left {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.gov-emblem {
+    font-size: 18px;
+}
+
+.gov-right {
+    opacity: 0.8;
+}
+
+/* ==============================
+   HEADER
+============================== */
+
+.header {
+    height: 82px;
+    background: rgba(7, 27, 50, 0.94);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 55px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #0a3159;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.brand-title {
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.brand-subtitle {
+    font-size: 12px;
+    opacity: 0.7;
+    margin-top: 3px;
+}
+
+.header-right {
+    font-size: 13px;
+    opacity: 0.75;
+}
+
+/* ==============================
+   MAIN
+============================== */
+
+.main {
+    min-height: calc(100vh - 124px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 45px 20px;
+}
+
+.login-wrapper {
+    width: 100%;
+    max-width: 1050px;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.hero h1 {
+    font-size: 38px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 15px;
+    color: #c8d6e5;
+}
+
+/* ==============================
+   LOGIN GRID
+============================== */
+
+.login-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.card {
+    background: rgba(8, 25, 46, 0.94);
+    border: 1px solid rgba(255,255,255,0.13);
+    border-radius: 18px;
+    padding: 32px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+}
+
+.card-header {
+    margin-bottom: 25px;
+}
+
+.card-header h2 {
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.card-header p {
+    font-size: 13px;
+    color: #aebed0;
+    line-height: 1.5;
+}
+
+/* ==============================
+   FORM
+============================== */
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 8px;
+    color: #d9e4ef;
+}
+
+input,
+select {
+    width: 100%;
+    height: 46px;
+    border-radius: 9px;
+    border: 1px solid #38506b;
+    background: #0c223c;
+    color: white;
+    padding: 0 13px;
+    outline: none;
+    font-size: 14px;
+}
+
+input:focus,
+select:focus {
+    border-color: #6ea8dc;
+    box-shadow: 0 0 0 2px rgba(110,168,220,0.12);
+}
+
+button {
+    width: 100%;
+    height: 46px;
+    border: none;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #092442;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    opacity: 0.92;
+}
+
+button.secondary {
+    background: #163653;
+    color: white;
+    border: 1px solid #38506b;
+}
+
+.demo-note {
+    margin-top: 15px;
+    padding: 11px 12px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.05);
+    color: #aebed0;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* ==============================
+   MESSAGE
+============================== */
+
+.message {
+    display: none;
+    margin-top: 18px;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.message.success {
+    display: block;
+    background: rgba(35, 150, 90, 0.18);
+    border: 1px solid rgba(35, 150, 90, 0.45);
+    color: #a7f3c5;
+}
+
+.message.error {
+    display: block;
+    background: rgba(200, 50, 50, 0.18);
+    border: 1px solid rgba(200, 50, 50, 0.45);
+    color: #ffb4b4;
+}
+
+/* ==============================
+   FOOTER
+============================== */
+
+.footer {
+    text-align: center;
+    padding: 18px;
+    font-size: 11px;
+    color: #aebed0;
+}
+
+/* ==============================
+   RESPONSIVE
+============================== */
+
+@media (max-width: 800px) {
+
+    .login-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        padding: 0 20px;
+    }
+
+    .gov-bar {
+        padding: 0 20px;
+    }
+
+    .header-right {
+        display: none;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ==============================
+     GOVERNMENT BAR
+============================== -->
+
+<div class="gov-bar">
+
+    <div class="gov-left">
+        <span class="gov-emblem">🇮🇳</span>
+        <span>Government of India</span>
+    </div>
+
+    <div class="gov-right">
+        Digital India • Secure Land Governance
+    </div>
+
+</div>
+
+
+<!-- ==============================
+     HEADER
+============================== -->
+
+<header class="header">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            LS
+        </div>
+
+        <div>
+            <div class="brand-title">
+                LandStack
+            </div>
+
+            <div class="brand-subtitle">
+                Ministry of Rural Development · Department of Land Resources
+            </div>
+        </div>
+
+    </div>
+
+    <div class="header-right">
+        Integrated GIS-based Land Governance Platform
+    </div>
+
+</header>
+
+
+<!-- ==============================
+     MAIN
+============================== -->
+
+<main class="main">
+
+<div class="login-wrapper">
+
+    <div class="hero">
+
+        <h1>
+            Secure Sign-In
+        </h1>
+
+        <p>
+            One parcel. One record. One trusted source.
+        </p>
+
+    </div>
+
+
+    <div class="login-grid">
+
+
+        <!-- ==============================
+             CITIZEN LOGIN
+        ============================== -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <h2>
+                    Citizen / Family Login
+                </h2>
+
+                <p>
+                    Access land records, ownership information
+                    and registration status.
+                </p>
+
+            </div>
+
+
+            <form id="citizenForm">
+
+                <div class="form-group">
+
+                    <label for="citizenIdentifier">
+                        Mobile Number / Citizen ID
+                    </label>
+
+                    <input
+                        id="citizenIdentifier"
+                        type="text"
+                        placeholder="Enter mobile number or citizen ID"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="citizenOtp">
+                        OTP
+                    </label>
+
+                    <input
+                        id="citizenOtp"
+                        type="text"
+                        maxlength="6"
+                        placeholder="Enter 6-digit OTP"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="secondary"
+                    id="sendOtpButton"
+                >
+                    Send OTP
+                </button>
+
+                <br><br>
+
+                <button type="submit">
+                    Continue as Citizen
+                </button>
+
+            </form>
+
+
+            <div class="demo-note">
+                Demo mode: click "Send OTP" and enter any
+                6-digit OTP.
+            </div>
+
+
+            <div
+                id="citizenMessage"
+                class="message"
+            ></div>
+
+        </section>
+
+
+
+        <!-- ==============================
+             OFFICER / ADMIN LOGIN
+        ============================== -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <h2>
+                    Department Officer Login
+                </h2>
+
+                <p>
+                    Secure access for authorised officers
+                    and platform administrators.
+                </p>
+
+            </div>
+
+
+            <form id="staffForm">
+
+                <div class="form-group">
+
+                    <label for="selectedRole">
+                        Account Type
+                    </label>
+
+                    <select id="selectedRole">
+
+                        <option value="OFFICER">
+                            Department Officer
+                        </option>
+
+                        <option value="ADMIN">
+                            Administrator
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="staffUsername">
+                        Username
+                    </label>
+
+                    <input
+                        id="staffUsername"
+                        type="text"
+                        placeholder="Enter username"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="staffPassword">
+                        Password
+                    </label>
+
+                    <input
+                        id="staffPassword"
+                        type="password"
+                        placeholder="Enter password"
+                        required
+                    >
+
+                </div>
+
+
+                <button type="submit">
+                    Sign In
+                </button>
+
+            </form>
+
+
+            <div class="demo-note">
+                Demo accounts:<br>
+                Officer: <b>officer / officer123</b><br>
+                Admin: <b>admin / admin123</b>
+            </div>
+
+
+            <div
+                id="staffMessage"
+                class="message"
+            ></div>
+
+        </section>
+
+    </div>
+
+
+    <div class="footer">
+        LandStack Digital Public Infrastructure · Secure Demo Environment
+    </div>
+
+</div>
+
+</main>
+
+
+<script>
+
+/* =========================================================
+   API CONFIGURATION
+========================================================= */
+
+const API_BASE_URL = "http://127.0.0.1:8000";
+
+
+/* =========================================================
+   ROLE REDIRECT
+========================================================= */
+
+function redirectByRole(role) {
+
+    const normalizedRole =
+        String(role || "")
+            .trim()
+            .toUpperCase();
+
+
+    console.log("Redirecting user with role:", normalizedRole);
+
+
+    if (normalizedRole === "ADMIN") {
+
+        window.location.href = "admin.html";
+
+        return;
+    }
+
+
+    if (normalizedRole === "OFFICER") {
+
+        window.location.href = "officer.html";
+
+        return;
+    }
+
+
+    if (normalizedRole === "CITIZEN") {
+
+        window.location.href = "citizen.html";
+
+        return;
+    }
+
+
+    throw new Error(
+        "Unknown user role: " + normalizedRole
+    );
+}
+
+
+/* =========================================================
+   SAVE LOGIN SESSION
+========================================================= */
+
+function saveLoginSession(data) {
+
+    sessionStorage.setItem(
+        "landstack_logged_in",
+        "true"
+    );
+
+    sessionStorage.setItem(
+        "landstack_username",
+        data.username
+    );
+
+    sessionStorage.setItem(
+        "landstack_role",
+        data.role
+    );
+
+    sessionStorage.setItem(
+        "landstack_token",
+        data.access_token
+    );
+}
+
+
+/* =========================================================
+   STAFF LOGIN
+========================================================= */
+
+document
+    .getElementById("staffForm")
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const message =
+                document.getElementById(
+                    "staffMessage"
+                );
+
+
+            const username =
+                document.getElementById(
+                    "staffUsername"
+                ).value.trim();
+
+
+            const password =
+                document.getElementById(
+                    "staffPassword"
+                ).value;
+
+
+            const selectedRole =
+                document.getElementById(
+                    "selectedRole"
+                ).value
+                .trim()
+                .toUpperCase();
+
+
+            message.className = "message";
+            message.textContent = "";
+
+
+            if (!username || !password) {
+
+                message.className =
+                    "message error";
+
+                message.textContent =
+                    "Please enter username and password.";
+
+                return;
+            }
+
+
+            try {
+
+                message.className =
+                    "message success";
+
+                message.textContent =
+                    "Signing in...";
+
+
+                const response =
+                    await fetch(
+                        API_BASE_URL + "/login",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                username: username,
+                                password: password
+                            })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.detail ||
+                        data.message ||
+                        "Login failed."
+                    );
+
+                }
+
+
+                if (!data.success) {
+
+                    throw new Error(
+                        data.message ||
+                        "Login failed."
+                    );
+
+                }
+
+
+                /* =========================================
+                   VERIFY SELECTED ROLE
+                ========================================= */
+
+                const actualRole =
+                    String(data.role || "")
+                        .trim()
+                        .toUpperCase();
+
+
+                if (actualRole !== selectedRole) {
+
+                    throw new Error(
+                        "This account does not have the selected role."
+                    );
+
+                }
+
+
+                /* =========================================
+                   SAVE SESSION
+                ========================================= */
+
+                saveLoginSession({
+                    username: data.username,
+                    role: actualRole,
+                    access_token: data.access_token
+                });
+
+
+                message.className =
+                    "message success";
+
+                message.textContent =
+                    "Login successful. Opening dashboard...";
+
+
+                /* =========================================
+                   REDIRECT
+                ========================================= */
+
+                setTimeout(
+                    function() {
+
+                        redirectByRole(
+                            actualRole
+                        );
+
+                    },
+                    300
+                );
+
+            }
+
+
+            catch(error) {
+
+                console.error(
+                    "Login error:",
+                    error
+                );
+
+
+                message.className =
+                    "message error";
+
+                message.textContent =
+                    error.message ||
+                    "Unable to login.";
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   CITIZEN OTP DEMO
+========================================================= */
+
+document
+    .getElementById("sendOtpButton")
+    .addEventListener(
+        "click",
+        function() {
+
+            const identifier =
+                document.getElementById(
+                    "citizenIdentifier"
+                ).value.trim();
+
+
+            const message =
+                document.getElementById(
+                    "citizenMessage"
+                );
+
+
+            if (!identifier) {
+
+                message.className =
+                    "message error";
+
+                message.textContent =
+                    "Please enter your mobile number or Citizen ID.";
+
+                return;
+            }
+
+
+            message.className =
+                "message success";
+
+            message.textContent =
+                "Demo OTP sent. Enter any 6-digit OTP.";
+
+        }
+    );
+
+
+/* =========================================================
+   CITIZEN LOGIN
+========================================================= */
+
+document
+    .getElementById("citizenForm")
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const message =
+                document.getElementById(
+                    "citizenMessage"
+                );
+
+
+            const identifier =
+                document.getElementById(
+                    "citizenIdentifier"
+                ).value.trim();
+
+
+            const otp =
+                document.getElementById(
+                    "citizenOtp"
+                ).value.trim();
+
+
+            message.className = "message";
+            message.textContent = "";
+
+
+            if (!identifier) {
+
+                message.className =
+                    "message error";
+
+                message.textContent =
+                    "Please enter your mobile number or Citizen ID.";
+
+                return;
+            }
+
+
+            if (!/^\d{6}$/.test(otp)) {
+
+                message.className =
+                    "message error";
+
+                message.textContent =
+                    "Please enter a valid 6-digit OTP.";
+
+                return;
+            }
+
+
+            try {
+
+                message.className =
+                    "message success";
+
+                message.textContent =
+                    "Verifying citizen access...";
+
+
+                /*
+                   DEMO CITIZEN LOGIN
+
+                   The current backend uses the demo
+                   citizen account.
+                */
+
+                const response =
+                    await fetch(
+                        API_BASE_URL + "/login",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                username: "citizen",
+
+                                password: "citizen123"
+
+                            })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.detail ||
+                        "Citizen login failed."
+                    );
+
+                }
+
+
+                const actualRole =
+                    String(data.role || "")
+                        .trim()
+                        .toUpperCase();
+
+
+                if (actualRole !== "CITIZEN") {
+
+                    throw new Error(
+                        "Citizen account verification failed."
+                    );
+
+                }
+
+
+                /* =========================================
+                   SAVE CITIZEN SESSION
+                ========================================= */
+
+                saveLoginSession({
+
+                    username: data.username,
+
+                    role: actualRole,
+
+                    access_token: data.access_token
+
+                });
+
+
+                message.className =
+                    "message success";
+
+                message.textContent =
+                    "Login successful. Opening citizen dashboard...";
+
+
+                setTimeout(
+                    function() {
+
+                        redirectByRole(
+                            actualRole
+                        );
+
+                    },
+                    300
+                );
+
+            }
+
+
+            catch(error) {
+
+                console.error(
+                    "Citizen login error:",
+                    error
+                );
+
+
+                message.className =
+                    "message error";
+
+                message.textContent =
+                    error.message ||
+                    "Unable to login.";
+
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+</html>

@@ -1,155 +1,72 @@
 -- ============================================
--- LAND STACK DEMO DATABASE
+-- LAND STACK USERS - CLEAN RESET
 -- ============================================
 
--- ============================================
--- 1. DELETE OLD TABLES
--- ============================================
-
+-- Delete existing USERS table if it exists
 BEGIN
-    FOR t IN (
-        SELECT table_name
-        FROM user_tables
-        WHERE table_name IN (
-            'REGISTRATION',
-            'OWNERSHIP',
-            'LAND_PARCELS'
-        )
-    ) LOOP
-        EXECUTE IMMEDIATE
-            'DROP TABLE "' || t.table_name || '" CASCADE CONSTRAINTS';
-    END LOOP;
+    EXECUTE IMMEDIATE 'DROP TABLE users CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
 END;
 /
 
--- ============================================
--- 2. CREATE LAND_PARCELS TABLE
--- ============================================
-
-CREATE TABLE land_parcels (
-    ulpin VARCHAR2(30) PRIMARY KEY,
-    parcel_no VARCHAR2(30),
-    district VARCHAR2(100),
-    village VARCHAR2(100),
-    state VARCHAR2(100),
-    area_acres NUMBER(10,2),
-    latitude NUMBER(10,6),
-    longitude NUMBER(10,6),
-    land_use VARCHAR2(50)
+-- Create USERS table
+CREATE TABLE users (
+    user_id NUMBER PRIMARY KEY,
+    username VARCHAR2(50) UNIQUE NOT NULL,
+    password VARCHAR2(100) NOT NULL,
+    role VARCHAR2(30) NOT NULL,
+    active NUMBER(1) DEFAULT 1
 );
 
--- ============================================
--- 3. INSERT LAND PARCELS
--- ============================================
+-- Create Officer account
+INSERT INTO users
+(user_id, username, password, role, active)
+VALUES
+(1, 'officer', 'officer123', 'OFFICER', 1);
 
-INSERT INTO land_parcels
-VALUES (
-    'ULPIN-WB-0001',
-    'P-101',
-    'Kolkata',
-    'Demo Village',
-    'West Bengal',
-    2.50,
-    22.572600,
-    88.363900,
-    'Residential'
-);
+-- Create Admin account
+INSERT INTO users
+(user_id, username, password, role, active)
+VALUES
+(2, 'admin', 'admin123', 'ADMIN', 1);
 
-INSERT INTO land_parcels
-VALUES (
-    'ULPIN-WB-0002',
-    'P-102',
-    'Kolkata',
-    'Demo Village',
-    'West Bengal',
-    1.80,
-    22.573000,
-    88.364500,
-    'Agricultural'
-);
+-- Create Citizen account
+INSERT INTO users
+(user_id, username, password, role, active)
+VALUES
+(3, 'citizen', 'citizen123', 'CITIZEN', 1);
+
+-- Save changes
+COMMIT;
+
+-- Verify users
+SELECT user_id, username, role, active
+FROM users
+ORDER BY user_id;
+-- Remove officer if an incomplete/old officer record exists
+DELETE FROM users
+WHERE username = 'officer'
+   OR user_id = 1;
+
+-- Create officer account
+INSERT INTO users
+(user_id, username, password, role, active)
+VALUES
+(1, 'officer', 'officer123', 'OFFICER', 1);
 
 COMMIT;
 
--- ============================================
--- 4. CREATE OWNERSHIP TABLE
--- ============================================
-
-CREATE TABLE ownership (
-    ownership_id NUMBER PRIMARY KEY,
-    ulpin VARCHAR2(30),
-    owner_name VARCHAR2(100),
-    ownership_status VARCHAR2(30),
-    FOREIGN KEY (ulpin)
-        REFERENCES land_parcels(ulpin)
-);
-
--- ============================================
--- 5. INSERT OWNERS
--- ============================================
-
-INSERT INTO ownership
-VALUES (
-    1,
-    'ULPIN-WB-0001',
-    'Rahul Sharma',
-    'Verified'
-);
-
-INSERT INTO ownership
-VALUES (
-    2,
-    'ULPIN-WB-0002',
-    'Amit Das',
-    'Verified'
-);
-
-COMMIT;
-
--- ============================================
--- 6. CREATE REGISTRATION TABLE
--- ============================================
-
-CREATE TABLE registration (
-    registration_id NUMBER PRIMARY KEY,
-    ulpin VARCHAR2(30),
-    registration_status VARCHAR2(30),
-    transaction_type VARCHAR2(30),
-    FOREIGN KEY (ulpin)
-        REFERENCES land_parcels(ulpin)
-);
-
--- ============================================
--- 7. INSERT REGISTRATION DATA
--- ============================================
-
-INSERT INTO registration
-VALUES (
-    1,
-    'ULPIN-WB-0001',
-    'Registered',
-    'Sale'
-);
-
-INSERT INTO registration
-VALUES (
-    2,
-    'ULPIN-WB-0002',
-    'Pending',
-    'Sale'
-);
-
-COMMIT;
-
--- ============================================
--- 8. CHECK ALL DATA
--- ============================================
-
-SELECT * FROM land_parcels;
-
-SELECT * FROM ownership;
-
-SELECT * FROM registration;
-
-SELECT table_name
-FROM user_tables
-ORDER BY table_name;
+-- Check all users
+SELECT user_id, username, role, active
+FROM users
+ORDER BY user_id;
+SELECT user_id, username, role, active
+FROM users
+ORDER BY user_id;
+SELECT username, role, active
+FROM users
+WHERE username = 'admin';

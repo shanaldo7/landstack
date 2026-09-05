@@ -2388,17 +2388,40 @@ async function fetchBackend(term){
 
     );
 
+    const token = sessionStorage.getItem("landstack_token");
+
+    const headers = {};
+
+    if(token){
+      headers["Authorization"] = "Bearer " + token;
+    }
+
     const response = await fetch(
 
       (window.LANDSTACK_API_URL || "http://127.0.0.1:8000") + "/search?term=" +
 
         encodeURIComponent(term),
 
-      { signal: controller.signal }
+      {
+        signal: controller.signal,
+        headers: headers
+      }
 
     );
 
     clearTimeout(timer);
+
+    if(response.status === 401){
+      alert("Your login session has expired. Please login again.");
+      sessionStorage.clear();
+      window.location.href = "login.html";
+      return null;
+    }
+
+    if(response.status === 403){
+      alert("You do not have permission to search land records.");
+      return null;
+    }
 
     if(!response.ok){
 

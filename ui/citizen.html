@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Land Stack - Citizen Dashboard</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #172033;
+        }
+
+        header {
+            background: #101d32;
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .role {
+            background: #174d3b;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .welcome {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            margin-top: 0;
+        }
+
+        button {
+            background: #c9932e;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .logout {
+            background: #9b2c2c;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="brand">
+        🏛️ Land Stack
+    </div>
+
+    <div>
+        <span id="username"></span>
+        <span class="role">CITIZEN</span>
+    </div>
+
+</header>
+
+<div class="container">
+
+    <div class="welcome">
+
+        <h1>Citizen Dashboard</h1>
+
+        <p>
+            Welcome, <strong id="welcomeUser"></strong>
+        </p>
+
+        <p>
+            Access your permitted land information and parcel services.
+        </p>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>🗺️ Search Parcel</h3>
+            <p>
+                Search land parcels using ULPIN or parcel number.
+            </p>
+            <button onclick="searchParcel()">
+                Search Parcel
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>📜 Ownership</h3>
+            <p>
+                View permitted ownership information.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>📋 Registration</h3>
+            <p>
+                View registration status of your parcel.
+            </p>
+        </div>
+
+    </div>
+
+    <br>
+
+    <button class="logout" onclick="logout()">
+        Logout
+    </button>
+
+</div>
+
+<script>
+
+const token = sessionStorage.getItem("landstack_token");
+const username = sessionStorage.getItem("landstack_username");
+const role = sessionStorage.getItem("landstack_role");
+
+
+// Protect page
+
+if (!token || role !== "CITIZEN") {
+
+    window.location.href = "login.html";
+
+}
+
+
+// Display user
+
+document.getElementById("username").textContent = username;
+document.getElementById("welcomeUser").textContent = username;
+
+
+// Test protected citizen endpoint
+
+fetch("http://127.0.0.1:8000/citizen/dashboard", {
+
+    headers: {
+        "Authorization": "Bearer " + token
+    }
+
+})
+.then(response => {
+
+    if (!response.ok) {
+        throw new Error("Access denied");
+    }
+
+    return response.json();
+
+})
+.then(data => {
+
+    console.log("Citizen authorization:", data);
+
+})
+.catch(error => {
+
+    console.error(error);
+
+    logout();
+
+});
+
+
+function searchParcel() {
+
+    window.location.href = "index.html";
+
+}
+
+
+function logout() {
+
+    sessionStorage.clear();
+
+    window.location.href = "login.html";
+
+}
+
+</script>
+
+</body>
+</html>
