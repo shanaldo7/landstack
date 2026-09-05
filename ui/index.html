@@ -1,0 +1,3070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LandStack — Find and manage your land records</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@500;600;700&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+crossorigin="">
+
+<!-- ================= SUPABASE ================= -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const SUPABASE_URL = "https://jqffmmccflzwesbidpkp.supabase.co";
+
+  /*
+   * =====================================================
+   * YOUR SUPABASE PUBLISHABLE KEY
+   * =====================================================
+   */
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_9G8jHJSQyWLjlPNQezzMtQ_8eikVTFt";
+
+  const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  console.log("Supabase initialized");
+</script>
+<!-- ============================================ -->
+
+
+<style>
+
+:root{
+  --ink:#1c1b16;
+  --paper:#f2eee2;
+  --paper-deep:#e9e3d2;
+  --line:#1c1b16aa;
+  --line-soft:#c9c0a6;
+  --forest:#213c34;
+  --forest-deep:#152720;
+  --teal:#3e6b5c;
+  --ochre:#c1791f;
+  --ochre-deep:#9c5f16;
+  --white:#fffdf8;
+  --focus:#1959a8;
+  --radius:2px;
+  font-size:16px;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Noto Sans", Arial, sans-serif;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+
+h1,h2,h3{
+  font-family:"Noto Serif", Georgia, serif;
+  font-weight:700;
+  margin:0;
+  line-height:1.15;
+}
+
+p{
+  margin:0;
+}
+
+a{
+  color:inherit;
+}
+
+img,svg{
+  display:block;
+  max-width:100%;
+}
+
+button{
+  font-family:inherit;
+}
+
+:focus-visible{
+  outline:3px solid var(--focus);
+  outline-offset:2px;
+}
+
+.wrap{
+  max-width:1180px;
+  margin:0 auto;
+  padding:0 clamp(1rem, 4vw, 2.5rem);
+}
+
+
+/* ---------- Skip link ---------- */
+
+.skip-link{
+  position:absolute;
+  left:-999px;
+  top:0;
+  background:var(--forest);
+  color:var(--white);
+  padding:0.75rem 1.25rem;
+  z-index:100;
+}
+
+.skip-link:focus{
+  left:1rem;
+  top:1rem;
+}
+
+
+/* ---------- Top utility bar ---------- */
+
+.util-bar{
+  background:var(--forest-deep);
+  color:#e7e2d2;
+  font-size:0.85rem;
+}
+
+.util-bar .wrap{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:1rem;
+  padding-top:0.45rem;
+  padding-bottom:0.45rem;
+  flex-wrap:wrap;
+}
+
+.util-bar select{
+  background:transparent;
+  color:#e7e2d2;
+  border:1px solid #ffffff44;
+  border-radius:var(--radius);
+  padding:0.25rem 0.5rem;
+  font-size:0.85rem;
+}
+
+.util-help{
+  display:flex;
+  gap:1.25rem;
+  flex-wrap:wrap;
+}
+
+.util-help a{
+  text-decoration:none;
+}
+
+.util-help a:hover{
+  text-decoration:underline;
+}
+
+
+/* ---------- Header ---------- */
+
+header.site{
+  background:var(--paper);
+  border-bottom:2px solid var(--ink);
+}
+
+.site .wrap{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-top:1.1rem;
+  padding-bottom:1.1rem;
+  gap:1.5rem;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:0.7rem;
+  text-decoration:none;
+  color:var(--ink);
+}
+
+.brand-mark{
+  width:40px;
+  height:40px;
+  flex-shrink:0;
+}
+
+.brand-text{
+  font-family:"Noto Serif", Georgia, serif;
+  font-weight:700;
+  font-size:1.35rem;
+  letter-spacing:0.01em;
+}
+
+.brand-text small{
+  display:block;
+  font-family:"Noto Sans", Arial, sans-serif;
+  font-weight:400;
+  font-size:0.7rem;
+  color:#4a4638;
+  letter-spacing:0.02em;
+}
+
+nav.main-nav ul{
+  list-style:none;
+  display:flex;
+  gap:2rem;
+  margin:0;
+  padding:0;
+}
+
+nav.main-nav a{
+  text-decoration:none;
+  font-weight:600;
+  font-size:0.98rem;
+  padding-bottom:0.2rem;
+  border-bottom:2px solid transparent;
+}
+
+nav.main-nav a:hover{
+  border-bottom-color:var(--ochre);
+}
+
+.nav-toggle{
+  display:none;
+  background:none;
+  border:2px solid var(--ink);
+  border-radius:var(--radius);
+  width:44px;
+  height:44px;
+  padding:0;
+  cursor:pointer;
+}
+
+.nav-toggle span,
+.nav-toggle::before,
+.nav-toggle::after{
+  content:"";
+  display:block;
+  width:22px;
+  height:2px;
+  background:var(--ink);
+  margin:5px auto;
+}
+
+
+/* ---------- Hero ---------- */
+
+.hero{
+  background:var(--forest);
+  color:var(--white);
+  position:relative;
+  overflow:hidden;
+}
+
+.hero .wrap{
+  display:grid;
+  grid-template-columns:1.05fr 0.95fr;
+  align-items:center;
+  gap:3rem;
+  padding-top:clamp(2.5rem, 6vw, 4.5rem);
+  padding-bottom:clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.hero h1{
+  font-size:clamp(2.1rem, 4vw, 3rem);
+  color:var(--white);
+}
+
+.hero-lede{
+  margin-top:1.1rem;
+  font-size:1.15rem;
+  max-width:34ch;
+  color:#e4e0d0;
+}
+
+.search-panel{
+  margin-top:2rem;
+  background:var(--white);
+  color:var(--ink);
+  border-radius:var(--radius);
+  padding:1.25rem;
+  max-width:520px;
+  box-shadow:0 10px 0 var(--forest-deep);
+}
+
+.search-panel legend{
+  font-weight:700;
+  font-size:1rem;
+  padding:0 0 0.7rem 0;
+  font-family:"Noto Serif", Georgia, serif;
+}
+
+.search-tabs{
+  display:flex;
+  gap:0.4rem;
+  margin-bottom:0.8rem;
+  flex-wrap:wrap;
+}
+
+.search-tabs button{
+  background:var(--paper-deep);
+  border:1px solid var(--line-soft);
+  border-radius:999px;
+  padding:0.35rem 0.85rem;
+  font-size:0.85rem;
+  cursor:pointer;
+  color:var(--ink);
+}
+
+.search-tabs button[aria-pressed="true"]{
+  background:var(--forest);
+  border-color:var(--forest);
+  color:var(--white);
+}
+
+.search-row{
+  display:flex;
+  gap:0.6rem;
+}
+
+.search-row input{
+  flex:1;
+  padding:0.85rem 0.9rem;
+  border:2px solid var(--ink);
+  border-radius:var(--radius);
+  font-size:1rem;
+}
+
+.search-row button{
+  background:var(--ochre);
+  color:var(--white);
+  border:2px solid var(--ochre-deep);
+  border-radius:var(--radius);
+  padding:0 1.4rem;
+  font-weight:700;
+  font-size:1rem;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+.search-row button:hover{
+  background:var(--ochre-deep);
+}
+
+.search-hint{
+  margin-top:0.6rem;
+  font-size:0.82rem;
+  color:#5c5847;
+}
+
+.search-result{
+  margin-top:1rem;
+  padding:1rem;
+  border:2px solid var(--forest);
+  background:#f7f4ea;
+  display:none;
+}
+
+.search-result h3{
+  font-size:1.1rem;
+  color:var(--forest);
+}
+
+.search-result p{
+  margin-top:0.35rem;
+  font-size:0.9rem;
+}
+
+
+/* Hero parcel illustration */
+
+.hero-art{
+  width:100%;
+  height:auto;
+}
+
+
+/* ---------- Section shell ---------- */
+
+section{
+  padding-top:clamp(2.5rem, 5vw, 4rem);
+  padding-bottom:clamp(2.5rem, 5vw, 4rem);
+}
+
+.section-head{
+  max-width:60ch;
+  margin-bottom:2rem;
+}
+
+.section-head h2{
+  font-size:clamp(1.5rem, 2.6vw, 2rem);
+}
+
+.section-head p{
+  margin-top:0.6rem;
+  color:#4a4638;
+  font-size:1.05rem;
+}
+
+
+/* ---------- Services ledger ---------- */
+
+.services{
+  background:var(--white);
+}
+
+.ledger{
+  border-top:2px solid var(--ink);
+}
+
+.ledger-row{
+  display:grid;
+  grid-template-columns:56px 1fr auto;
+  gap:1.25rem;
+  align-items:center;
+  padding:1.35rem 0;
+  border-bottom:1px solid var(--line-soft);
+  text-decoration:none;
+  color:var(--ink);
+}
+
+.ledger-row:hover{
+  background:#f7f4ea;
+}
+
+.ledger-row:hover .ledger-open{
+  border-color:var(--ink);
+}
+
+.ledger-icon{
+  width:48px;
+  height:48px;
+}
+
+.ledger-title{
+  font-family:"Noto Serif", Georgia, serif;
+  font-weight:600;
+  font-size:1.15rem;
+}
+
+.ledger-desc{
+  margin-top:0.25rem;
+  font-size:0.95rem;
+  color:#4a4638;
+  max-width:56ch;
+}
+
+.ledger-open{
+  border:2px solid var(--line-soft);
+  border-radius:999px;
+  padding:0.5rem 1.1rem;
+  font-weight:600;
+  font-size:0.9rem;
+  white-space:nowrap;
+}
+
+
+/* ---------- Live parcel map ---------- */
+
+.map-section{
+  background:var(--white);
+}
+
+.map-frame{
+  border:2px solid var(--ink);
+  border-radius:var(--radius);
+  overflow:hidden;
+}
+
+#parcel-map{
+  height:460px;
+  width:100%;
+  background:var(--paper-deep);
+  z-index:0;
+}
+
+.map-legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:1.5rem;
+  padding:0.9rem 1.1rem;
+  background:var(--paper-deep);
+  border-top:2px solid var(--ink);
+  font-size:0.88rem;
+}
+
+.map-legend span{
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+}
+
+.swatch{
+  width:14px;
+  height:14px;
+  border-radius:2px;
+  display:inline-block;
+  flex-shrink:0;
+}
+
+.swatch.selected{
+  background:#c1791f;
+  border:1px solid #9c5f16;
+}
+
+.swatch.boundary{
+  background:transparent;
+  border:2px solid #213c34;
+}
+
+.leaflet-popup-content{
+  font-family:"Noto Sans", Arial, sans-serif;
+  font-size:0.9rem;
+}
+
+.leaflet-popup-content strong{
+  font-family:"Noto Serif", Georgia, serif;
+}
+
+
+/* ---------- Steps ---------- */
+
+.steps{
+  background:var(--paper-deep);
+}
+
+.step-list{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:2.5rem;
+}
+
+.step{
+  border-top:3px solid var(--ink);
+  padding-top:1rem;
+}
+
+.step-num{
+  font-family:"Noto Serif", Georgia, serif;
+  font-size:1rem;
+  color:var(--teal);
+  font-weight:700;
+}
+
+.step h3{
+  margin-top:0.4rem;
+  font-size:1.2rem;
+}
+
+.step p{
+  margin-top:0.5rem;
+  color:#4a4638;
+}
+
+
+/* ---------- Assurance strip ---------- */
+
+.assurance{
+  background:var(--forest-deep);
+  color:#e7e2d2;
+}
+
+.assurance .wrap{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2rem;
+}
+
+.assurance-item{
+  display:flex;
+  gap:0.9rem;
+  align-items:flex-start;
+}
+
+.assurance-item svg{
+  flex-shrink:0;
+  margin-top:0.15rem;
+}
+
+.assurance-item h3{
+  font-size:1.05rem;
+  color:var(--white);
+}
+
+.assurance-item p{
+  margin-top:0.3rem;
+  font-size:0.92rem;
+  color:#cfc9b6;
+}
+
+
+/* ---------- Help ---------- */
+
+.help{
+  background:var(--white);
+}
+
+.help-grid{
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  gap:3rem;
+  align-items:start;
+}
+
+.help-card{
+  border:2px solid var(--ink);
+  border-radius:var(--radius);
+  padding:1.75rem;
+}
+
+.help-card h3{
+  font-size:1.2rem;
+}
+
+.help-line{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0.85rem 0;
+  border-bottom:1px solid var(--line-soft);
+}
+
+.help-line:last-child{
+  border-bottom:none;
+}
+
+.help-line dt{
+  font-weight:600;
+}
+
+.help-line dd{
+  margin:0;
+  color:#4a4638;
+}
+
+.help-phone{
+  font-family:"Noto Serif", Georgia, serif;
+  font-size:1.7rem;
+  font-weight:700;
+  color:var(--forest);
+}
+
+.help-note{
+  margin-top:1rem;
+  color:#4a4638;
+  font-size:0.95rem;
+}
+
+.faq details{
+  border-bottom:1px solid var(--line-soft);
+  padding:0.9rem 0;
+}
+
+.faq summary{
+  cursor:pointer;
+  font-weight:600;
+  list-style:none;
+  display:flex;
+  justify-content:space-between;
+  gap:1rem;
+}
+
+.faq summary::-webkit-details-marker{
+  display:none;
+}
+
+.faq summary::after{
+  content:"+";
+  font-size:1.3rem;
+  color:var(--ochre-deep);
+  flex-shrink:0;
+}
+
+.faq details[open] summary::after{
+  content:"–";
+}
+
+.faq p{
+  margin-top:0.6rem;
+  color:#4a4638;
+  font-size:0.95rem;
+}
+
+
+/* ---------- Footer ---------- */
+
+footer.site{
+  background:var(--forest);
+  color:#dcd7c5;
+}
+
+.footer-top{
+  display:grid;
+  grid-template-columns:1.3fr 1fr 1fr 1fr;
+  gap:2rem;
+  padding-top:3rem;
+  padding-bottom:2rem;
+  border-bottom:1px solid #ffffff2a;
+}
+
+.footer-top h4{
+  color:var(--white);
+  font-family:"Noto Serif", Georgia, serif;
+  font-size:1rem;
+  margin-bottom:0.9rem;
+}
+
+.footer-top ul{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+.footer-top li{
+  margin-bottom:0.55rem;
+}
+
+.footer-top a{
+  text-decoration:none;
+  color:#dcd7c5;
+}
+
+.footer-top a:hover{
+  text-decoration:underline;
+}
+
+.footer-brand p{
+  margin-top:0.8rem;
+  max-width:34ch;
+  color:#b9b39c;
+  font-size:0.92rem;
+}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:1rem;
+  padding:1.5rem 0;
+  font-size:0.85rem;
+  color:#b9b39c;
+}
+
+
+/* ---------- Responsive ---------- */
+
+@media (max-width:900px){
+
+  .hero .wrap{
+    grid-template-columns:1fr;
+  }
+
+  .hero-art{
+    max-width:340px;
+    margin:0 auto;
+  }
+
+  .assurance .wrap{
+    grid-template-columns:1fr;
+  }
+
+  .step-list{
+    grid-template-columns:1fr;
+    gap:1.75rem;
+  }
+
+  .help-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-top{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+
+@media (max-width:720px){
+
+  nav.main-nav{
+    position:absolute;
+    top:100%;
+    left:0;
+    right:0;
+    background:var(--paper);
+    border-bottom:2px solid var(--ink);
+    display:none;
+  }
+
+  nav.main-nav.open{
+    display:block;
+  }
+
+  nav.main-nav ul{
+    flex-direction:column;
+    gap:0;
+    padding:0.5rem 0;
+  }
+
+  nav.main-nav a{
+    display:block;
+    padding:0.9rem clamp(1rem,4vw,2.5rem);
+  }
+
+  .nav-toggle{
+    display:block;
+  }
+
+  header.site .wrap{
+    position:relative;
+  }
+
+  .search-row{
+    flex-direction:column;
+  }
+
+  .search-row button{
+    padding:0.9rem;
+  }
+
+  .ledger-row{
+    grid-template-columns:44px 1fr;
+  }
+
+  .ledger-open{
+    grid-column:1 / -1;
+    justify-self:start;
+  }
+
+  .footer-top{
+    grid-template-columns:1fr;
+  }
+}
+
+.visually-hidden{
+  position:absolute;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+  clip:rect(0 0 0 0);
+  white-space:nowrap;
+}
+
+
+/* ---------- Search chips & results ---------- */
+
+.search-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.4rem;
+  margin-top:0.75rem;
+}
+
+.search-chips button{
+  background:var(--white);
+  border:1px solid var(--line-soft);
+  border-radius:999px;
+  padding:0.3rem 0.75rem;
+  font-size:0.8rem;
+  cursor:pointer;
+  color:var(--ink);
+}
+
+.search-chips button:hover{
+  border-color:var(--ochre);
+  background:#f7f4ea;
+}
+
+.search-source{
+  font-size:0.75rem;
+  color:#8a8572;
+  margin-top:0.55rem;
+}
+
+.record-badge{
+  display:inline-block;
+  font-size:0.7rem;
+  font-weight:700;
+  letter-spacing:0.03em;
+  padding:0.15rem 0.5rem;
+  border-radius:999px;
+  margin:0 0.3rem 0.3rem 0;
+  text-transform:uppercase;
+}
+
+.badge-registered{background:#e4efe7;color:#1f6b3b;border:1px solid #1f6b3b66;}
+.badge-pending{background:#fdf3dc;color:#8a5a00;border:1px solid #8a5a0066;}
+.badge-paid{background:#e4efe7;color:#1f6b3b;border:1px solid #1f6b3b66;}
+.badge-due{background:#fbe4e0;color:#a03022;border:1px solid #a0302266;}
+
+.result-list{
+  margin-top:0.85rem;
+  border-top:2px solid var(--line-soft);
+  padding-top:0.35rem;
+}
+
+.result-list button{
+  display:block;
+  width:100%;
+  text-align:left;
+  background:var(--white);
+  border:2px solid var(--line-soft);
+  border-radius:var(--radius);
+  padding:0.6rem 0.7rem;
+  margin-top:0.45rem;
+  cursor:pointer;
+  font-size:0.88rem;
+  color:var(--ink);
+}
+
+.result-list button:hover{
+  border-color:var(--ochre);
+  background:#f7f4ea;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+
+<div class="util-bar">
+
+  <div class="wrap">
+
+    <div class="util-help">
+      <a href="#help">Need help?</a>
+      <a href="#faq">Common questions</a>
+      <a href="#">Watch a 2-minute guide</a>
+    </div>
+
+    <label>
+      <span class="visually-hidden">Choose your language</span>
+
+      <select aria-label="Choose your language">
+        <option>English</option>
+        <option>हिंदी</option>
+        <option>தமிழ்</option>
+        <option>বাংলা</option>
+        <option>मराठी</option>
+      </select>
+
+    </label>
+
+  </div>
+
+</div>
+
+
+<header class="site">
+
+  <div class="wrap">
+
+    <a class="brand" href="#main">
+
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+
+        <rect x="1" y="1" width="38" height="38"
+              stroke="#1c1b16"
+              stroke-width="2"/>
+
+        <path d="M1 14H39M1 27H39M14 1V39M27 1V39"
+              stroke="#1c1b16"
+              stroke-width="1.2"/>
+
+        <rect x="14" y="14" width="13" height="13"
+              fill="#c1791f"/>
+
+      </svg>
+
+      <span class="brand-text">
+        Land Stack
+        <small>Department of Land Resources</small>
+      </span>
+
+    </a>
+
+
+    <button
+      class="nav-toggle"
+      aria-expanded="false"
+      aria-controls="primary-nav"
+      aria-label="Open menu"
+      onclick="
+        const n=document.getElementById('primary-nav');
+        const open=n.classList.toggle('open');
+        this.setAttribute('aria-expanded', open);
+      ">
+
+      <span></span>
+
+    </button>
+
+
+    <nav class="main-nav" id="primary-nav">
+
+      <ul>
+
+        <li>
+          <a href="#search">Find my land</a>
+        </li>
+
+        <li>
+          <a href="#services">Services</a>
+        </li>
+
+        <li>
+          <a href="#how">How it works</a>
+        </li>
+
+        <li>
+          <a href="#help">Help</a>
+        </li>
+
+      </ul>
+
+    </nav>
+
+  </div>
+
+</header>
+
+
+<main id="main">
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero" id="search">
+
+  <div class="wrap">
+
+    <div class="hero-copy">
+
+      <h1>
+        See everything about your land, in one place.
+      </h1>
+
+      <p class="hero-lede">
+        One search brings together your ownership record,
+        map, tax status and pending applications — the way
+        your village or ward office already knows it,
+        just easier to reach.
+      </p>
+
+
+      <form class="search-panel" id="land-search-form">
+
+        <div id="search-legend" class="visually-hidden">
+          Search for a land record
+        </div>
+
+
+        <div class="search-tabs"
+             role="tablist"
+             aria-label="Search by">
+
+          <button
+            type="button"
+            role="tab"
+            aria-pressed="true">
+            Survey / ULPIN number
+          </button>
+
+          <button
+            type="button"
+            role="tab"
+            aria-pressed="false">
+            Owner name
+          </button>
+
+          <button
+            type="button"
+            role="tab"
+            aria-pressed="false">
+            Village &amp; plot
+          </button>
+
+        </div>
+
+
+        <div class="search-row">
+
+          <label
+            class="visually-hidden"
+            for="parcel-input">
+            Enter your survey number or ULPIN
+          </label>
+
+          <input
+            id="parcel-input"
+            type="text"
+            placeholder="e.g. WB000001 or survey number"
+            autocomplete="off">
+
+          <button type="submit">
+            Search
+          </button>
+
+        </div>
+
+
+        <p class="search-hint">
+          Not sure what to enter? Try your ration card address
+          or ask at your nearest Common Service Centre —
+          we'll match it for you.
+        </p>
+
+
+        <div class="search-chips" aria-label="Try a sample record">
+
+          <button type="button" data-ulpin="WB000001">WB000001 · Krishnanagar</button>
+
+          <button type="button" data-ulpin="WB000002">WB000002 · Ranaghat</button>
+
+          <button type="button" data-ulpin="WB000003">WB000003 · Barasat</button>
+
+          <button type="button" data-ulpin="WB000004">WB000004 · Chinsurah</button>
+
+          <button type="button" data-ulpin="WB000005">WB000005 · Sonarpur</button>
+
+          <button type="button" data-owner="Sourav Roy">Owner: Sourav Roy</button>
+
+          <button type="button" data-village="Krishnanagar">Village: Krishnanagar</button>
+
+        </div>
+
+
+        <!-- SEARCH RESULT -->
+
+        <div
+          class="search-result"
+          id="search-result"
+          aria-live="polite">
+
+          <h3 id="result-title">
+            Land Record
+          </h3>
+
+          <p id="result-details"></p>
+
+          <div class="result-list" id="result-list"></div>
+
+          <p class="search-source" id="search-source"></p>
+
+        </div>
+
+      </form>
+
+    </div>
+
+
+    <!-- HERO MAP ILLUSTRATION -->
+
+    <svg
+      class="hero-art"
+      viewBox="0 0 480 420"
+      role="img"
+      aria-label="A stylised cadastral map showing land parcels of different sizes, with one parcel highlighted">
+
+      <rect
+        x="0"
+        y="0"
+        width="480"
+        height="420"
+        fill="#152720"/>
+
+      <g
+        stroke="#4d6d61"
+        stroke-width="1.4">
+
+        <line x1="0" y1="70" x2="480" y2="70"/>
+        <line x1="0" y1="160" x2="480" y2="160"/>
+        <line x1="0" y1="230" x2="480" y2="230"/>
+        <line x1="0" y1="320" x2="480" y2="320"/>
+
+        <line x1="90" y1="0" x2="90" y2="420"/>
+        <line x1="200" y1="0" x2="200" y2="420"/>
+        <line x1="300" y1="0" x2="300" y2="420"/>
+        <line x1="390" y1="0" x2="390" y2="420"/>
+
+      </g>
+
+
+      <g
+        stroke="#7c9a8c"
+        stroke-width="1"
+        opacity="0.6">
+
+        <line x1="140" y1="0" x2="140" y2="70"/>
+        <line x1="140" y1="160" x2="140" y2="230"/>
+        <line x1="245" y1="70" x2="245" y2="160"/>
+        <line x1="345" y1="230" x2="345" y2="320"/>
+
+        <line x1="0" y1="115" x2="90" y2="115"/>
+        <line x1="200" y1="270" x2="300" y2="270"/>
+        <line x1="390" y1="360" x2="480" y2="360"/>
+
+      </g>
+
+
+      <rect
+        x="200"
+        y="160"
+        width="100"
+        height="70"
+        fill="#c1791f"
+        opacity="0.92"/>
+
+
+      <rect
+        x="200"
+        y="160"
+        width="100"
+        height="70"
+        fill="none"
+        stroke="#fffdf8"
+        stroke-width="2.5"/>
+
+
+      <circle
+        cx="250"
+        cy="195"
+        r="4.5"
+        fill="#fffdf8"/>
+
+
+      <text
+        x="250"
+        y="120"
+        text-anchor="middle"
+        fill="#e4e0d0"
+        font-family="Noto Sans, Arial, sans-serif"
+        font-size="13"
+        letter-spacing="0.3">
+
+        Parcel 0142-0087
+
+      </text>
+
+
+      <text
+        x="250"
+        y="255"
+        text-anchor="middle"
+        fill="#fffdf8"
+        font-family="Noto Sans, Arial, sans-serif"
+        font-size="12">
+
+        0.34 hectares · Verified record
+
+      </text>
+
+    </svg>
+
+  </div>
+
+</section>
+
+
+<!-- ================= SERVICES ================= -->
+
+<section class="services" id="services">
+
+  <div class="wrap">
+
+    <div class="section-head">
+
+      <h2>
+        What you can do here
+      </h2>
+
+      <p>
+        These are the same services your local revenue
+        and registration offices provide — brought together
+        so you don't have to visit each one separately.
+      </p>
+
+    </div>
+
+
+    <div class="ledger">
+
+
+      <a class="ledger-row" href="#search">
+
+        <svg class="ledger-icon"
+             viewBox="0 0 48 48"
+             aria-hidden="true">
+
+          <rect x="8" y="6"
+                width="32"
+                height="36"
+                rx="1"
+                fill="none"
+                stroke="#213c34"
+                stroke-width="2"/>
+
+          <line x1="14" y1="16"
+                x2="34" y2="16"
+                stroke="#213c34"
+                stroke-width="2"/>
+
+          <line x1="14" y1="24"
+                x2="34" y2="24"
+                stroke="#213c34"
+                stroke-width="2"/>
+
+          <line x1="14" y1="32"
+                x2="26" y2="32"
+                stroke="#213c34"
+                stroke-width="2"/>
+
+        </svg>
+
+
+        <span>
+
+          <span class="ledger-title">
+            Check ownership record
+          </span>
+
+          <span class="ledger-desc">
+            View the current Record of Rights for any parcel —
+            who owns it, and any loans or claims registered against it.
+          </span>
+
+        </span>
+
+
+        <span class="ledger-open">
+          Open
+        </span>
+
+      </a>
+
+
+      <a class="ledger-row" href="#search">
+
+        <svg class="ledger-icon"
+             viewBox="0 0 48 48"
+             aria-hidden="true">
+
+          <circle
+            cx="24"
+            cy="20"
+            r="10"
+            fill="none"
+            stroke="#213c34"
+            stroke-width="2"/>
+
+          <path
+            d="M24 30v6M18 40l6-4 6 4"
+            fill="none"
+            stroke="#213c34"
+            stroke-width="2"
+            stroke-linecap="round"/>
+
+        </svg>
+
+
+        <span>
+
+          <span class="ledger-title">
+            Track an application
+          </span>
+
+          <span class="ledger-desc">
+            Follow a mutation, registration or
+            building-permission request through each department,
+            step by step.
+          </span>
+
+        </span>
+
+
+        <span class="ledger-open">
+          Open
+        </span>
+
+      </a>
+
+
+      <a class="ledger-row" href="#search">
+
+        <svg class="ledger-icon"
+             viewBox="0 0 48 48"
+             aria-hidden="true">
+
+          <path
+            d="M10 40V22l14-12 14 12v18H10z"
+            fill="none"
+            stroke="#213c34"
+            stroke-width="2"/>
+
+          <rect
+            x="20"
+            y="28"
+            width="8"
+            height="12"
+            fill="none"
+            stroke="#213c34"
+            stroke-width="2"/>
+
+        </svg>
+
+
+        <span>
+
+          <span class="ledger-title">
+            Pay property tax
+          </span>
+
+          <span class="ledger-desc">
+            See what's due on your property this year
+            and pay it directly, with a receipt you can download any time.
+          </span>
+
+        </span>
+
+
+        <span class="ledger-open">
+          Open
+        </span>
+
+      </a>
+
+
+      <a class="ledger-row" href="#search">
+
+        <svg class="ledger-icon"
+             viewBox="0 0 48 48"
+             aria-hidden="true">
+
+          <rect
+            x="10"
+            y="8"
+            width="28"
+            height="32"
+            rx="1"
+            fill="none"
+            stroke="#213c34"
+            stroke-width="2"/>
+
+          <path
+            d="M16 18h16M16 24h16M16 30h10"
+            stroke="#213c34"
+            stroke-width="2"
+            stroke-linecap="round"/>
+
+        </svg>
+
+
+        <span>
+
+          <span class="ledger-title">
+            Get a certified document
+          </span>
+
+          <span class="ledger-desc">
+            Request an encumbrance certificate,
+            land-use certificate or map extract,
+            signed and ready to print.
+          </span>
+
+        </span>
+
+
+        <span class="ledger-open">
+          Open
+        </span>
+
+      </a>
+
+
+      <a class="ledger-row" href="#map">
+
+        <svg class="ledger-icon"
+             viewBox="0 0 48 48"
+             aria-hidden="true">
+
+          <path
+            d="M8 40l10-24 8 14 6-10 8 20z"
+            fill="none"
+            stroke="#213c34"
+            stroke-width="2"
+            stroke-linejoin="round"/>
+
+        </svg>
+
+
+        <span>
+
+          <span class="ledger-title">
+            View the parcel map
+          </span>
+
+          <span class="ledger-desc">
+            Zoom into your village or ward on a georeferenced map,
+            and see boundaries, roads and nearby parcels.
+          </span>
+
+        </span>
+
+
+        <span class="ledger-open">
+          Open
+        </span>
+
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= MAP ================= -->
+
+<section class="map-section" id="map">
+
+  <div class="wrap">
+
+    <div class="section-head">
+
+      <h2>
+        View the parcel map
+      </h2>
+
+      <p>
+        This is a real, zoomable map.
+        Search a parcel above and its boundary will be drawn here —
+        try the highlighted sample parcel in Kolkata below.
+      </p>
+
+    </div>
+
+
+    <div class="map-frame">
+
+      <div
+        id="parcel-map"
+        role="application"
+        aria-label="Interactive map of land parcels">
+      </div>
+
+
+      <div class="map-legend">
+
+        <span>
+          <span class="swatch selected"></span>
+          Selected parcel
+        </span>
+
+        <span>
+          <span class="swatch boundary"></span>
+          Village / ward boundary
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= HOW ================= -->
+
+<section class="steps" id="how">
+
+  <div class="wrap">
+
+    <div class="section-head">
+
+      <h2>
+        How a request moves through the system
+      </h2>
+
+      <p>
+        Every service on Land Stack follows the same
+        three stages, so once you've done one,
+        you know how to do the rest.
+      </p>
+
+    </div>
+
+
+    <div class="step-list">
+
+
+      <div class="step">
+
+        <div class="step-num">
+          Step 1
+        </div>
+
+        <h3>
+          Search your parcel
+        </h3>
+
+        <p>
+          Enter your survey number, ULPIN,
+          or village and plot details.
+          We match it to the official cadastral map.
+        </p>
+
+      </div>
+
+
+      <div class="step">
+
+        <div class="step-num">
+          Step 2
+        </div>
+
+        <h3>
+          Check what's on record
+        </h3>
+
+        <p>
+          Review ownership, boundaries, dues
+          and any pending requests linked to that parcel,
+          pulled live from each department.
+        </p>
+
+      </div>
+
+
+      <div class="step">
+
+        <div class="step-num">
+          Step 3
+        </div>
+
+        <h3>
+          Act or request a service
+        </h3>
+
+        <p>
+          Pay, apply, or download a document.
+          You'll get an application number
+          and can track it from your dashboard.
+        </p>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= ASSURANCE ================= -->
+
+<section class="assurance">
+
+  <div class="wrap">
+
+
+    <div class="assurance-item">
+
+      <svg width="34" height="34"
+           viewBox="0 0 34 34"
+           fill="none"
+           aria-hidden="true">
+
+        <path
+          d="M17 3l12 5v8c0 8-5.5 12.5-12 15-6.5-2.5-12-7-12-15V8l12-5z"
+          stroke="#e7e2d2"
+          stroke-width="1.8"/>
+
+        <path
+          d="M12 17l4 4 7-8"
+          stroke="#c1791f"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+
+      </svg>
+
+
+      <div>
+
+        <h3>
+          Government-verified data
+        </h3>
+
+        <p>
+          Every record comes directly from the land,
+          registration and revenue departments —
+          nothing is entered by us.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="assurance-item">
+
+      <svg width="34" height="34"
+           viewBox="0 0 34 34"
+           fill="none"
+           aria-hidden="true">
+
+        <rect
+          x="7"
+          y="15"
+          width="20"
+          height="14"
+          rx="1"
+          stroke="#e7e2d2"
+          stroke-width="1.8"/>
+
+        <path
+          d="M11 15v-4a6 6 0 0112 0v4"
+          stroke="#e7e2d2"
+          stroke-width="1.8"/>
+
+      </svg>
+
+
+      <div>
+
+        <h3>
+          Your data stays protected
+        </h3>
+
+        <p>
+          Ownership details are only shown after
+          identity verification, and every access
+          is recorded in an audit trail.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="assurance-item">
+
+      <svg width="34" height="34"
+           viewBox="0 0 34 34"
+           fill="none"
+           aria-hidden="true">
+
+        <circle
+          cx="17"
+          cy="17"
+          r="13"
+          stroke="#e7e2d2"
+          stroke-width="1.8"/>
+
+        <path
+          d="M17 4c3.2 3.6 5 8.2 5 13s-1.8 9.4-5 13M17 4c-3.2 3.6-5 8.2-5 13s1.8 9.4 5 13M4 17h26"
+          stroke="#e7e2d2"
+          stroke-width="1.4"/>
+
+      </svg>
+
+
+      <div>
+
+        <h3>
+          Works in your language
+        </h3>
+
+        <p>
+          Search, forms and certificates are available
+          in the regional languages your local office already uses.
+        </p>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+<!-- ================= HELP ================= -->
+
+<section class="help" id="help">
+
+  <div class="wrap help-grid">
+
+
+    <div>
+
+      <div class="section-head"
+           style="margin-bottom:1.25rem;">
+
+        <h2 id="faq">
+          Still not sure where to start?
+        </h2>
+
+      </div>
+
+
+      <div class="faq">
+
+
+        <details open>
+
+          <summary>
+            I don't know my survey number or ULPIN
+          </summary>
+
+          <p>
+            Search by your name and village instead —
+            pick the "Owner name" tab above.
+            If more than one record matches,
+            we'll show you the addresses so you can pick the right one.
+          </p>
+
+        </details>
+
+
+        <details>
+
+          <summary>
+            The ownership details shown don't match what I know
+          </summary>
+
+          <p>
+            Use "Request a correction" on the record page.
+            It goes straight to your local revenue officer,
+            and you can track its progress from your dashboard.
+          </p>
+
+        </details>
+
+
+        <details>
+
+          <summary>
+            Can someone else misuse my land information?
+          </summary>
+
+          <p>
+            Basic parcel and map details are public,
+            as they are at your local office.
+            Ownership, tax and application details need
+            OTP verification before they're shown.
+          </p>
+
+        </details>
+
+
+        <details>
+
+          <summary>
+            What if my village isn't on Land Stack yet
+          </summary>
+
+          <p>
+            Land Stack is being introduced state by state.
+            If your village isn't listed yet,
+            you can still visit your local office as before —
+            nothing changes on your end.
+          </p>
+
+        </details>
+
+
+      </div>
+
+    </div>
+
+
+    <div class="help-card">
+
+      <h3>
+        Talk to someone
+      </h3>
+
+
+      <dl>
+
+
+        <div class="help-line">
+
+          <dt>
+            Helpline
+          </dt>
+
+          <dd class="help-phone">
+            1800-11-8090
+          </dd>
+
+        </div>
+
+
+        <div class="help-line">
+
+          <dt>
+            Hours
+          </dt>
+
+          <dd>
+            Mon–Sat, 8 am – 8 pm
+          </dd>
+
+        </div>
+
+
+        <div class="help-line">
+
+          <dt>
+            In person
+          </dt>
+
+          <dd>
+            Your nearest Common Service Centre
+          </dd>
+
+        </div>
+
+
+      </dl>
+
+
+      <p class="help-note">
+        Calls are free from any network.
+        You can also ask a family member or the CSC operator
+        to search on your behalf — no separate login is needed
+        to look up a public record.
+      </p>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="site">
+
+  <div class="wrap footer-top">
+
+
+    <div class="footer-brand">
+
+      <svg width="34"
+           height="34"
+           viewBox="0 0 40 40"
+           fill="none"
+           aria-hidden="true">
+
+        <rect
+          x="1"
+          y="1"
+          width="38"
+          height="38"
+          stroke="#dcd7c5"
+          stroke-width="2"/>
+
+        <path
+          d="M1 14H39M1 27H39M14 1V39M27 1V39"
+          stroke="#dcd7c5"
+          stroke-width="1.2"/>
+
+        <rect
+          x="14"
+          y="14"
+          width="13"
+          height="13"
+          fill="#c1791f"/>
+
+      </svg>
+
+
+      <p>
+        Land Stack is a digital public infrastructure
+        initiative of the Department of Land Resources,
+        bringing land records, maps and services into one
+        place for every citizen.
+      </p>
+
+    </div>
+
+
+    <div>
+
+      <h4>
+        Services
+      </h4>
+
+      <ul>
+
+        <li>
+          <a href="#search">
+            Check ownership
+          </a>
+        </li>
+
+        <li>
+          <a href="#search">
+            Track application
+          </a>
+        </li>
+
+        <li>
+          <a href="#search">
+            Pay property tax
+          </a>
+        </li>
+
+        <li>
+          <a href="#map">
+            Parcel map
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+
+
+    <div>
+
+      <h4>
+        Support
+      </h4>
+
+      <ul>
+
+        <li>
+          <a href="#faq">
+            Common questions
+          </a>
+        </li>
+
+        <li>
+          <a href="#">
+            Video guides
+          </a>
+        </li>
+
+        <li>
+          <a href="#">
+            Find a Common Service Centre
+          </a>
+        </li>
+
+        <li>
+          <a href="#">
+            Report a problem
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+
+
+    <div>
+
+      <h4>
+        About
+      </h4>
+
+      <ul>
+
+        <li>
+          <a href="#">
+            How records are verified
+          </a>
+        </li>
+
+        <li>
+          <a href="#">
+            Privacy &amp; data use
+          </a>
+        </li>
+
+        <li>
+          <a href="#">
+            Participating states
+          </a>
+        </li>
+
+        <li>
+          <a href="#">
+            API for departments
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+
+
+  </div>
+
+
+  <div class="wrap footer-bottom">
+
+    <span>
+      © 2026 Department of Land Resources, Government of India
+    </span>
+
+    <span>
+      Pilot: Chandigarh &amp; Tamil Nadu
+    </span>
+
+  </div>
+
+</footer>
+
+
+<!-- ================= LEAFLET ================= -->
+
+<script
+src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+crossorigin="">
+</script>
+
+
+<script>
+
+/* =========================================================
+   LAND SEARCH → SUPABASE
+   ========================================================= */
+
+const searchForm =
+  document.getElementById("land-search-form");
+
+const searchInput =
+  document.getElementById("parcel-input");
+
+const searchResult =
+  document.getElementById("search-result");
+
+const resultTitle =
+  document.getElementById("result-title");
+
+const resultDetails =
+  document.getElementById("result-details");
+
+const sourceNote =
+  document.getElementById("search-source");
+
+const resultList =
+  document.getElementById("result-list");
+
+
+/* =========================================================
+   OFFLINE DEMO DATA (mirrors backend/land_parcels.csv)
+   ========================================================= */
+
+const OFFLINE_RECORDS = [
+
+  {
+    ulpin:"WB000001",
+    survey_number:"142/8",
+    owner_name:"Rahul Sharma",
+    state:"West Bengal",
+    district:"Nadia",
+    village:"Krishnanagar",
+    area:"0.84",
+    land_use:"Agricultural",
+    registration_status:"Registered",
+    tax_status:"Paid"
+  },
+
+  {
+    ulpin:"WB000002",
+    survey_number:"156/3",
+    owner_name:"Amit Das",
+    state:"West Bengal",
+    district:"Nadia",
+    village:"Ranaghat",
+    area:"1.25",
+    land_use:"Agricultural",
+    registration_status:"Registered",
+    tax_status:"Paid"
+  },
+
+  {
+    ulpin:"WB000003",
+    survey_number:"201/7",
+    owner_name:"Priya Sen",
+    state:"West Bengal",
+    district:"North 24 Parganas",
+    village:"Barasat",
+    area:"0.62",
+    land_use:"Residential",
+    registration_status:"Registered",
+    tax_status:"Paid"
+  },
+
+  {
+    ulpin:"WB000004",
+    survey_number:"88/2",
+    owner_name:"Sourav Roy",
+    state:"West Bengal",
+    district:"Hooghly",
+    village:"Chinsurah",
+    area:"2.10",
+    land_use:"Agricultural",
+    registration_status:"Pending",
+    tax_status:"Due"
+  },
+
+  {
+    ulpin:"WB000005",
+    survey_number:"310/5",
+    owner_name:"Ananya Ghosh",
+    state:"West Bengal",
+    district:"South 24 Parganas",
+    village:"Sonarpur",
+    area:"0.95",
+    land_use:"Residential",
+    registration_status:"Registered",
+    tax_status:"Paid"
+  }
+
+];
+
+
+/* Approximate sample boundaries for the demo map */
+
+const SAMPLE_COORDS = {
+
+  "WB000001":[
+    [23.4010,88.4860],
+    [23.4010,88.4920],
+    [23.3970,88.4920],
+    [23.3970,88.4860]
+  ],
+
+  "WB000002":[
+    [23.1730,88.5780],
+    [23.1730,88.5840],
+    [23.1690,88.5840],
+    [23.1690,88.5780]
+  ],
+
+  "WB000003":[
+    [22.7200,88.4760],
+    [22.7200,88.4820],
+    [22.7160,88.4820],
+    [22.7160,88.4760]
+  ],
+
+  "WB000004":[
+    [22.8920,88.3860],
+    [22.8920,88.3920],
+    [22.8880,88.3920],
+    [22.8880,88.3860]
+  ],
+
+  "WB000005":[
+    [22.4410,88.4160],
+    [22.4410,88.4220],
+    [22.4370,88.4220],
+    [22.4370,88.4160]
+  ]
+
+};
+
+
+let activeMode = "number";
+
+
+function escapeHtml(text){
+
+  return String(text ?? "")
+
+    .replace(/&/g, "&amp;")
+
+    .replace(/</g, "&lt;")
+
+    .replace(/>/g, "&gt;")
+
+    .replace(/"/g, "&quot;");
+
+}
+
+
+function toClientRecord(r){
+
+  return {
+
+    ulpin: r.ulpin || "",
+
+    survey_number: r.survey_number || "",
+
+    owner_name: r.owner_name || "",
+
+    state: r.state || "",
+
+    district: r.district || "",
+
+    village: r.village || "",
+
+    area: r.area || "",
+
+    land_use: r.land_use || "",
+
+    registration_status: r.registration_status || "",
+
+    tax_status: r.tax_status || ""
+
+  };
+
+}
+
+
+function localSearch(term, mode){
+
+  const t = term.toLowerCase();
+
+  return OFFLINE_RECORDS.filter(function(r){
+
+    if(mode === "owner"){
+
+      return r.owner_name.toLowerCase().includes(t);
+
+    }
+
+    if(mode === "village"){
+
+      return (r.village + " " + r.survey_number + " " + r.ulpin)
+
+        .toLowerCase()
+
+        .includes(t);
+
+    }
+
+    return (r.ulpin + " " + r.survey_number)
+
+      .toLowerCase()
+
+      .includes(t);
+
+  });
+
+}
+
+
+async function fetchBackend(term){
+
+  try{
+
+    const controller = new AbortController();
+
+    const timer = setTimeout(
+
+      () => controller.abort(),
+
+      2500
+
+    );
+
+    const response = await fetch(
+
+      (window.LANDSTACK_API_URL || "http://127.0.0.1:8000") + "/search?term=" +
+
+        encodeURIComponent(term),
+
+      { signal: controller.signal }
+
+    );
+
+    clearTimeout(timer);
+
+    if(!response.ok){
+
+      return null;
+
+    }
+
+    const json = await response.json();
+
+    if(!Array.isArray(json.data)){
+
+      return null;
+
+    }
+
+    return json.data.map(toClientRecord);
+
+  }catch(error){
+
+    return null;
+
+  }
+
+}
+
+
+async function fetchSupabase(term, mode){
+
+  try{
+
+    let query = supabaseClient
+
+      .from("land parcel")
+
+      .select("*");
+
+    if(mode === "owner"){
+
+      query = query.ilike(
+
+        "owner_name",
+
+        "%" + term + "%"
+
+      );
+
+    }
+
+    else if(mode === "village"){
+
+      query = query.ilike(
+
+        "village",
+
+        "%" + term + "%"
+
+      );
+
+    }
+
+    else{
+
+      query = query.or(
+
+        "ulpin.eq." + term +
+
+        ",survey_number.eq." + term
+
+      );
+
+    }
+
+    const { data, error } =
+
+      await query.limit(10);
+
+    if(error){
+
+      return null;
+
+    }
+
+    if(!Array.isArray(data) || data.length === 0){
+
+      return [];
+
+    }
+
+    return data.map(toClientRecord);
+
+  }catch(error){
+
+    return null;
+
+  }
+
+}
+
+
+function showSearch(title, html){
+
+  searchResult.style.display = "block";
+
+  resultTitle.textContent = title;
+
+  resultDetails.innerHTML = html;
+
+  resultList.innerHTML = "";
+
+  sourceNote.textContent = "";
+
+}
+
+
+searchForm.addEventListener("submit", async function(event){
+
+  event.preventDefault();
+
+  const searchValue =
+    searchInput.value.trim();
+
+  if(!searchValue){
+
+    alert("Please enter a Survey Number or ULPIN.");
+
+    return;
+
+  }
+
+
+  showSearch(
+    "Searching...",
+    "Connecting to Land Stack database..."
+  );
+
+
+  /* 1) FastAPI backend first (falls back to CSV server-side) */
+
+  let records = await fetchBackend(searchValue);
+
+  let source = "government database";
+
+  let usedLocal = false;
+
+
+  /* 2) Supabase next */
+
+  if(!records){
+
+    records = await fetchSupabase(searchValue, activeMode);
+
+    source = "Supabase database";
+
+  }
+
+
+  /* 3) Embedded offline demo data as a last resort */
+
+  if(records === null){
+
+    records = localSearch(searchValue, activeMode);
+
+    source = "offline demo data";
+
+    usedLocal = true;
+
+  }
+
+
+  if(!records || records.length === 0){
+
+    showSearch(
+      "No record found",
+      "No land record matched your search."
+    );
+
+    return;
+
+  }
+
+
+  renderRecords(records, source, usedLocal);
+
+});
+
+
+/* =========================================================
+   SEARCH TAB BUTTONS
+   ========================================================= */
+
+const searchTabs =
+  document.querySelectorAll(".search-tabs button");
+
+searchTabs.forEach(function(button){
+
+  button.addEventListener("click", function(){
+
+    const isOwner = button.textContent.includes("Owner");
+
+    const isVillage = button.textContent.includes("Village");
+
+    activeMode = isOwner ? "owner" : (isVillage ? "village" : "number");
+
+
+    searchTabs.forEach(function(btn){
+
+      btn.setAttribute(
+        "aria-pressed",
+        "false"
+      );
+
+    });
+
+
+    button.setAttribute(
+      "aria-pressed",
+      "true"
+    );
+
+
+    if(isOwner){
+
+      searchInput.placeholder =
+        "Enter owner name";
+
+    }
+    else if(isVillage){
+
+      searchInput.placeholder =
+        "Enter village or plot number";
+
+    }
+    else{
+
+      searchInput.placeholder =
+        "e.g. WB000001 or survey number";
+
+    }
+
+  });
+
+});
+
+
+/* =========================================================
+   KOLKATA MAP
+   ========================================================= */
+
+/* West Bengal sample bounds — covers all five demo villages */
+
+const westBengalBounds = L.latLngBounds(
+  [21.8000, 87.9000],
+  [23.9000, 89.2000]
+);
+
+
+const map = L.map("parcel-map", {
+
+  scrollWheelZoom:false,
+
+  maxBounds:westBengalBounds,
+
+  maxBoundsViscosity:1.0,
+
+  minZoom:8
+
+}).setView(
+  [22.8000,88.5000],
+  9
+);
+
+
+L.tileLayer(
+  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  {
+
+    maxZoom:19,
+
+    minZoom:8,
+
+    bounds:westBengalBounds,
+
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+
+  }
+).addTo(map);
+
+
+/* Ward boundary */
+
+const wardBoundary =
+  L.polygon(
+
+    [
+      [22.5850,88.3450],
+      [22.5850,88.3650],
+      [22.5650,88.3650],
+      [22.5650,88.3450]
+    ],
+
+    {
+
+      color:"#213c34",
+
+      weight:2,
+
+      fill:false,
+
+      dashArray:"6 4"
+
+    }
+
+  ).addTo(map);
+
+
+/* Selected parcel */
+
+const parcel =
+  L.polygon(
+
+    [
+      [22.5760,88.3560],
+      [22.5760,88.3590],
+      [22.5730,88.3590],
+      [22.5730,88.3560]
+    ],
+
+    {
+
+      color:"#9c5f16",
+
+      weight:2,
+
+      fillColor:"#c1791f",
+
+      fillOpacity:0.55
+
+    }
+
+  ).addTo(map);
+
+
+parcel.bindPopup(
+
+  "<strong>Parcel 0142-0087</strong>" +
+  "<br>0.34 hectares" +
+  "<br>Status: Verified record"
+
+);
+
+
+/* Enable map scrolling only after focus */
+
+map.on("focus",function(){
+
+  map.scrollWheelZoom.enable();
+
+});
+
+
+map.on("blur",function(){
+
+  map.scrollWheelZoom.disable();
+
+});
+
+
+/* =========================================================
+   RENDER SEARCH RESULTS + DRAW PARSEL ON MAP
+   ========================================================= */
+
+let drawnLayer = null;
+
+
+function recordDetailsHtml(r){
+
+  const regClass =
+
+    r.registration_status === "Pending"
+
+      ? "badge-pending"
+
+      : "badge-registered";
+
+  const taxClass =
+
+    r.tax_status === "Due"
+
+      ? "badge-due"
+
+      : "badge-paid";
+
+  return (
+
+    '<span class="record-badge ' + regClass + '">' +
+
+      escapeHtml(r.registration_status || "—") +
+
+    "</span>" +
+
+    '<span class="record-badge ' + taxClass + '">' +
+
+      escapeHtml(r.tax_status || "—") + " tax" +
+
+    "</span>" +
+
+    "<br>" +
+
+    "<strong>ULPIN:</strong> " +
+
+      escapeHtml(r.ulpin || "Not available") +
+
+    "<br>" +
+
+    "<strong>Survey Number:</strong> " +
+
+      escapeHtml(r.survey_number || "Not available") +
+
+    "<br>" +
+
+    "<strong>Owner:</strong> " +
+
+      escapeHtml(r.owner_name || "Not available") +
+
+    "<br>" +
+
+    "<strong>Location:</strong> " +
+
+      escapeHtml(r.village || "") + ", " +
+
+      escapeHtml(r.district || "") + ", " +
+
+      escapeHtml(r.state || "") +
+
+    "<br>" +
+
+    "<strong>Area:</strong> " +
+
+      escapeHtml(r.area || "Not available") + " hectares" +
+
+    "<br>" +
+
+    "<strong>Land use:</strong> " +
+
+      escapeHtml(r.land_use || "Not available")
+
+  );
+
+}
+
+
+function renderRecords(records, source, usedLocal){
+
+  searchResult.style.display = "block";
+
+  sourceNote.textContent = usedLocal
+
+    ? "Backend not reachable — showing offline demo data."
+
+    : "Source: " + source;
+
+  if(records.length === 1){
+
+    const record = records[0];
+
+    resultTitle.textContent =
+
+      "Land record found";
+
+    resultDetails.innerHTML =
+
+      recordDetailsHtml(record);
+
+    resultList.innerHTML = "";
+
+    drawParcel(record);
+
+    return;
+
+  }
+
+
+  resultTitle.textContent =
+
+    records.length + " records found";
+
+  resultDetails.innerHTML = "";
+
+  resultList.innerHTML = records.map(function(r, index){
+
+    return (
+
+      '<button type="button" data-result-index="' + index + '">' +
+
+        "<strong>" + escapeHtml(r.survey_number || "") + "</strong>" +
+
+        " · " + escapeHtml(r.village || "") +
+
+        ", " + escapeHtml(r.district || "") +
+
+        " — " + escapeHtml(r.owner_name || "") +
+
+      "</button>"
+
+    );
+
+  }).join("");
+
+
+  resultList.querySelectorAll("button")
+
+    .forEach(function(btn){
+
+      btn.addEventListener("click", function(){
+
+        const record =
+
+          records[Number(btn.dataset.resultIndex)];
+
+        resultTitle.textContent =
+
+          "Land record found";
+
+        resultDetails.innerHTML =
+
+          recordDetailsHtml(record);
+
+        resultList.innerHTML = "";
+
+        drawParcel(record);
+
+      });
+
+    });
+
+
+  drawParcel(records[0]);
+
+}
+
+
+function drawParcel(record){
+
+  const coords = SAMPLE_COORDS[record.ulpin];
+
+  if(!coords){
+
+    sourceNote.textContent =
+
+      sourceNote.textContent +
+
+      " (No map coordinates for this record.)";
+
+    return;
+
+  }
+
+  if(drawnLayer){
+
+    map.removeLayer(drawnLayer);
+
+  }
+
+  drawnLayer = L.polygon(coords, {
+
+    color:"#9c5f16",
+
+    weight:2,
+
+    fillColor:"#c1791f",
+
+    fillOpacity:0.55
+
+  }).addTo(map);
+
+  drawnLayer.bindPopup(
+
+    "<strong>" + escapeHtml(record.survey_number || record.ulpin) + "</strong>" +
+
+    "<br>" + escapeHtml(record.village || "") + ", " + escapeHtml(record.district || "") +
+
+    "<br>" + escapeHtml(record.area || "") + " hectares · " + escapeHtml(record.land_use || "") +
+
+    "<br>Registration: " + escapeHtml(record.registration_status || "") +
+
+    "<br>Tax: " + escapeHtml(record.tax_status || "")
+
+  );
+
+  map.fitBounds(drawnLayer.getBounds(), {
+
+    padding:[40,40]
+
+  });
+
+}
+
+
+/* =========================================================
+   SAMPLE-QUICK CHIPS
+   ========================================================= */
+
+document.querySelectorAll(".search-chips button")
+
+  .forEach(function(btn){
+
+    btn.addEventListener("click", function(){
+
+      let mode = "number";
+
+      let value = btn.dataset.ulpin || "";
+
+      if(btn.dataset.owner){
+
+        mode = "owner";
+
+        value = btn.dataset.owner;
+
+      }
+      else if(btn.dataset.village){
+
+        mode = "village";
+
+        value = btn.dataset.village;
+
+      }
+
+      activeMode = mode;
+
+      searchTabs.forEach(function(tab){
+
+        const isOwner = tab.textContent.includes("Owner");
+
+        const isVillage = tab.textContent.includes("Village");
+
+        const pressed =
+
+          (mode === "owner" && isOwner) ||
+
+          (mode === "village" && isVillage) ||
+
+          (mode === "number" && !isOwner && !isVillage);
+
+        tab.setAttribute("aria-pressed", String(pressed));
+
+      });
+
+      searchInput.value = value;
+
+      searchInput.placeholder =
+
+        mode === "owner" ? "Enter owner name" :
+
+        mode === "village" ? "Enter village or plot number" :
+
+        "e.g. WB000001 or survey number";
+
+      searchForm.requestSubmit();
+
+    });
+
+  });
+
+</script>
+
+
+</body>
+</html>

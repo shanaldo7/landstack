@@ -1,0 +1,671 @@
+LAND STACK
+COMPLETE PROJECT SETUP & RUN GUIDE
+==================================
+
+1. PROJECT OVERVIEW
+-------------------
+Land Stack is a local web application that connects:
+
+    Frontend (HTML/JavaScript)
+            |
+            v
+    FastAPI Backend
+            |
+            v
+    Python + python-oracledb
+            |
+            v
+    Oracle Instant Client (64-bit, Thick Mode)
+            |
+            v
+    Oracle Database (ORCL)
+
+The current frontend is an HTML/JavaScript application with Leaflet for
+the map and a search interface. The frontend calls the FastAPI backend
+through:
+
+    http://127.0.0.1:8000/search?term=...
+
+
+2. RECOMMENDED PROJECT STRUCTURE
+--------------------------------
+
+E:\hackathon
+│
+├── .vscode\
+│
+├── backend\
+│   ├── main.py
+│   └── requirements.txt
+│
+├── database\
+│   └── schema.sql
+│
+├── oraclex64\
+│   └── instantclient_23_26\
+│       ├── oci.dll
+│       └── other Oracle client files
+│
+├── python\
+│   ├── python.exe
+│   └── Python installation files
+│
+└── ui\
+    └── index.html
+
+
+3. IMPORTANT: DO NOT SHARE THE VENV FOLDER
+--------------------------------------------
+The folder:
+
+    backend\venv\
+
+contains installed Python packages and generated files.
+
+It can be recreated on another computer, so it does NOT need to be
+included in the project ZIP.
+
+Also exclude:
+
+    __pycache__\
+
+when making the final project ZIP.
+
+
+4. SOFTWARE REQUIRED
+--------------------
+Install the following:
+
+A. Python
+   Version used in the working project:
+
+       Python 3.14.7 (64-bit)
+
+   A normal Python installation with pip and venv is recommended.
+
+B. Oracle Database
+   The project currently uses the local Oracle database service:
+
+       OracleServiceORCL
+
+C. Oracle SQL*Plus
+   Used for creating and checking Oracle tables/data.
+
+D. Oracle Instant Client
+   Current working client:
+
+       64-bit Oracle Instant Client 23.26
+
+   Current project path:
+
+       E:\hackathon\oraclex64\instantclient_23_26
+
+   Important library:
+
+       E:\hackathon\oraclex64\instantclient_23_26\oci.dll
+
+E. Microsoft Visual C++ Redistributable
+   The Oracle Instant Client requires the appropriate Microsoft Visual C++
+   Redistributable on Windows.
+
+
+5. PYTHON PACKAGES
+------------------
+The backend requires:
+
+    fastapi
+    uvicorn
+    oracledb
+
+requirements.txt should contain:
+
+    fastapi
+    uvicorn
+    oracledb
+
+
+6. CREATE THE VIRTUAL ENVIRONMENT
+---------------------------------
+Open VS Code and open:
+
+    E:\hackathon
+
+Open a PowerShell terminal.
+
+Run:
+
+    cd E:\hackathon\backend
+
+Create the environment:
+
+    python -m venv venv
+
+Activate it:
+
+    .\venv\Scripts\Activate.ps1
+
+After activation, the terminal should look similar to:
+
+    (venv) PS E:\hackathon\backend>
+
+
+7. INSTALL PYTHON PACKAGES
+---------------------------
+With the virtual environment activated:
+
+    python -m pip install fastapi uvicorn oracledb
+
+Or, using the requirements file:
+
+    python -m pip install -r requirements.txt
+
+Check the installation:
+
+    python -c "import fastapi, uvicorn, oracledb; print('All packages installed successfully')"
+
+Expected:
+
+    All packages installed successfully
+
+
+8. ORACLE DATABASE DETAILS
+---------------------------
+The current local connection used by the backend is:
+
+    Username: SCOTT
+    Password: TIGER
+    Host: localhost
+    Port: 1521
+    Service/SID used by the project: ORCL
+
+DSN:
+
+    localhost:1521/ORCL
+
+
+IMPORTANT:
+SCOTT/TIGER are local development/demo credentials in this project.
+For a real deployment, never hard-code database credentials. Use
+environment variables or a secure secrets manager.
+
+
+9. ORACLE CLIENT / THICK MODE
+-----------------------------
+The Oracle database currently used is an older Oracle 10g database.
+
+The current python-oracledb installation therefore uses Thick mode with
+the 64-bit Oracle Instant Client.
+
+The path configured in main.py is:
+
+    E:\hackathon\oraclex64\instantclient_23_26
+
+The DLL used by Thick mode is:
+
+    E:\hackathon\oraclex64\instantclient_23_26\oci.dll
+
+Python and the Oracle Client must have matching architecture.
+
+Working setup:
+
+    Python                 = 64-bit
+    Oracle Instant Client = 64-bit
+
+
+10. MAIN.PY
+-----------
+The backend file is:
+
+    E:\hackathon\backend\main.py
+
+The backend provides these important endpoints:
+
+    /
+    /test-db
+    /search
+    /parcel/{ulpin}
+    /health
+
+The /search endpoint is the endpoint used by the frontend.
+
+
+11. START THE BACKEND
+---------------------
+Every time you want to run the project:
+
+Step 1:
+    Open VS Code.
+
+Step 2:
+    Open a PowerShell terminal.
+
+Step 3:
+    Go to the backend:
+
+        cd E:\hackathon\backend
+
+Step 4:
+    Activate the virtual environment:
+
+        .\venv\Scripts\Activate.ps1
+
+Step 5:
+    Start FastAPI:
+
+        python -m uvicorn main:app --reload
+
+
+12. BACKEND URL
+---------------
+When FastAPI starts successfully, it should show:
+
+    Uvicorn running on http://127.0.0.1:8000
+
+Keep this terminal running while using the frontend.
+
+
+13. TEST FASTAPI
+---------------
+Open:
+
+    http://127.0.0.1:8000/
+
+Expected:
+
+    {"message":"Land Stack API is running"}
+
+
+14. TEST ORACLE CONNECTION
+---------------------------
+Open:
+
+    http://127.0.0.1:8000/test-db
+
+Expected example:
+
+    {
+      "database": "connected",
+      "land_parcels_count": 2
+    }
+
+This confirms:
+
+    FastAPI
+       |
+       v
+    Python
+       |
+       v
+    Oracle Instant Client
+       |
+       v
+    Oracle Database
+
+
+15. TEST THE SEARCH API
+-----------------------
+Open:
+
+    http://127.0.0.1:8000/search?term=ULPIN-WB-0001
+
+Expected example:
+
+    {
+      "data": [
+        {
+          "ulpin": "ULPIN-WB-0001",
+          "survey_number": "P-101",
+          "district": "Kolkata",
+          "village": "Demo Village",
+          "state": "West Bengal",
+          "area": 2.5,
+          "latitude": 22.5726,
+          "longitude": 88.3639,
+          "land_use": "Residential",
+          "owner_name": "Rahul Sharma",
+          "ownership_status": "Verified",
+          "registration_status": "Registered",
+          "transaction_type": "Sale",
+          "tax_status": ""
+        }
+      ]
+    }
+
+
+16. START THE FRONTEND
+---------------------
+Start the FastAPI backend first.
+
+Then open the frontend:
+
+    ui\index.html
+
+or your current frontend HTML file.
+
+Use the search box and enter:
+
+    ULPIN-WB-0001
+
+The frontend sends the request to:
+
+    http://127.0.0.1:8000/search?term=ULPIN-WB-0001
+
+
+17. DATABASE TABLES
+-------------------
+The current database contains:
+
+    LAND_PARCELS
+    OWNERSHIP
+    REGISTRATION
+
+LAND_PARCELS:
+    Main parcel information such as ULPIN, parcel number, district,
+    village, state, area, latitude, longitude and land use.
+
+OWNERSHIP:
+    Ownership information linked to a ULPIN.
+
+REGISTRATION:
+    Registration / transaction information linked to a ULPIN.
+
+
+18. DATABASE SCRIPT
+-------------------
+The database setup script is:
+
+    database\schema.sql
+
+If the database and tables are already created, do not run the schema
+again unnecessarily.
+
+For a fresh installation, run the SQL script using SQL*Plus or another
+Oracle SQL tool after Oracle Database has been installed and configured.
+
+
+19. FRONTEND DETAILS
+--------------------
+The frontend includes:
+
+    - Search by Survey / ULPIN
+    - Owner name search UI
+    - Village / plot search UI
+    - Search result display
+    - Leaflet map
+    - Sample search buttons
+    - Responsive layout
+    - Supabase fallback code
+    - Offline/demo fallback data
+
+The primary backend search endpoint is:
+
+    /search?term=...
+
+
+20. IMPORTANT FRONTEND NOTE
+---------------------------
+The frontend contains older demo/sample ULPIN values such as:
+
+    WB000001
+    WB000002
+
+The working Oracle example uses:
+
+    ULPIN-WB-0001
+
+For testing the Oracle-backed search, manually enter:
+
+    ULPIN-WB-0001
+
+The frontend's backend fetch logic expects the FastAPI response to contain
+a "data" array.
+
+
+21. MAP NOTE
+------------
+The frontend has sample map coordinates for demo records.
+
+If a new ULPIN is added to Oracle, the frontend must also have map
+coordinates for that ULPIN if the parcel should be drawn on the demo map.
+
+The working Oracle record includes:
+
+    latitude  = 22.5726
+    longitude = 88.3639
+
+Actual cadastral polygon boundaries should come from real GIS/cadastral
+data in a production system.
+
+
+22. TROUBLESHOOTING
+-------------------
+A. "python was not found"
+
+Make sure a normal Python installation is installed and selected in VS Code.
+
+Check:
+
+    python --version
+
+Also check:
+
+    where.exe python
+
+
+B. "No module named fastapi"
+
+Activate the venv:
+
+    .\venv\Scripts\Activate.ps1
+
+Then install:
+
+    python -m pip install fastapi uvicorn oracledb
+
+
+C. "No module named venv"
+
+The selected Python installation is missing the venv module.
+Use a normal Python installation that includes pip and venv.
+
+
+D. DPY-3010
+
+This happens when python-oracledb Thin mode is used with an unsupported
+old Oracle Database version.
+
+The working project uses Thick mode instead.
+
+
+E. DPI-1047
+
+This indicates a problem loading the Oracle Client library.
+
+Check that:
+
+    E:\hackathon\oraclex64\instantclient_23_26\oci.dll
+
+exists and that its architecture matches Python.
+
+Working setup:
+
+    Python = 64-bit
+    Client = 64-bit
+
+
+F. Oracle service is not running
+
+Open:
+
+    services.msc
+
+Check:
+
+    OracleServiceORCL
+
+It should be:
+
+    Running
+
+Also check the Oracle listener service.
+
+
+G. FastAPI gives Internal Server Error
+
+Look at the terminal running Uvicorn.
+
+The browser may only show:
+
+    Internal Server Error
+
+The actual Python/Oracle error will be printed in the terminal.
+
+
+23. HOW TO SHARE THE PROJECT
+----------------------------
+Before creating the final ZIP, the recommended files are:
+
+    backend\main.py
+    backend\requirements.txt
+    database\schema.sql
+    ui\index.html
+    or the complete frontend folder
+    Oracle Instant Client files if redistribution is permitted
+
+Do NOT include:
+
+    backend\venv\
+    __pycache__\
+    .pyc files
+    unnecessary temporary files
+
+
+24. HOW ANOTHER PERSON RECREATES THE PYTHON ENVIRONMENT
+--------------------------------------------------------
+Install Python 3.14.7 64-bit.
+
+Then:
+
+    cd E:\hackathon\backend
+
+    python -m venv venv
+
+    .\venv\Scripts\Activate.ps1
+
+    python -m pip install -r requirements.txt
+
+
+25. HOW ANOTHER PERSON SETS UP ORACLE
+-------------------------------------
+1. Install and configure a compatible Oracle Database environment.
+
+2. Make sure the required Oracle service and listener are running.
+
+3. Create the required tables using:
+
+       database\schema.sql
+
+4. Install a compatible 64-bit Oracle Instant Client.
+
+5. Update the Oracle client path in main.py if the client is stored in
+   a different location.
+
+6. Make sure the Oracle username, password and DSN in the backend match
+   the local database configuration.
+
+
+26. QUICK START FOR THE TEAM
+----------------------------
+PowerShell:
+
+    cd E:\hackathon\backend
+
+    .\venv\Scripts\Activate.ps1
+
+    python -m uvicorn main:app --reload
+
+
+Then test:
+
+    http://127.0.0.1:8000/test-db
+
+
+Then open the frontend and search:
+
+    ULPIN-WB-0001
+
+
+27. FINAL WORKING ARCHITECTURE
+------------------------------
+
+                    FRONTEND
+                  index.html
+                       |
+                       | HTTP
+                       v
+                FASTAPI BACKEND
+              127.0.0.1:8000
+                       |
+                       | Python
+                       v
+             python-oracledb
+                 Thick Mode
+                       |
+                       v
+            Oracle Instant Client
+                  64-bit
+                       |
+                       v
+             Oracle Database ORCL
+                       |
+          +------------+------------+
+          |            |            |
+          v            v            v
+    LAND_PARCELS   OWNERSHIP   REGISTRATION
+
+
+28. PROJECT STATUS
+------------------
+Working components:
+
+    Python 3.14.7 64-bit
+    Virtual environment
+    FastAPI
+    Uvicorn
+    python-oracledb
+    64-bit Oracle Instant Client 23.26
+    Oracle Database connection
+    LAND_PARCELS query
+    ULPIN search API
+    HTML frontend
+    Frontend -> FastAPI communication
+    Database-backed search result
+
+
+29. SECURITY NOTES FOR FUTURE DEVELOPMENT
+------------------------------------------
+For a production version:
+
+    - Store credentials in environment variables/secrets.
+    - Restrict CORS to trusted frontend origins.
+    - Use authentication/authorization for private records.
+    - Add input validation and rate limiting.
+    - Use HTTPS.
+    - Avoid exposing unnecessary personal/ownership data.
+    - Add audit logging.
+    - Use real GIS data instead of demo coordinates.
+    - Avoid shipping development credentials in source code.
+
+
+30. END
+-------
+To run the current project:
+
+    1. Start Oracle.
+    2. Activate venv.
+    3. Start FastAPI.
+    4. Test /test-db.
+    5. Open the frontend.
+    6. Search ULPIN-WB-0001.
+
+The project is ready for local demonstration and further development.
