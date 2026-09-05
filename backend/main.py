@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 import oracledb
 
 
@@ -26,7 +27,7 @@ app = FastAPI(
 
 # ============================================================
 # CORS
-# Allows your HTML frontend to communicate with FastAPI
+# Allows the frontend to communicate with FastAPI
 # ============================================================
 
 app.add_middleware(
@@ -52,13 +53,14 @@ def get_connection():
 
 # ============================================================
 # HOME
+# Opens the LandStack frontend
 # ============================================================
 
 @app.get("/")
 def home():
-    return {
-        "message": "Land Stack API is running"
-    }
+    return FileResponse(
+        r"E:\hackathon\ui\index.html"
+    )
 
 
 # ============================================================
@@ -67,7 +69,6 @@ def home():
 
 @app.get("/test-db")
 def test_database():
-
     connection = None
     cursor = None
 
@@ -87,14 +88,12 @@ def test_database():
         }
 
     except Exception as e:
-
         raise HTTPException(
             status_code=500,
             detail=f"Database connection failed: {str(e)}"
         )
 
     finally:
-
         if cursor:
             cursor.close()
 
@@ -105,7 +104,7 @@ def test_database():
 # ============================================================
 # SEARCH
 #
-# Used by your index.html:
+# Used by index.html:
 # /search?term=ULPIN-WB-0001
 #
 # Searches:
@@ -129,7 +128,6 @@ def search_parcels(term: str):
     cursor = None
 
     try:
-
         connection = get_connection()
         cursor = connection.cursor()
 
@@ -149,20 +147,18 @@ def search_parcels(term: str):
                 r.registration_status,
                 r.transaction_type
             FROM land_parcels lp
-
             LEFT JOIN ownership o
                 ON lp.ulpin = o.ulpin
-
             LEFT JOIN registration r
                 ON lp.ulpin = r.ulpin
-
             WHERE
-                UPPER(lp.ulpin) = UPPER(:term)
-                OR UPPER(lp.parcel_no) = UPPER(:term)
-                OR UPPER(o.owner_name) LIKE UPPER(:owner_term)
-                OR UPPER(lp.village) LIKE UPPER(:village_term)
-
-            AND ROWNUM <= 10
+                (
+                    UPPER(lp.ulpin) = UPPER(:term)
+                    OR UPPER(lp.parcel_no) = UPPER(:term)
+                    OR UPPER(o.owner_name) LIKE UPPER(:owner_term)
+                    OR UPPER(lp.village) LIKE UPPER(:village_term)
+                )
+                AND ROWNUM <= 10
         """
 
         cursor.execute(
@@ -186,21 +182,16 @@ def search_parcels(term: str):
                 "district": row[2],
                 "village": row[3],
                 "state": row[4],
-
                 "area": row[5],
-
                 "latitude": row[6],
                 "longitude": row[7],
-
                 "land_use": row[8],
-
                 "owner_name": row[9] or "",
                 "ownership_status": row[10] or "",
-
                 "registration_status": row[11] or "",
                 "transaction_type": row[12] or "",
 
-                # Tax table doesn't exist yet
+                # Tax table does not exist yet
                 "tax_status": ""
             })
 
@@ -286,6 +277,7 @@ def get_parcel(ulpin: str):
         }
 
     except HTTPException:
+
         raise
 
     except Exception as e:
