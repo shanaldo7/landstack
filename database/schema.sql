@@ -70,3 +70,17 @@ ORDER BY user_id;
 SELECT username, role, active
 FROM users
 WHERE username = 'admin';
+
+
+SELECT a.table_name,
+       a.constraint_name,
+       a.r_constraint_name
+FROM user_constraints a
+WHERE a.constraint_type = 'R'
+AND a.r_constraint_name IN (
+    SELECT constraint_name
+    FROM user_constraints
+    WHERE table_name = 'LAND_PARCELS'
+);
+DESC registration;
+DESC ownership;

@@ -1,165 +1,523 @@
 <!DOCTYPE html>
+
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Land Stack - Officer Dashboard</title>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #eef2f1;
-            color: #172033;
-        }
+```
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #eef2f1;
+        color: #172033;
+    }
 
+    header {
+        background: #101d32;
+        color: white;
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .brand {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .role {
+        background: #174d3b;
+        padding: 8px 15px;
+        border-radius: 20px;
+    }
+
+    .language-box {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .language-box label {
+        font-size: 14px;
+    }
+
+    #language-selector {
+        padding: 8px 10px;
+        border-radius: 8px;
+        border: 1px solid #d1d5db;
+        background: white;
+        color: #172033;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 35px auto;
+        padding: 20px;
+    }
+
+    .welcome {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-top: 25px;
+    }
+
+    .card {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .card h3 {
+        margin-top: 0;
+    }
+
+    button {
+        background: #174d3b;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .logout {
+        background: #9b2c2c;
+    }
+
+    @media (max-width: 800px) {
         header {
-            background: #101d32;
-            color: white;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .brand {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .role {
-            background: #174d3b;
-            padding: 8px 15px;
-            border-radius: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 35px auto;
-            padding: 20px;
-        }
-
-        .welcome {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 18px 20px;
+            flex-direction: column;
+            align-items: stretch;
         }
 
         .cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 25px;
+            grid-template-columns: 1fr;
         }
 
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        .container {
+            margin: 20px auto;
+            padding: 15px;
         }
 
-        .card h3 {
-            margin-top: 0;
+        .welcome {
+            padding: 22px;
         }
+    }
+</style>
+```
 
-        button {
-            background: #174d3b;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .logout {
-            background: #9b2c2c;
-        }
-    </style>
 </head>
 
 <body>
 
 <header>
 
-    <div class="brand">
-        🏛️ Land Stack — Department
-    </div>
+```
+<div class="brand" data-i18n="brand">
+    🏛️ Land Stack — Department
+</div>
 
-    <div>
-        <span id="username"></span>
-        <span class="role">OFFICER</span>
-    </div>
+<div class="language-box">
+    <label for="language-selector" data-i18n="language">Language</label>
+
+    <select id="language-selector" aria-label="Choose your language">
+        <option value="en">English</option>
+        <option value="hi">हिंदी</option>
+        <option value="ta">தமிழ்</option>
+        <option value="bn">বাংলা</option>
+        <option value="mr">मराठी</option>
+    </select>
+</div>
+
+<div>
+    <span id="username"></span>
+    <span class="role" data-i18n="officerRole">OFFICER</span>
+</div>
+```
 
 </header>
 
 <div class="container">
 
-    <div class="welcome">
+```
+<div class="welcome">
 
-        <h1>Officer Dashboard</h1>
+    <h1 data-i18n="dashboardTitle">Officer Dashboard</h1>
 
-        <p>
-            Welcome, <strong id="welcomeUser"></strong>
+    <p>
+        <span data-i18n="welcome">Welcome,</span>
+        <strong id="welcomeUser"></strong>
+    </p>
+
+    <p data-i18n="dashboardDescription">
+        Department officers can access integrated land governance information.
+    </p>
+
+</div>
+
+<div class="cards">
+
+    <div class="card">
+        <h3 data-i18n="parcelManagement">
+            🗺️ Parcel Management
+        </h3>
+
+        <p data-i18n="parcelDescription">
+            Search and inspect land parcels.
         </p>
 
-        <p>
-            Department officers can access integrated land governance information.
+        <button onclick="openLandStack()" data-i18n="openLandStack">
+            Open Land Stack
+        </button>
+    </div>
+
+    <div class="card">
+        <h3 data-i18n="ownershipRecords">
+            👤 Ownership Records
+        </h3>
+
+        <p data-i18n="ownershipDescription">
+            View ownership information.
         </p>
-
     </div>
 
-    <div class="cards">
+    <div class="card">
+        <h3 data-i18n="registration">
+            📜 Registration
+        </h3>
 
-        <div class="card">
-            <h3>🗺️ Parcel Management</h3>
-            <p>Search and inspect land parcels.</p>
-            <button onclick="openLandStack()">
-                Open Land Stack
-            </button>
-        </div>
-
-        <div class="card">
-            <h3>👤 Ownership Records</h3>
-            <p>View ownership information.</p>
-        </div>
-
-        <div class="card">
-            <h3>📜 Registration</h3>
-            <p>View registration and transaction information.</p>
-        </div>
-
-        <div class="card">
-            <h3>🏗️ Planning</h3>
-            <p>Review planning and land-use information.</p>
-        </div>
-
-        <div class="card">
-            <h3>⚠️ Land Risk</h3>
-            <p>Future module for parcel risk analysis.</p>
-        </div>
-
-        <div class="card">
-            <h3>🛰️ GIS / Satellite</h3>
-            <p>Future module for change detection.</p>
-        </div>
-
+        <p data-i18n="registrationDescription">
+            View registration and transaction information.
+        </p>
     </div>
 
-    <br>
+    <div class="card">
+        <h3 data-i18n="planning">
+            🏗️ Planning
+        </h3>
 
-    <button class="logout" onclick="logout()">
-        Logout
-    </button>
+        <p data-i18n="planningDescription">
+            Review planning and land-use information.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3 data-i18n="landRisk">
+            ⚠️ Land Risk
+        </h3>
+
+        <p data-i18n="landRiskDescription">
+            Future module for parcel risk analysis.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3 data-i18n="gisSatellite">
+            🛰️ GIS / Satellite
+        </h3>
+
+        <p data-i18n="gisDescription">
+            Future module for change detection.
+        </p>
+    </div>
+
+</div>
+
+<br>
+
+<button class="logout" onclick="logout()" data-i18n="logout">
+    Logout
+</button>
+```
 
 </div>
 
 <script>
 
-const token = sessionStorage.getItem("landstack_token");
-const username = sessionStorage.getItem("landstack_username");
-const role = sessionStorage.getItem("landstack_role");
+/* =========================================================
+   MULTILINGUAL SYSTEM
+   ========================================================= */
+
+const TRANSLATIONS = {
+
+    en: {
+        brand: "🏛️ Land Stack — Department",
+        language: "Language",
+        officerRole: "OFFICER",
+        dashboardTitle: "Officer Dashboard",
+        welcome: "Welcome,",
+        dashboardDescription:
+            "Department officers can access integrated land governance information.",
+
+        parcelManagement: "🗺️ Parcel Management",
+        parcelDescription: "Search and inspect land parcels.",
+        openLandStack: "Open Land Stack",
+
+        ownershipRecords: "👤 Ownership Records",
+        ownershipDescription: "View ownership information.",
+
+        registration: "📜 Registration",
+        registrationDescription:
+            "View registration and transaction information.",
+
+        planning: "🏗️ Planning",
+        planningDescription:
+            "Review planning and land-use information.",
+
+        landRisk: "⚠️ Land Risk",
+        landRiskDescription:
+            "Future module for parcel risk analysis.",
+
+        gisSatellite: "🛰️ GIS / Satellite",
+        gisDescription:
+            "Future module for change detection.",
+
+        logout: "Logout"
+    },
+
+    hi: {
+        brand: "🏛️ लैंड स्टैक — विभाग",
+        language: "भाषा",
+        officerRole: "अधिकारी",
+        dashboardTitle: "अधिकारी डैशबोर्ड",
+        welcome: "स्वागत है,",
+        dashboardDescription:
+            "विभागीय अधिकारी एकीकृत भूमि शासन की जानकारी प्राप्त कर सकते हैं।",
+
+        parcelManagement: "🗺️ भूमि पार्सल प्रबंधन",
+        parcelDescription: "भूमि पार्सल खोजें और उनका निरीक्षण करें।",
+        openLandStack: "लैंड स्टैक खोलें",
+
+        ownershipRecords: "👤 स्वामित्व रिकॉर्ड",
+        ownershipDescription: "स्वामित्व की जानकारी देखें।",
+
+        registration: "📜 पंजीकरण",
+        registrationDescription:
+            "पंजीकरण और लेन-देन की जानकारी देखें।",
+
+        planning: "🏗️ योजना",
+        planningDescription:
+            "योजना और भूमि उपयोग की जानकारी की समीक्षा करें।",
+
+        landRisk: "⚠️ भूमि जोखिम",
+        landRiskDescription:
+            "पार्सल जोखिम विश्लेषण के लिए भविष्य का मॉड्यूल।",
+
+        gisSatellite: "🛰️ GIS / सैटेलाइट",
+        gisDescription:
+            "परिवर्तन का पता लगाने के लिए भविष्य का मॉड्यूल।",
+
+        logout: "लॉग आउट"
+    },
+
+    ta: {
+        brand: "🏛️ லேண்ட் ஸ்டாக் — துறை",
+        language: "மொழி",
+        officerRole: "அதிகாரி",
+        dashboardTitle: "அதிகாரி டாஷ்போர்டு",
+        welcome: "வரவேற்கிறோம்,",
+        dashboardDescription:
+            "துறை அதிகாரிகள் ஒருங்கிணைந்த நில நிர்வாகத் தகவல்களை அணுகலாம்.",
+
+        parcelManagement: "🗺️ நிலப் பார்சல் மேலாண்மை",
+        parcelDescription: "நிலப் பார்சல்களைத் தேடி ஆய்வு செய்யுங்கள்.",
+        openLandStack: "லேண்ட் ஸ்டாக்கைத் திறக்கவும்",
+
+        ownershipRecords: "👤 உரிமைப் பதிவுகள்",
+        ownershipDescription: "உரிமைத் தகவல்களைப் பார்க்கவும்.",
+
+        registration: "📜 பதிவு",
+        registrationDescription:
+            "பதிவு மற்றும் பரிவர்த்தனைத் தகவல்களைப் பார்க்கவும்.",
+
+        planning: "🏗️ திட்டமிடல்",
+        planningDescription:
+            "திட்டமிடல் மற்றும் நிலப் பயன்பாட்டுத் தகவல்களை மதிப்பாய்வு செய்யவும்.",
+
+        landRisk: "⚠️ நில அபாயம்",
+        landRiskDescription:
+            "நிலப் பார்சல் அபாயப் பகுப்பாய்விற்கான எதிர்கால தொகுதி.",
+
+        gisSatellite: "🛰️ GIS / செயற்கைக்கோள்",
+        gisDescription:
+            "மாற்றங்களைக் கண்டறிவதற்கான எதிர்கால தொகுதி.",
+
+        logout: "வெளியேறு"
+    },
+
+    bn: {
+        brand: "🏛️ ল্যান্ড স্ট্যাক — বিভাগ",
+        language: "ভাষা",
+        officerRole: "অফিসার",
+        dashboardTitle: "অফিসার ড্যাশবোর্ড",
+        welcome: "স্বাগতম,",
+        dashboardDescription:
+            "বিভাগীয় কর্মকর্তারা সমন্বিত ভূমি প্রশাসনের তথ্য অ্যাক্সেস করতে পারেন।",
+
+        parcelManagement: "🗺️ জমির পার্সেল ব্যবস্থাপনা",
+        parcelDescription: "জমির পার্সেল অনুসন্ধান ও পরিদর্শন করুন।",
+        openLandStack: "ল্যান্ড স্ট্যাক খুলুন",
+
+        ownershipRecords: "👤 মালিকানা রেকর্ড",
+        ownershipDescription: "মালিকানার তথ্য দেখুন।",
+
+        registration: "📜 নিবন্ধন",
+        registrationDescription:
+            "নিবন্ধন ও লেনদেনের তথ্য দেখুন।",
+
+        planning: "🏗️ পরিকল্পনা",
+        planningDescription:
+            "পরিকল্পনা ও ভূমি ব্যবহারের তথ্য পর্যালোচনা করুন।",
+
+        landRisk: "⚠️ ভূমি ঝুঁকি",
+        landRiskDescription:
+            "পার্সেল ঝুঁকি বিশ্লেষণের জন্য ভবিষ্যৎ মডিউল।",
+
+        gisSatellite: "🛰️ GIS / স্যাটেলাইট",
+        gisDescription:
+            "পরিবর্তন শনাক্তকরণের জন্য ভবিষ্যৎ মডিউল।",
+
+        logout: "লগ আউট"
+    },
+
+    mr: {
+        brand: "🏛️ लँड स्टॅक — विभाग",
+        language: "भाषा",
+        officerRole: "अधिकारी",
+        dashboardTitle: "अधिकारी डॅशबोर्ड",
+        welcome: "स्वागत आहे,",
+        dashboardDescription:
+            "विभागीय अधिकारी एकात्मिक जमीन प्रशासनाची माहिती पाहू शकतात.",
+
+        parcelManagement: "🗺️ जमीन पार्सल व्यवस्थापन",
+        parcelDescription: "जमीन पार्सल शोधा आणि तपासा.",
+        openLandStack: "लँड स्टॅक उघडा",
+
+        ownershipRecords: "👤 मालकी हक्क नोंदी",
+        ownershipDescription: "मालकीची माहिती पहा.",
+
+        registration: "📜 नोंदणी",
+        registrationDescription:
+            "नोंदणी आणि व्यवहाराची माहिती पहा.",
+
+        planning: "🏗️ नियोजन",
+        planningDescription:
+            "नियोजन आणि जमीन वापराची माहिती तपासा.",
+
+        landRisk: "⚠️ जमीन जोखीम",
+        landRiskDescription:
+            "पार्सल जोखीम विश्लेषणासाठी भविष्यातील मॉड्यूल.",
+
+        gisSatellite: "🛰️ GIS / उपग्रह",
+        gisDescription:
+            "बदल शोधण्यासाठी भविष्यातील मॉड्यूल.",
+
+        logout: "लॉग आउट"
+    }
+
+};
+
+
+/* Translation helper */
+
+function t(key) {
+
+    const lang =
+        localStorage.getItem("landstack_language") || "en";
+
+    return (
+        TRANSLATIONS[lang] &&
+        TRANSLATIONS[lang][key]
+    ) || TRANSLATIONS.en[key] || key;
+
+}
+
+
+/* Apply selected language */
+
+function applyLanguage(lang) {
+
+    if (!TRANSLATIONS[lang]) {
+        lang = "en";
+    }
+
+    localStorage.setItem("landstack_language", lang);
+
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll("[data-i18n]").forEach(element => {
+
+        const key = element.getAttribute("data-i18n");
+
+        if (
+            TRANSLATIONS[lang] &&
+            TRANSLATIONS[lang][key]
+        ) {
+
+            element.textContent =
+                TRANSLATIONS[lang][key];
+
+        }
+
+    });
+
+    document.title =
+        lang === "en"
+            ? "Land Stack - Officer Dashboard"
+            : TRANSLATIONS[lang].dashboardTitle;
+
+}
+
+
+/* Language selector */
+
+const languageSelector =
+    document.getElementById("language-selector");
+
+const savedLanguage =
+    localStorage.getItem("landstack_language") || "en";
+
+languageSelector.value = savedLanguage;
+
+applyLanguage(savedLanguage);
+
+languageSelector.addEventListener("change", function () {
+
+    applyLanguage(this.value);
+
+});
+
+
+/* =========================================================
+   EXISTING LANDSTACK OFFICER FUNCTIONALITY
+   ========================================================= */
+
+const token =
+    sessionStorage.getItem("landstack_token");
+
+const username =
+    sessionStorage.getItem("landstack_username");
+
+const role =
+    sessionStorage.getItem("landstack_role");
 
 
 // Protect page
@@ -173,8 +531,11 @@ if (!token || (role !== "OFFICER" && role !== "ADMIN")) {
 
 // Display user
 
-document.getElementById("username").textContent = username;
-document.getElementById("welcomeUser").textContent = username;
+document.getElementById("username").textContent =
+    username;
+
+document.getElementById("welcomeUser").textContent =
+    username;
 
 
 // Verify authorization with backend

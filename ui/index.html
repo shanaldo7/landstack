@@ -19,25 +19,19 @@ crossorigin="">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-  const SUPABASE_URL = "https://jqffmmccflzwesbidpkp.supabase.co";
+const SUPABASE_URL = "https://jqffmmccflzwesbidpkp.supabase.co";
 
-  /*
-   * =====================================================
-   * YOUR SUPABASE PUBLISHABLE KEY
-   * =====================================================
-   */
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_9G8jHJSQyWLjlPNQezzMtQ_8eikVTFt";
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_9G8jHJSQyWLjlPNQezzMtQ_8eikVTFt";
 
-  const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
 
-  console.log("Supabase initialized");
+console.log("Supabase initialized");
 </script>
 <!-- ============================================ -->
-
 
 <style>
 
@@ -110,9 +104,6 @@ button{
   padding:0 clamp(1rem, 4vw, 2.5rem);
 }
 
-
-/* ---------- Skip link ---------- */
-
 .skip-link{
   position:absolute;
   left:-999px;
@@ -127,9 +118,6 @@ button{
   left:1rem;
   top:1rem;
 }
-
-
-/* ---------- Top utility bar ---------- */
 
 .util-bar{
   background:var(--forest-deep);
@@ -148,7 +136,7 @@ button{
 }
 
 .util-bar select{
-  background:transparent;
+  background:var(--forest-deep);
   color:#e7e2d2;
   border:1px solid #ffffff44;
   border-radius:var(--radius);
@@ -169,9 +157,6 @@ button{
 .util-help a:hover{
   text-decoration:underline;
 }
-
-
-/* ---------- Header ---------- */
 
 header.site{
   background:var(--paper);
@@ -258,9 +243,6 @@ nav.main-nav a:hover{
   background:var(--ink);
   margin:5px auto;
 }
-
-
-/* ---------- Hero ---------- */
 
 .hero{
   background:var(--forest);
@@ -383,16 +365,10 @@ nav.main-nav a:hover{
   font-size:0.9rem;
 }
 
-
-/* Hero parcel illustration */
-
 .hero-art{
   width:100%;
   height:auto;
 }
-
-
-/* ---------- Section shell ---------- */
 
 section{
   padding-top:clamp(2.5rem, 5vw, 4rem);
@@ -413,9 +389,6 @@ section{
   color:#4a4638;
   font-size:1.05rem;
 }
-
-
-/* ---------- Services ledger ---------- */
 
 .services{
   background:var(--white);
@@ -470,9 +443,6 @@ section{
   font-size:0.9rem;
   white-space:nowrap;
 }
-
-
-/* ---------- Live parcel map ---------- */
 
 .map-section{
   background:var(--white);
@@ -534,9 +504,6 @@ section{
   font-family:"Noto Serif", Georgia, serif;
 }
 
-
-/* ---------- Steps ---------- */
-
 .steps{
   background:var(--paper-deep);
 }
@@ -568,9 +535,6 @@ section{
   margin-top:0.5rem;
   color:#4a4638;
 }
-
-
-/* ---------- Assurance strip ---------- */
 
 .assurance{
   background:var(--forest-deep);
@@ -604,9 +568,6 @@ section{
   font-size:0.92rem;
   color:#cfc9b6;
 }
-
-
-/* ---------- Help ---------- */
 
 .help{
   background:var(--white);
@@ -698,9 +659,6 @@ section{
   font-size:0.95rem;
 }
 
-
-/* ---------- Footer ---------- */
-
 footer.site{
   background:var(--forest);
   color:#dcd7c5;
@@ -758,9 +716,6 @@ footer.site{
   color:#b9b39c;
 }
 
-
-/* ---------- Responsive ---------- */
-
 @media (max-width:900px){
 
   .hero .wrap{
@@ -789,7 +744,6 @@ footer.site{
     grid-template-columns:1fr 1fr;
   }
 }
-
 
 @media (max-width:720px){
 
@@ -857,9 +811,6 @@ footer.site{
   white-space:nowrap;
 }
 
-
-/* ---------- Search chips & results ---------- */
-
 .search-chips{
   display:flex;
   flex-wrap:wrap;
@@ -899,10 +850,29 @@ footer.site{
   text-transform:uppercase;
 }
 
-.badge-registered{background:#e4efe7;color:#1f6b3b;border:1px solid #1f6b3b66;}
-.badge-pending{background:#fdf3dc;color:#8a5a00;border:1px solid #8a5a0066;}
-.badge-paid{background:#e4efe7;color:#1f6b3b;border:1px solid #1f6b3b66;}
-.badge-due{background:#fbe4e0;color:#a03022;border:1px solid #a0302266;}
+.badge-registered{
+  background:#e4efe7;
+  color:#1f6b3b;
+  border:1px solid #1f6b3b66;
+}
+
+.badge-pending{
+  background:#fdf3dc;
+  color:#8a5a00;
+  border:1px solid #8a5a0066;
+}
+
+.badge-paid{
+  background:#e4efe7;
+  color:#1f6b3b;
+  border:1px solid #1f6b3b66;
+}
+
+.badge-due{
+  background:#fbe4e0;
+  color:#a03022;
+  border:1px solid #a0302266;
+}
 
 .result-list{
   margin-top:0.85rem;
@@ -932,31 +902,48 @@ footer.site{
 </style>
 </head>
 
-
 <body>
 
-<a class="skip-link" href="#main">Skip to main content</a>
-
+<a class="skip-link" href="#main" data-i18n="skipMain">
+  Skip to main content
+</a>
 
 <div class="util-bar">
 
   <div class="wrap">
 
     <div class="util-help">
-      <a href="#help">Need help?</a>
-      <a href="#faq">Common questions</a>
-      <a href="#">Watch a 2-minute guide</a>
+
+      <a href="#help" data-i18n="needHelp">
+        Need help?
+      </a>
+
+      <a href="#faq" data-i18n="commonQuestions">
+        Common questions
+      </a>
+
+      <a href="#" data-i18n="watchGuide">
+        Watch a 2-minute guide
+      </a>
+
     </div>
 
     <label>
-      <span class="visually-hidden">Choose your language</span>
 
-      <select aria-label="Choose your language">
-        <option>English</option>
-        <option>हिंदी</option>
-        <option>தமிழ்</option>
-        <option>বাংলা</option>
-        <option>मराठी</option>
+      <span class="visually-hidden" data-i18n="chooseLanguage">
+        Choose your language
+      </span>
+
+      <select
+        id="language-selector"
+        aria-label="Choose your language">
+
+        <option value="en">English</option>
+        <option value="hi">हिंदी</option>
+        <option value="ta">தமிழ்</option>
+        <option value="bn">বাংলা</option>
+        <option value="mr">मराठी</option>
+
       </select>
 
     </label>
@@ -965,70 +952,88 @@ footer.site{
 
 </div>
 
-
 <header class="site">
 
   <div class="wrap">
 
     <a class="brand" href="#main">
 
-      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+      <svg
+        class="brand-mark"
+        viewBox="0 0 40 40"
+        fill="none"
+        aria-hidden="true">
 
-        <rect x="1" y="1" width="38" height="38"
-              stroke="#1c1b16"
-              stroke-width="2"/>
+        <rect
+          x="1"
+          y="1"
+          width="38"
+          height="38"
+          stroke="#1c1b16"
+          stroke-width="2"/>
 
-        <path d="M1 14H39M1 27H39M14 1V39M27 1V39"
-              stroke="#1c1b16"
-              stroke-width="1.2"/>
+        <path
+          d="M1 14H39M1 27H39M14 1V39M27 1V39"
+          stroke="#1c1b16"
+          stroke-width="1.2"/>
 
-        <rect x="14" y="14" width="13" height="13"
-              fill="#c1791f"/>
+        <rect
+          x="14"
+          y="14"
+          width="13"
+          height="13"
+          fill="#c1791f"/>
 
       </svg>
 
       <span class="brand-text">
         Land Stack
-        <small>Department of Land Resources</small>
+        <small data-i18n="department">
+          Department of Land Resources
+        </small>
       </span>
 
     </a>
-
 
     <button
       class="nav-toggle"
       aria-expanded="false"
       aria-controls="primary-nav"
       aria-label="Open menu"
-      onclick="
-        const n=document.getElementById('primary-nav');
-        const open=n.classList.toggle('open');
-        this.setAttribute('aria-expanded', open);
-      ">
+      id="nav-toggle">
 
       <span></span>
 
     </button>
 
-
-    <nav class="main-nav" id="primary-nav">
+    <nav
+      class="main-nav"
+      id="primary-nav">
 
       <ul>
 
         <li>
-          <a href="#search">Find my land</a>
+          <a href="#search" data-i18n="findLand">
+            Find my land
+          </a>
         </li>
 
         <li>
-          <a href="#services">Services</a>
+          <a href="#services" data-i18n="services">
+            Services
+          </a>
         </li>
 
         <li>
-          <a href="#how">How it works</a>
+          <a href="#how" data-i18n="howItWorks">
+            How it works
+          </a>
         </li>
 
         <li>
-          <a href="#help">Help</a>
+          <a href="#help" data-i18n="help">
+            Help
+          </a>
         </li>
 
       </ul>
@@ -1039,9 +1044,7 @@ footer.site{
 
 </header>
 
-
 <main id="main">
-
 
 <!-- ================= HERO ================= -->
 
@@ -1051,59 +1054,76 @@ footer.site{
 
     <div class="hero-copy">
 
-      <h1>
+      <h1 data-i18n="heroTitle">
         See everything about your land, in one place.
       </h1>
 
-      <p class="hero-lede">
+      <p class="hero-lede" data-i18n="heroLede">
         One search brings together your ownership record,
         map, tax status and pending applications — the way
         your village or ward office already knows it,
         just easier to reach.
       </p>
 
-
       <form class="search-panel" id="land-search-form">
 
-        <div id="search-legend" class="visually-hidden">
+        <div
+          id="search-legend"
+          class="visually-hidden"
+          data-i18n="searchRecord">
           Search for a land record
         </div>
 
-
-        <div class="search-tabs"
-             role="tablist"
-             aria-label="Search by">
+        <div
+          class="search-tabs"
+          role="tablist"
+          aria-label="Search by"
+          id="search-tabs">
 
           <button
             type="button"
             role="tab"
-            aria-pressed="true">
+            aria-pressed="true"
+            data-mode="number"
+            data-i18n="surveyTab">
+
             Survey / ULPIN number
+
           </button>
 
           <button
             type="button"
             role="tab"
-            aria-pressed="false">
+            aria-pressed="false"
+            data-mode="owner"
+            data-i18n="ownerTab">
+
             Owner name
+
           </button>
 
           <button
             type="button"
             role="tab"
-            aria-pressed="false">
+            aria-pressed="false"
+            data-mode="village"
+            data-i18n="villageTab">
+
             Village &amp; plot
+
           </button>
 
         </div>
-
 
         <div class="search-row">
 
           <label
             class="visually-hidden"
-            for="parcel-input">
+            for="parcel-input"
+            data-i18n="enterSurvey">
+
             Enter your survey number or ULPIN
+
           </label>
 
           <input
@@ -1112,40 +1132,81 @@ footer.site{
             placeholder="e.g. WB000001 or survey number"
             autocomplete="off">
 
-          <button type="submit">
+          <button
+            type="submit"
+            data-i18n="search">
+
             Search
+
           </button>
 
         </div>
 
+        <p
+          class="search-hint"
+          data-i18n="searchHint">
 
-        <p class="search-hint">
           Not sure what to enter? Try your ration card address
           or ask at your nearest Common Service Centre —
           we'll match it for you.
+
         </p>
 
+        <div
+          class="search-chips"
+          aria-label="Try a sample record"
+          id="search-chips">
 
-        <div class="search-chips" aria-label="Try a sample record">
+          <button
+            type="button"
+            data-ulpin="WB000001"
+            data-i18n="sample1">
+            WB000001 · Krishnanagar
+          </button>
 
-          <button type="button" data-ulpin="WB000001">WB000001 · Krishnanagar</button>
+          <button
+            type="button"
+            data-ulpin="WB000002"
+            data-i18n="sample2">
+            WB000002 · Ranaghat
+          </button>
 
-          <button type="button" data-ulpin="WB000002">WB000002 · Ranaghat</button>
+          <button
+            type="button"
+            data-ulpin="WB000003"
+            data-i18n="sample3">
+            WB000003 · Barasat
+          </button>
 
-          <button type="button" data-ulpin="WB000003">WB000003 · Barasat</button>
+          <button
+            type="button"
+            data-ulpin="WB000004"
+            data-i18n="sample4">
+            WB000004 · Chinsurah
+          </button>
 
-          <button type="button" data-ulpin="WB000004">WB000004 · Chinsurah</button>
+          <button
+            type="button"
+            data-ulpin="WB000005"
+            data-i18n="sample5">
+            WB000005 · Sonarpur
+          </button>
 
-          <button type="button" data-ulpin="WB000005">WB000005 · Sonarpur</button>
+          <button
+            type="button"
+            data-owner="Sourav Roy"
+            data-i18n="sampleOwner">
+            Owner: Sourav Roy
+          </button>
 
-          <button type="button" data-owner="Sourav Roy">Owner: Sourav Roy</button>
-
-          <button type="button" data-village="Krishnanagar">Village: Krishnanagar</button>
+          <button
+            type="button"
+            data-village="Krishnanagar"
+            data-i18n="sampleVillage">
+            Village: Krishnanagar
+          </button>
 
         </div>
-
-
-        <!-- SEARCH RESULT -->
 
         <div
           class="search-result"
@@ -1158,9 +1219,15 @@ footer.site{
 
           <p id="result-details"></p>
 
-          <div class="result-list" id="result-list"></div>
+          <div
+            class="result-list"
+            id="result-list">
+          </div>
 
-          <p class="search-source" id="search-source"></p>
+          <p
+            class="search-source"
+            id="search-source">
+          </p>
 
         </div>
 
@@ -1168,13 +1235,13 @@ footer.site{
 
     </div>
 
-
     <!-- HERO MAP ILLUSTRATION -->
 
     <svg
       class="hero-art"
       viewBox="0 0 480 420"
       role="img"
+      id="hero-map-svg"
       aria-label="A stylised cadastral map showing land parcels of different sizes, with one parcel highlighted">
 
       <rect
@@ -1200,7 +1267,6 @@ footer.site{
 
       </g>
 
-
       <g
         stroke="#7c9a8c"
         stroke-width="1"
@@ -1217,7 +1283,6 @@ footer.site{
 
       </g>
 
-
       <rect
         x="200"
         y="160"
@@ -1225,7 +1290,6 @@ footer.site{
         height="70"
         fill="#c1791f"
         opacity="0.92"/>
-
 
       <rect
         x="200"
@@ -1236,15 +1300,14 @@ footer.site{
         stroke="#fffdf8"
         stroke-width="2.5"/>
 
-
       <circle
         cx="250"
         cy="195"
         r="4.5"
         fill="#fffdf8"/>
 
-
       <text
+        id="hero-parcel-text"
         x="250"
         y="120"
         text-anchor="middle"
@@ -1252,22 +1315,18 @@ footer.site{
         font-family="Noto Sans, Arial, sans-serif"
         font-size="13"
         letter-spacing="0.3">
-
         Parcel 0142-0087
-
       </text>
 
-
       <text
+        id="hero-record-text"
         x="250"
         y="255"
         text-anchor="middle"
         fill="#fffdf8"
         font-family="Noto Sans, Arial, sans-serif"
         font-size="12">
-
         0.34 hectares · Verified record
-
       </text>
 
     </svg>
@@ -1275,7 +1334,6 @@ footer.site{
   </div>
 
 </section>
-
 
 <!-- ================= SERVICES ================= -->
 
@@ -1285,11 +1343,11 @@ footer.site{
 
     <div class="section-head">
 
-      <h2>
+      <h2 data-i18n="servicesTitle">
         What you can do here
       </h2>
 
-      <p>
+      <p data-i18n="servicesIntro">
         These are the same services your local revenue
         and registration offices provide — brought together
         so you don't have to visit each one separately.
@@ -1297,68 +1355,67 @@ footer.site{
 
     </div>
 
-
     <div class="ledger">
-
 
       <a class="ledger-row" href="#search">
 
-        <svg class="ledger-icon"
-             viewBox="0 0 48 48"
-             aria-hidden="true">
+        <svg
+          class="ledger-icon"
+          viewBox="0 0 48 48"
+          aria-hidden="true">
 
-          <rect x="8" y="6"
-                width="32"
-                height="36"
-                rx="1"
-                fill="none"
-                stroke="#213c34"
-                stroke-width="2"/>
+          <rect
+            x="8"
+            y="6"
+            width="32"
+            height="36"
+            rx="1"
+            fill="none"
+            stroke="#213c34"
+            stroke-width="2"/>
 
-          <line x1="14" y1="16"
-                x2="34" y2="16"
-                stroke="#213c34"
-                stroke-width="2"/>
+          <line x1="14" y1="16" x2="34" y2="16"
+                stroke="#213c34" stroke-width="2"/>
 
-          <line x1="14" y1="24"
-                x2="34" y2="24"
-                stroke="#213c34"
-                stroke-width="2"/>
+          <line x1="14" y1="24" x2="34" y2="24"
+                stroke="#213c34" stroke-width="2"/>
 
-          <line x1="14" y1="32"
-                x2="26" y2="32"
-                stroke="#213c34"
-                stroke-width="2"/>
+          <line x1="14" y1="32" x2="26" y2="32"
+                stroke="#213c34" stroke-width="2"/>
 
         </svg>
 
-
         <span>
 
-          <span class="ledger-title">
+          <span
+            class="ledger-title"
+            data-i18n="service1Title">
             Check ownership record
           </span>
 
-          <span class="ledger-desc">
+          <span
+            class="ledger-desc"
+            data-i18n="service1Desc">
             View the current Record of Rights for any parcel —
             who owns it, and any loans or claims registered against it.
           </span>
 
         </span>
 
-
-        <span class="ledger-open">
+        <span
+          class="ledger-open"
+          data-i18n="open">
           Open
         </span>
 
       </a>
 
-
       <a class="ledger-row" href="#search">
 
-        <svg class="ledger-icon"
-             viewBox="0 0 48 48"
-             aria-hidden="true">
+        <svg
+          class="ledger-icon"
+          viewBox="0 0 48 48"
+          aria-hidden="true">
 
           <circle
             cx="24"
@@ -1377,14 +1434,17 @@ footer.site{
 
         </svg>
 
-
         <span>
 
-          <span class="ledger-title">
+          <span
+            class="ledger-title"
+            data-i18n="service2Title">
             Track an application
           </span>
 
-          <span class="ledger-desc">
+          <span
+            class="ledger-desc"
+            data-i18n="service2Desc">
             Follow a mutation, registration or
             building-permission request through each department,
             step by step.
@@ -1392,19 +1452,20 @@ footer.site{
 
         </span>
 
-
-        <span class="ledger-open">
+        <span
+          class="ledger-open"
+          data-i18n="open">
           Open
         </span>
 
       </a>
 
-
       <a class="ledger-row" href="#search">
 
-        <svg class="ledger-icon"
-             viewBox="0 0 48 48"
-             aria-hidden="true">
+        <svg
+          class="ledger-icon"
+          viewBox="0 0 48 48"
+          aria-hidden="true">
 
           <path
             d="M10 40V22l14-12 14 12v18H10z"
@@ -1423,33 +1484,37 @@ footer.site{
 
         </svg>
 
-
         <span>
 
-          <span class="ledger-title">
+          <span
+            class="ledger-title"
+            data-i18n="service3Title">
             Pay property tax
           </span>
 
-          <span class="ledger-desc">
+          <span
+            class="ledger-desc"
+            data-i18n="service3Desc">
             See what's due on your property this year
             and pay it directly, with a receipt you can download any time.
           </span>
 
         </span>
 
-
-        <span class="ledger-open">
+        <span
+          class="ledger-open"
+          data-i18n="open">
           Open
         </span>
 
       </a>
 
-
       <a class="ledger-row" href="#search">
 
-        <svg class="ledger-icon"
-             viewBox="0 0 48 48"
-             aria-hidden="true">
+        <svg
+          class="ledger-icon"
+          viewBox="0 0 48 48"
+          aria-hidden="true">
 
           <rect
             x="10"
@@ -1469,14 +1534,17 @@ footer.site{
 
         </svg>
 
-
         <span>
 
-          <span class="ledger-title">
+          <span
+            class="ledger-title"
+            data-i18n="service4Title">
             Get a certified document
           </span>
 
-          <span class="ledger-desc">
+          <span
+            class="ledger-desc"
+            data-i18n="service4Desc">
             Request an encumbrance certificate,
             land-use certificate or map extract,
             signed and ready to print.
@@ -1484,19 +1552,20 @@ footer.site{
 
         </span>
 
-
-        <span class="ledger-open">
+        <span
+          class="ledger-open"
+          data-i18n="open">
           Open
         </span>
 
       </a>
 
-
       <a class="ledger-row" href="#map">
 
-        <svg class="ledger-icon"
-             viewBox="0 0 48 48"
-             aria-hidden="true">
+        <svg
+          class="ledger-icon"
+          viewBox="0 0 48 48"
+          aria-hidden="true">
 
           <path
             d="M8 40l10-24 8 14 6-10 8 20z"
@@ -1507,22 +1576,26 @@ footer.site{
 
         </svg>
 
-
         <span>
 
-          <span class="ledger-title">
+          <span
+            class="ledger-title"
+            data-i18n="service5Title">
             View the parcel map
           </span>
 
-          <span class="ledger-desc">
+          <span
+            class="ledger-desc"
+            data-i18n="service5Desc">
             Zoom into your village or ward on a georeferenced map,
             and see boundaries, roads and nearby parcels.
           </span>
 
         </span>
 
-
-        <span class="ledger-open">
+        <span
+          class="ledger-open"
+          data-i18n="open">
           Open
         </span>
 
@@ -1534,7 +1607,6 @@ footer.site{
 
 </section>
 
-
 <!-- ================= MAP ================= -->
 
 <section class="map-section" id="map">
@@ -1543,18 +1615,17 @@ footer.site{
 
     <div class="section-head">
 
-      <h2>
+      <h2 data-i18n="mapTitle">
         View the parcel map
       </h2>
 
-      <p>
+      <p data-i18n="mapIntro">
         This is a real, zoomable map.
         Search a parcel above and its boundary will be drawn here —
         try the highlighted sample parcel in Kolkata below.
       </p>
 
     </div>
-
 
     <div class="map-frame">
 
@@ -1564,17 +1635,20 @@ footer.site{
         aria-label="Interactive map of land parcels">
       </div>
 
-
       <div class="map-legend">
 
         <span>
           <span class="swatch selected"></span>
-          Selected parcel
+          <span data-i18n="selectedParcel">
+            Selected parcel
+          </span>
         </span>
 
         <span>
           <span class="swatch boundary"></span>
-          Village / ward boundary
+          <span data-i18n="wardBoundary">
+            Village / ward boundary
+          </span>
         </span>
 
       </div>
@@ -1584,7 +1658,6 @@ footer.site{
   </div>
 
 </section>
-
 
 <!-- ================= HOW ================= -->
 
@@ -1594,11 +1667,11 @@ footer.site{
 
     <div class="section-head">
 
-      <h2>
+      <h2 data-i18n="howTitle">
         How a request moves through the system
       </h2>
 
-      <p>
+      <p data-i18n="howIntro">
         Every service on Land Stack follows the same
         three stages, so once you've done one,
         you know how to do the rest.
@@ -1606,21 +1679,21 @@ footer.site{
 
     </div>
 
-
     <div class="step-list">
-
 
       <div class="step">
 
-        <div class="step-num">
+        <div
+          class="step-num"
+          data-i18n="step1">
           Step 1
         </div>
 
-        <h3>
+        <h3 data-i18n="step1Title">
           Search your parcel
         </h3>
 
-        <p>
+        <p data-i18n="step1Desc">
           Enter your survey number, ULPIN,
           or village and plot details.
           We match it to the official cadastral map.
@@ -1628,18 +1701,19 @@ footer.site{
 
       </div>
 
-
       <div class="step">
 
-        <div class="step-num">
+        <div
+          class="step-num"
+          data-i18n="step2">
           Step 2
         </div>
 
-        <h3>
+        <h3 data-i18n="step2Title">
           Check what's on record
         </h3>
 
-        <p>
+        <p data-i18n="step2Desc">
           Review ownership, boundaries, dues
           and any pending requests linked to that parcel,
           pulled live from each department.
@@ -1647,18 +1721,19 @@ footer.site{
 
       </div>
 
-
       <div class="step">
 
-        <div class="step-num">
+        <div
+          class="step-num"
+          data-i18n="step3">
           Step 3
         </div>
 
-        <h3>
+        <h3 data-i18n="step3Title">
           Act or request a service
         </h3>
 
-        <p>
+        <p data-i18n="step3Desc">
           Pay, apply, or download a document.
           You'll get an application number
           and can track it from your dashboard.
@@ -1666,13 +1741,11 @@ footer.site{
 
       </div>
 
-
     </div>
 
   </div>
 
 </section>
-
 
 <!-- ================= ASSURANCE ================= -->
 
@@ -1680,13 +1753,14 @@ footer.site{
 
   <div class="wrap">
 
-
     <div class="assurance-item">
 
-      <svg width="34" height="34"
-           viewBox="0 0 34 34"
-           fill="none"
-           aria-hidden="true">
+      <svg
+        width="34"
+        height="34"
+        viewBox="0 0 34 34"
+        fill="none"
+        aria-hidden="true">
 
         <path
           d="M17 3l12 5v8c0 8-5.5 12.5-12 15-6.5-2.5-12-7-12-15V8l12-5z"
@@ -1702,14 +1776,13 @@ footer.site{
 
       </svg>
 
-
       <div>
 
-        <h3>
+        <h3 data-i18n="assurance1Title">
           Government-verified data
         </h3>
 
-        <p>
+        <p data-i18n="assurance1Desc">
           Every record comes directly from the land,
           registration and revenue departments —
           nothing is entered by us.
@@ -1719,13 +1792,14 @@ footer.site{
 
     </div>
 
-
     <div class="assurance-item">
 
-      <svg width="34" height="34"
-           viewBox="0 0 34 34"
-           fill="none"
-           aria-hidden="true">
+      <svg
+        width="34"
+        height="34"
+        viewBox="0 0 34 34"
+        fill="none"
+        aria-hidden="true">
 
         <rect
           x="7"
@@ -1743,14 +1817,13 @@ footer.site{
 
       </svg>
 
-
       <div>
 
-        <h3>
+        <h3 data-i18n="assurance2Title">
           Your data stays protected
         </h3>
 
-        <p>
+        <p data-i18n="assurance2Desc">
           Ownership details are only shown after
           identity verification, and every access
           is recorded in an audit trail.
@@ -1760,13 +1833,14 @@ footer.site{
 
     </div>
 
-
     <div class="assurance-item">
 
-      <svg width="34" height="34"
-           viewBox="0 0 34 34"
-           fill="none"
-           aria-hidden="true">
+      <svg
+        width="34"
+        height="34"
+        viewBox="0 0 34 34"
+        fill="none"
+        aria-hidden="true">
 
         <circle
           cx="17"
@@ -1782,14 +1856,13 @@ footer.site{
 
       </svg>
 
-
       <div>
 
-        <h3>
+        <h3 data-i18n="assurance3Title">
           Works in your language
         </h3>
 
-        <p>
+        <p data-i18n="assurance3Desc">
           Search, forms and certificates are available
           in the regional languages your local office already uses.
         </p>
@@ -1798,11 +1871,9 @@ footer.site{
 
     </div>
 
-
   </div>
 
 </section>
-
 
 <!-- ================= HELP ================= -->
 
@@ -1810,29 +1881,27 @@ footer.site{
 
   <div class="wrap help-grid">
 
-
     <div>
 
-      <div class="section-head"
-           style="margin-bottom:1.25rem;">
+      <div
+        class="section-head"
+        style="margin-bottom:1.25rem;">
 
-        <h2 id="faq">
+        <h2 id="faq" data-i18n="faqTitle">
           Still not sure where to start?
         </h2>
 
       </div>
 
-
       <div class="faq">
-
 
         <details open>
 
-          <summary>
+          <summary data-i18n="faq1Q">
             I don't know my survey number or ULPIN
           </summary>
 
-          <p>
+          <p data-i18n="faq1A">
             Search by your name and village instead —
             pick the "Owner name" tab above.
             If more than one record matches,
@@ -1841,14 +1910,13 @@ footer.site{
 
         </details>
 
-
         <details>
 
-          <summary>
+          <summary data-i18n="faq2Q">
             The ownership details shown don't match what I know
           </summary>
 
-          <p>
+          <p data-i18n="faq2A">
             Use "Request a correction" on the record page.
             It goes straight to your local revenue officer,
             and you can track its progress from your dashboard.
@@ -1856,14 +1924,13 @@ footer.site{
 
         </details>
 
-
         <details>
 
-          <summary>
+          <summary data-i18n="faq3Q">
             Can someone else misuse my land information?
           </summary>
 
-          <p>
+          <p data-i18n="faq3A">
             Basic parcel and map details are public,
             as they are at your local office.
             Ownership, tax and application details need
@@ -1872,14 +1939,13 @@ footer.site{
 
         </details>
 
-
         <details>
 
-          <summary>
+          <summary data-i18n="faq4Q">
             What if my village isn't on Land Stack yet
           </summary>
 
-          <p>
+          <p data-i18n="faq4A">
             Land Stack is being introduced state by state.
             If your village isn't listed yet,
             you can still visit your local office as before —
@@ -1888,25 +1954,21 @@ footer.site{
 
         </details>
 
-
       </div>
 
     </div>
 
-
     <div class="help-card">
 
-      <h3>
+      <h3 data-i18n="talkTitle">
         Talk to someone
       </h3>
 
-
       <dl>
-
 
         <div class="help-line">
 
-          <dt>
+          <dt data-i18n="helpline">
             Helpline
           </dt>
 
@@ -1916,37 +1978,33 @@ footer.site{
 
         </div>
 
-
         <div class="help-line">
 
-          <dt>
+          <dt data-i18n="hours">
             Hours
           </dt>
 
-          <dd>
+          <dd data-i18n="hoursValue">
             Mon–Sat, 8 am – 8 pm
           </dd>
 
         </div>
 
-
         <div class="help-line">
 
-          <dt>
+          <dt data-i18n="inPerson">
             In person
           </dt>
 
-          <dd>
+          <dd data-i18n="nearestCSC">
             Your nearest Common Service Centre
           </dd>
 
         </div>
 
-
       </dl>
 
-
-      <p class="help-note">
+      <p class="help-note" data-i18n="helpNote">
         Calls are free from any network.
         You can also ask a family member or the CSC operator
         to search on your behalf — no separate login is needed
@@ -1955,14 +2013,11 @@ footer.site{
 
     </div>
 
-
   </div>
 
 </section>
 
-
 </main>
-
 
 <!-- ================= FOOTER ================= -->
 
@@ -1970,14 +2025,14 @@ footer.site{
 
   <div class="wrap footer-top">
 
-
     <div class="footer-brand">
 
-      <svg width="34"
-           height="34"
-           viewBox="0 0 40 40"
-           fill="none"
-           aria-hidden="true">
+      <svg
+        width="34"
+        height="34"
+        viewBox="0 0 40 40"
+        fill="none"
+        aria-hidden="true">
 
         <rect
           x="1"
@@ -2001,8 +2056,7 @@ footer.site{
 
       </svg>
 
-
-      <p>
+      <p data-i18n="footerIntro">
         Land Stack is a digital public infrastructure
         initiative of the Department of Land Resources,
         bringing land records, maps and services into one
@@ -2011,35 +2065,34 @@ footer.site{
 
     </div>
 
-
     <div>
 
-      <h4>
+      <h4 data-i18n="footerServices">
         Services
       </h4>
 
       <ul>
 
         <li>
-          <a href="#search">
+          <a href="#search" data-i18n="footerOwnership">
             Check ownership
           </a>
         </li>
 
         <li>
-          <a href="#search">
+          <a href="#search" data-i18n="footerTrack">
             Track application
           </a>
         </li>
 
         <li>
-          <a href="#search">
+          <a href="#search" data-i18n="footerTax">
             Pay property tax
           </a>
         </li>
 
         <li>
-          <a href="#map">
+          <a href="#map" data-i18n="footerMap">
             Parcel map
           </a>
         </li>
@@ -2048,35 +2101,34 @@ footer.site{
 
     </div>
 
-
     <div>
 
-      <h4>
+      <h4 data-i18n="footerSupport">
         Support
       </h4>
 
       <ul>
 
         <li>
-          <a href="#faq">
+          <a href="#faq" data-i18n="footerQuestions">
             Common questions
           </a>
         </li>
 
         <li>
-          <a href="#">
+          <a href="#" data-i18n="footerVideos">
             Video guides
           </a>
         </li>
 
         <li>
-          <a href="#">
+          <a href="#" data-i18n="footerCSC">
             Find a Common Service Centre
           </a>
         </li>
 
         <li>
-          <a href="#">
+          <a href="#" data-i18n="footerProblem">
             Report a problem
           </a>
         </li>
@@ -2085,35 +2137,34 @@ footer.site{
 
     </div>
 
-
     <div>
 
-      <h4>
+      <h4 data-i18n="footerAbout">
         About
       </h4>
 
       <ul>
 
         <li>
-          <a href="#">
+          <a href="#" data-i18n="footerVerified">
             How records are verified
           </a>
         </li>
 
         <li>
-          <a href="#">
+          <a href="#" data-i18n="footerPrivacy">
             Privacy &amp; data use
           </a>
         </li>
 
         <li>
-          <a href="#">
+          <a href="#" data-i18n="footerStates">
             Participating states
           </a>
         </li>
 
         <li>
-          <a href="#">
+          <a href="#" data-i18n="footerAPI">
             API for departments
           </a>
         </li>
@@ -2122,24 +2173,21 @@ footer.site{
 
     </div>
 
-
   </div>
-
 
   <div class="wrap footer-bottom">
 
-    <span>
+    <span data-i18n="copyright">
       © 2026 Department of Land Resources, Government of India
     </span>
 
-    <span>
+    <span data-i18n="pilot">
       Pilot: Chandigarh &amp; Tamil Nadu
     </span>
 
   </div>
 
 </footer>
-
 
 <!-- ================= LEAFLET ================= -->
 
@@ -2149,8 +2197,1107 @@ integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
 crossorigin="">
 </script>
 
-
 <script>
+
+/* =========================================================
+   MULTILINGUAL SYSTEM
+   ========================================================= */
+
+const TRANSLATIONS = {
+
+en: {
+
+skipMain:"Skip to main content",
+needHelp:"Need help?",
+commonQuestions:"Common questions",
+watchGuide:"Watch a 2-minute guide",
+chooseLanguage:"Choose your language",
+department:"Department of Land Resources",
+
+findLand:"Find my land",
+services:"Services",
+howItWorks:"How it works",
+help:"Help",
+
+heroTitle:"See everything about your land, in one place.",
+heroLede:"One search brings together your ownership record, map, tax status and pending applications — the way your village or ward office already knows it, just easier to reach.",
+
+searchRecord:"Search for a land record",
+searchBy:"Search by",
+surveyTab:"Survey / ULPIN number",
+ownerTab:"Owner name",
+villageTab:"Village & plot",
+
+enterSurvey:"Enter your survey number or ULPIN",
+enterOwner:"Enter owner name",
+enterVillage:"Enter village or plot number",
+
+searchPlaceholder:"e.g. WB000001 or survey number",
+ownerPlaceholder:"Enter owner name",
+villagePlaceholder:"Enter village or plot number",
+
+search:"Search",
+searchHint:"Not sure what to enter? Try your ration card address or ask at your nearest Common Service Centre — we'll match it for you.",
+
+sample1:"WB000001 · Krishnanagar",
+sample2:"WB000002 · Ranaghat",
+sample3:"WB000003 · Barasat",
+sample4:"WB000004 · Chinsurah",
+sample5:"WB000005 · Sonarpur",
+sampleOwner:"Owner: Sourav Roy",
+sampleVillage:"Village: Krishnanagar",
+
+landRecord:"Land Record",
+searching:"Searching...",
+connecting:"Connecting to Land Stack database...",
+noRecord:"No record found",
+noMatch:"No land record matched your search.",
+recordFound:"Land record found",
+recordsFound:"records found",
+
+servicesTitle:"What you can do here",
+servicesIntro:"These are the same services your local revenue and registration offices provide — brought together so you don't have to visit each one separately.",
+
+service1Title:"Check ownership record",
+service1Desc:"View the current Record of Rights for any parcel — who owns it, and any loans or claims registered against it.",
+
+service2Title:"Track an application",
+service2Desc:"Follow a mutation, registration or building-permission request through each department, step by step.",
+
+service3Title:"Pay property tax",
+service3Desc:"See what's due on your property this year and pay it directly, with a receipt you can download any time.",
+
+service4Title:"Get a certified document",
+service4Desc:"Request an encumbrance certificate, land-use certificate or map extract, signed and ready to print.",
+
+service5Title:"View the parcel map",
+service5Desc:"Zoom into your village or ward on a georeferenced map, and see boundaries, roads and nearby parcels.",
+
+open:"Open",
+
+mapTitle:"View the parcel map",
+mapIntro:"This is a real, zoomable map. Search a parcel above and its boundary will be drawn here — try the highlighted sample parcel in Kolkata below.",
+selectedParcel:"Selected parcel",
+wardBoundary:"Village / ward boundary",
+
+howTitle:"How a request moves through the system",
+howIntro:"Every service on Land Stack follows the same three stages, so once you've done one, you know how to do the rest.",
+
+step1:"Step 1",
+step1Title:"Search your parcel",
+step1Desc:"Enter your survey number, ULPIN, or village and plot details. We match it to the official cadastral map.",
+
+step2:"Step 2",
+step2Title:"Check what's on record",
+step2Desc:"Review ownership, boundaries, dues and any pending requests linked to that parcel, pulled live from each department.",
+
+step3:"Step 3",
+step3Title:"Act or request a service",
+step3Desc:"Pay, apply, or download a document. You'll get an application number and can track it from your dashboard.",
+
+assurance1Title:"Government-verified data",
+assurance1Desc:"Every record comes directly from the land, registration and revenue departments — nothing is entered by us.",
+
+assurance2Title:"Your data stays protected",
+assurance2Desc:"Ownership details are only shown after identity verification, and every access is recorded in an audit trail.",
+
+assurance3Title:"Works in your language",
+assurance3Desc:"Search, forms and certificates are available in the regional languages your local office already uses.",
+
+faqTitle:"Still not sure where to start?",
+
+faq1Q:"I don't know my survey number or ULPIN",
+faq1A:"Search by your name and village instead — pick the \"Owner name\" tab above. If more than one record matches, we'll show you the addresses so you can pick the right one.",
+
+faq2Q:"The ownership details shown don't match what I know",
+faq2A:"Use \"Request a correction\" on the record page. It goes straight to your local revenue officer, and you can track its progress from your dashboard.",
+
+faq3Q:"Can someone else misuse my land information?",
+faq3A:"Basic parcel and map details are public, as they are at your local office. Ownership, tax and application details need OTP verification before they're shown.",
+
+faq4Q:"What if my village isn't on Land Stack yet",
+faq4A:"Land Stack is being introduced state by state. If your village isn't listed yet, you can still visit your local office as before — nothing changes on your end.",
+
+talkTitle:"Talk to someone",
+helpline:"Helpline",
+hours:"Hours",
+hoursValue:"Mon–Sat, 8 am – 8 pm",
+inPerson:"In person",
+nearestCSC:"Your nearest Common Service Centre",
+helpNote:"Calls are free from any network. You can also ask a family member or the CSC operator to search on your behalf — no separate login is needed to look up a public record.",
+
+footerIntro:"Land Stack is a digital public infrastructure initiative of the Department of Land Resources, bringing land records, maps and services into one place for every citizen.",
+footerServices:"Services",
+footerOwnership:"Check ownership",
+footerTrack:"Track application",
+footerTax:"Pay property tax",
+footerMap:"Parcel map",
+footerSupport:"Support",
+footerQuestions:"Common questions",
+footerVideos:"Video guides",
+footerCSC:"Find a Common Service Centre",
+footerProblem:"Report a problem",
+footerAbout:"About",
+footerVerified:"How records are verified",
+footerPrivacy:"Privacy & data use",
+footerStates:"Participating states",
+footerAPI:"API for departments",
+copyright:"© 2026 Department of Land Resources, Government of India",
+pilot:"Pilot: Chandigarh & Tamil Nadu",
+
+sessionExpired:"Your login session has expired. Please login again.",
+noPermission:"You do not have permission to search land records.",
+enterSearch:"Please enter a search value.",
+source:"Source:",
+offlineSource:"Backend not reachable — showing offline demo data.",
+governmentDatabase:"government database",
+supabaseDatabase:"Supabase database",
+offlineDemo:"offline demo data",
+
+ulpin:"ULPIN",
+surveyNumber:"Survey Number",
+owner:"Owner",
+location:"Location",
+area:"Area",
+landUse:"Land use",
+hectares:"hectares",
+registration:"Registration",
+tax:"Tax",
+notAvailable:"Not available",
+
+registered:"Registered",
+pending:"Pending",
+paid:"Paid",
+due:"Due",
+agricultural:"Agricultural",
+residential:"Residential",
+
+verifiedRecord:"Verified record",
+parcel:"Parcel",
+status:"Status",
+
+heroParcel:"Parcel 0142-0087",
+heroRecord:"0.34 hectares · Verified record",
+mapApplication:"Interactive map of land parcels",
+
+noMapCoordinates:" (No map coordinates for this record.)",
+resultSelect:"Select a land record"
+},
+
+hi: {
+
+skipMain:"मुख्य सामग्री पर जाएँ",
+needHelp:"मदद चाहिए?",
+commonQuestions:"सामान्य प्रश्न",
+watchGuide:"2 मिनट की गाइड देखें",
+chooseLanguage:"अपनी भाषा चुनें",
+department:"भूमि संसाधन विभाग",
+
+findLand:"मेरी जमीन खोजें",
+services:"सेवाएँ",
+howItWorks:"यह कैसे काम करता है",
+help:"मदद",
+
+heroTitle:"अपनी जमीन के बारे में सब कुछ एक ही जगह देखें।",
+heroLede:"एक खोज में स्वामित्व रिकॉर्ड, नक्शा, कर स्थिति और लंबित आवेदन मिलते हैं — जैसे आपका गांव या वार्ड कार्यालय पहले से जानता है, बस अब इसे पाना आसान है।",
+
+searchRecord:"भूमि रिकॉर्ड खोजें",
+searchBy:"इसके आधार पर खोजें",
+surveyTab:"सर्वे / ULPIN नंबर",
+ownerTab:"मालिक का नाम",
+villageTab:"गांव और प्लॉट",
+
+enterSurvey:"अपना सर्वे नंबर या ULPIN दर्ज करें",
+enterOwner:"मालिक का नाम दर्ज करें",
+enterVillage:"गांव या प्लॉट नंबर दर्ज करें",
+
+searchPlaceholder:"जैसे WB000001 या सर्वे नंबर",
+ownerPlaceholder:"मालिक का नाम दर्ज करें",
+villagePlaceholder:"गांव या प्लॉट नंबर दर्ज करें",
+
+search:"खोजें",
+searchHint:"क्या दर्ज करना है, पता नहीं? अपना राशन कार्ड पता आज़माएँ या नजदीकी कॉमन सर्विस सेंटर पर पूछें — हम उसे आपके लिए खोजेंगे।",
+
+sample1:"WB000001 · कृष्णनगर",
+sample2:"WB000002 · राणाघाट",
+sample3:"WB000003 · बारासात",
+sample4:"WB000004 · चिनसुराह",
+sample5:"WB000005 · सोनारपुर",
+sampleOwner:"मालिक: Sourav Roy",
+sampleVillage:"गांव: कृष्णनगर",
+
+landRecord:"भूमि रिकॉर्ड",
+searching:"खोज रहा है...",
+connecting:"Land Stack डेटाबेस से जुड़ रहा है...",
+noRecord:"रिकॉर्ड नहीं मिला",
+noMatch:"आपकी खोज से कोई भूमि रिकॉर्ड नहीं मिला।",
+recordFound:"भूमि रिकॉर्ड मिला",
+recordsFound:"रिकॉर्ड मिले",
+
+servicesTitle:"आप यहां क्या कर सकते हैं",
+servicesIntro:"ये वही सेवाएँ हैं जो आपके स्थानीय राजस्व और पंजीकरण कार्यालय देते हैं — इन्हें एक जगह लाया गया है ताकि आपको अलग-अलग कार्यालयों में न जाना पड़े।",
+
+service1Title:"स्वामित्व रिकॉर्ड देखें",
+service1Desc:"किसी भी प्लॉट का वर्तमान अधिकार रिकॉर्ड देखें — उसका मालिक कौन है और उसके खिलाफ कोई ऋण या दावा दर्ज है या नहीं।",
+
+service2Title:"आवेदन की स्थिति देखें",
+service2Desc:"म्यूटेशन, पंजीकरण या भवन अनुमति के आवेदन को हर विभाग में चरण-दर-चरण ट्रैक करें।",
+
+service3Title:"संपत्ति कर भरें",
+service3Desc:"इस वर्ष अपनी संपत्ति पर कितना कर बकाया है देखें और सीधे भुगतान करें। रसीद कभी भी डाउनलोड करें।",
+
+service4Title:"प्रमाणित दस्तावेज प्राप्त करें",
+service4Desc:"भारमुक्ति प्रमाणपत्र, भूमि उपयोग प्रमाणपत्र या नक्शे की प्रति के लिए अनुरोध करें।",
+
+service5Title:"प्लॉट का नक्शा देखें",
+service5Desc:"अपने गांव या वार्ड को जियोरेफरेंस्ड नक्शे पर ज़ूम करें और सीमाएँ, सड़कें तथा आसपास के प्लॉट देखें।",
+
+open:"खोलें",
+
+mapTitle:"प्लॉट का नक्शा देखें",
+mapIntro:"यह एक वास्तविक, ज़ूम किया जा सकने वाला नक्शा है। ऊपर किसी प्लॉट को खोजें और उसकी सीमा यहां दिखाई जाएगी।",
+selectedParcel:"चयनित प्लॉट",
+wardBoundary:"गांव / वार्ड सीमा",
+
+howTitle:"आपका अनुरोध सिस्टम में कैसे आगे बढ़ता है",
+howIntro:"Land Stack की हर सेवा तीन चरणों का पालन करती है। एक बार प्रक्रिया समझ लेने के बाद बाकी सेवाएँ भी आसान हो जाती हैं।",
+
+step1:"चरण 1",
+step1Title:"अपना प्लॉट खोजें",
+step1Desc:"अपना सर्वे नंबर, ULPIN या गांव और प्लॉट का विवरण दर्ज करें। हम इसे आधिकारिक कैडस्ट्रल नक्शे से मिलाते हैं।",
+
+step2:"चरण 2",
+step2Title:"रिकॉर्ड में क्या है देखें",
+step2Desc:"स्वामित्व, सीमाएँ, बकाया और लंबित अनुरोध देखें। जानकारी संबंधित विभागों से प्राप्त होती है।",
+
+step3:"चरण 3",
+step3Title:"कार्रवाई करें या सेवा का अनुरोध करें",
+step3Desc:"भुगतान करें, आवेदन करें या दस्तावेज डाउनलोड करें। आपको आवेदन नंबर मिलेगा और आप उसे अपने डैशबोर्ड से ट्रैक कर सकते हैं।",
+
+assurance1Title:"सरकार द्वारा सत्यापित डेटा",
+assurance1Desc:"हर रिकॉर्ड भूमि, पंजीकरण और राजस्व विभागों से सीधे आता है — इसे हमारे द्वारा दर्ज नहीं किया जाता।",
+
+assurance2Title:"आपका डेटा सुरक्षित रहता है",
+assurance2Desc:"स्वामित्व की जानकारी पहचान सत्यापन के बाद ही दिखाई जाती है और हर एक्सेस ऑडिट ट्रेल में दर्ज होता है।",
+
+assurance3Title:"आपकी भाषा में उपलब्ध",
+assurance3Desc:"खोज, फॉर्म और प्रमाणपत्र उन क्षेत्रीय भाषाओं में उपलब्ध हैं जिनका स्थानीय कार्यालय उपयोग करता है।",
+
+faqTitle:"फिर भी समझ नहीं आ रहा कहां से शुरू करें?",
+
+faq1Q:"मुझे अपना सर्वे नंबर या ULPIN नहीं पता",
+faq1A:"इसके बजाय अपने नाम और गांव से खोजें — ऊपर \"मालिक का नाम\" टैब चुनें। यदि एक से अधिक रिकॉर्ड मिलते हैं, तो हम पते दिखाएंगे ताकि आप सही रिकॉर्ड चुन सकें।",
+
+faq2Q:"दिखाई गई स्वामित्व जानकारी मेरे रिकॉर्ड से मेल नहीं खाती",
+faq2A:"रिकॉर्ड पेज पर \"सुधार का अनुरोध करें\" का उपयोग करें। यह सीधे आपके स्थानीय राजस्व अधिकारी के पास जाएगा और आप अपने डैशबोर्ड से इसकी स्थिति देख सकते हैं।",
+
+faq3Q:"क्या कोई और मेरी भूमि की जानकारी का गलत इस्तेमाल कर सकता है?",
+faq3A:"बुनियादी प्लॉट और नक्शे की जानकारी सार्वजनिक है, जैसा कि स्थानीय कार्यालय में होती है। स्वामित्व, कर और आवेदन की जानकारी दिखाने से पहले OTP सत्यापन आवश्यक है।",
+
+faq4Q:"अगर मेरा गांव अभी Land Stack पर नहीं है तो?",
+faq4A:"Land Stack को राज्य-दर-राज्य लागू किया जा रहा है। यदि आपका गांव अभी सूचीबद्ध नहीं है, तो आप पहले की तरह स्थानीय कार्यालय जा सकते हैं।",
+
+talkTitle:"किसी से बात करें",
+helpline:"हेल्पलाइन",
+hours:"समय",
+hoursValue:"सोम–शनि, सुबह 8 बजे – रात 8 बजे",
+inPerson:"व्यक्तिगत रूप से",
+nearestCSC:"आपका निकटतम कॉमन सर्विस सेंटर",
+helpNote:"किसी भी नेटवर्क से कॉल निःशुल्क हैं। आप परिवार के सदस्य या CSC ऑपरेटर से अपनी ओर से खोज करने के लिए भी कह सकते हैं। सार्वजनिक रिकॉर्ड देखने के लिए अलग लॉगिन की आवश्यकता नहीं है।",
+
+footerIntro:"Land Stack भूमि संसाधन विभाग की डिजिटल सार्वजनिक अवसंरचना पहल है, जो भूमि रिकॉर्ड, नक्शे और सेवाओं को हर नागरिक के लिए एक जगह लाती है।",
+footerServices:"सेवाएँ",
+footerOwnership:"स्वामित्व देखें",
+footerTrack:"आवेदन ट्रैक करें",
+footerTax:"संपत्ति कर भरें",
+footerMap:"प्लॉट का नक्शा",
+footerSupport:"सहायता",
+footerQuestions:"सामान्य प्रश्न",
+footerVideos:"वीडियो गाइड",
+footerCSC:"कॉमन सर्विस सेंटर खोजें",
+footerProblem:"समस्या की रिपोर्ट करें",
+footerAbout:"हमारे बारे में",
+footerVerified:"रिकॉर्ड कैसे सत्यापित होते हैं",
+footerPrivacy:"गोपनीयता और डेटा उपयोग",
+footerStates:"भाग लेने वाले राज्य",
+footerAPI:"विभागों के लिए API",
+copyright:"© 2026 भूमि संसाधन विभाग, भारत सरकार",
+pilot:"पायलट: चंडीगढ़ और तमिलनाडु",
+
+sessionExpired:"आपका लॉगिन सत्र समाप्त हो गया है। कृपया फिर से लॉगिन करें।",
+noPermission:"आपको भूमि रिकॉर्ड खोजने की अनुमति नहीं है।",
+enterSearch:"कृपया खोज मान दर्ज करें।",
+source:"स्रोत:",
+offlineSource:"बैकएंड उपलब्ध नहीं है — ऑफलाइन डेमो डेटा दिखाया जा रहा है।",
+governmentDatabase:"सरकारी डेटाबेस",
+supabaseDatabase:"Supabase डेटाबेस",
+offlineDemo:"ऑफलाइन डेमो डेटा",
+
+ulpin:"ULPIN",
+surveyNumber:"सर्वे नंबर",
+owner:"मालिक",
+location:"स्थान",
+area:"क्षेत्रफल",
+landUse:"भूमि उपयोग",
+hectares:"हेक्टेयर",
+registration:"पंजीकरण",
+tax:"कर",
+notAvailable:"उपलब्ध नहीं",
+
+registered:"पंजीकृत",
+pending:"लंबित",
+paid:"भुगतान किया गया",
+due:"बकाया",
+agricultural:"कृषि",
+residential:"आवासीय",
+
+verifiedRecord:"सत्यापित रिकॉर्ड",
+parcel:"प्लॉट",
+status:"स्थिति",
+
+heroParcel:"प्लॉट 0142-0087",
+heroRecord:"0.34 हेक्टेयर · सत्यापित रिकॉर्ड",
+mapApplication:"भूमि प्लॉट का इंटरैक्टिव नक्शा",
+
+noMapCoordinates:" (इस रिकॉर्ड के लिए नक्शे के निर्देशांक उपलब्ध नहीं हैं।)",
+resultSelect:"भूमि रिकॉर्ड चुनें"
+},
+
+ta: {
+
+skipMain:"முக்கிய உள்ளடக்கத்திற்குச் செல்லவும்",
+needHelp:"உதவி தேவையா?",
+commonQuestions:"பொதுவான கேள்விகள்",
+watchGuide:"2 நிமிட வழிகாட்டியைப் பார்க்கவும்",
+chooseLanguage:"உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்",
+department:"நில வளத் துறை",
+
+findLand:"என் நிலத்தைக் கண்டுபிடி",
+services:"சேவைகள்",
+howItWorks:"இது எப்படி செயல்படுகிறது",
+help:"உதவி",
+
+heroTitle:"உங்கள் நிலத்தைப் பற்றிய அனைத்தையும் ஒரே இடத்தில் பார்க்கலாம்.",
+heroLede:"ஒரே தேடலில் உரிமைப் பதிவு, வரைபடம், வரி நிலை மற்றும் நிலுவையிலுள்ள விண்ணப்பங்கள் கிடைக்கும் — உங்கள் கிராமம் அல்லது வார்டு அலுவலகம் ஏற்கனவே அறிந்ததை எளிதாகப் பெறலாம்.",
+
+searchRecord:"நிலப் பதிவைத் தேடுங்கள்",
+searchBy:"தேடும் முறை",
+surveyTab:"சர்வே / ULPIN எண்",
+ownerTab:"உரிமையாளர் பெயர்",
+villageTab:"கிராமம் மற்றும் பிளாட்",
+
+enterSurvey:"உங்கள் சர்வே எண் அல்லது ULPIN-ஐ உள்ளிடவும்",
+enterOwner:"உரிமையாளர் பெயரை உள்ளிடவும்",
+enterVillage:"கிராமம் அல்லது பிளாட் எண்ணை உள்ளிடவும்",
+
+searchPlaceholder:"எ.கா. WB000001 அல்லது சர்வே எண்",
+ownerPlaceholder:"உரிமையாளர் பெயரை உள்ளிடவும்",
+villagePlaceholder:"கிராமம் அல்லது பிளாட் எண்ணை உள்ளிடவும்",
+
+search:"தேடுக",
+searchHint:"எதை உள்ளிடுவது என்று தெரியவில்லையா? உங்கள் ரேஷன் கார்டு முகவரியை முயற்சிக்கவும் அல்லது அருகிலுள்ள பொது சேவை மையத்தில் கேளுங்கள்.",
+
+sample1:"WB000001 · கிருஷ்ணநகர்",
+sample2:"WB000002 · ராணாகாட்",
+sample3:"WB000003 · பராசத்",
+sample4:"WB000004 · சின்சுரா",
+sample5:"WB000005 · சோனார்பூர்",
+sampleOwner:"உரிமையாளர்: Sourav Roy",
+sampleVillage:"கிராமம்: கிருஷ்ணநகர்",
+
+landRecord:"நிலப் பதிவு",
+searching:"தேடுகிறது...",
+connecting:"Land Stack தரவுத்தளத்துடன் இணைகிறது...",
+noRecord:"பதிவு கிடைக்கவில்லை",
+noMatch:"உங்கள் தேடலுக்கு எந்த நிலப் பதிவும் பொருந்தவில்லை.",
+recordFound:"நிலப் பதிவு கிடைத்தது",
+recordsFound:"பதிவுகள் கிடைத்தன",
+
+servicesTitle:"இங்கே நீங்கள் செய்யக்கூடியவை",
+servicesIntro:"உங்கள் உள்ளூர் வருவாய் மற்றும் பதிவுத்துறை அலுவலகங்கள் வழங்கும் சேவைகள் அனைத்தும் இங்கே ஒரே இடத்தில் கிடைக்கின்றன.",
+
+service1Title:"உரிமைப் பதிவைப் பார்க்கவும்",
+service1Desc:"எந்த பிளாட்டிற்கும் தற்போதைய உரிமைப் பதிவைப் பார்க்கவும் — உரிமையாளர் மற்றும் பதிவு செய்யப்பட்ட கடன்கள் அல்லது கோரிக்கைகளை அறியலாம்.",
+
+service2Title:"விண்ணப்பத்தைக் கண்காணிக்கவும்",
+service2Desc:"மியூட்டேஷன், பதிவு அல்லது கட்டிட அனுமதி விண்ணப்பத்தை ஒவ்வொரு துறையிலும் படிப்படியாகக் கண்காணிக்கவும்.",
+
+service3Title:"சொத்து வரி செலுத்தவும்",
+service3Desc:"இந்த ஆண்டுக்கான நிலுவை வரியைப் பார்த்து நேரடியாக செலுத்தவும். ரசீதை எப்போது வேண்டுமானாலும் பதிவிறக்கலாம்.",
+
+service4Title:"சான்றளிக்கப்பட்ட ஆவணத்தைப் பெறவும்",
+service4Desc:"சுமையில்லா சான்றிதழ், நிலப் பயன்பாட்டு சான்றிதழ் அல்லது வரைபட நகலைக் கோரலாம்.",
+
+service5Title:"பிளாட் வரைபடத்தைப் பார்க்கவும்",
+service5Desc:"உங்கள் கிராமம் அல்லது வார்டின் புவியியல் வரைபடத்தைப் பெரிதாக்கி எல்லைகள், சாலைகள் மற்றும் அருகிலுள்ள பிளாட்களைப் பார்க்கவும்.",
+
+open:"திறக்கவும்",
+
+mapTitle:"பிளாட் வரைபடத்தைப் பார்க்கவும்",
+mapIntro:"இது உண்மையான, பெரிதாக்கக்கூடிய வரைபடம். மேலே ஒரு பிளாட்டைத் தேடினால் அதன் எல்லை இங்கே காட்டப்படும்.",
+selectedParcel:"தேர்ந்தெடுக்கப்பட்ட பிளாட்",
+wardBoundary:"கிராமம் / வார்டு எல்லை",
+
+howTitle:"ஒரு கோரிக்கை அமைப்பில் எவ்வாறு நகர்கிறது",
+howIntro:"Land Stack-இல் ஒவ்வொரு சேவையும் ஒரே மூன்று கட்டங்களைப் பின்பற்றுகிறது.",
+
+step1:"படி 1",
+step1Title:"உங்கள் பிளாட்டைத் தேடுங்கள்",
+step1Desc:"உங்கள் சர்வே எண், ULPIN அல்லது கிராமம் மற்றும் பிளாட் விவரங்களை உள்ளிடவும். அதிகாரப்பூர்வ வரைபடத்துடன் பொருத்துவோம்.",
+
+step2:"படி 2",
+step2Title:"பதிவில் உள்ளதைச் சரிபார்க்கவும்",
+step2Desc:"உரிமை, எல்லைகள், நிலுவைகள் மற்றும் நிலுவையிலுள்ள கோரிக்கைகளைப் பார்க்கவும்.",
+
+step3:"படி 3",
+step3Title:"சேவையைப் பெறுங்கள் அல்லது கோருங்கள்",
+step3Desc:"பணம் செலுத்தவும், விண்ணப்பிக்கவும் அல்லது ஆவணத்தைப் பதிவிறக்கவும். விண்ணப்ப எண்ணைக் கொண்டு கண்காணிக்கலாம்.",
+
+assurance1Title:"அரசால் சரிபார்க்கப்பட்ட தரவு",
+assurance1Desc:"ஒவ்வொரு பதிவும் நிலம், பதிவு மற்றும் வருவாய்த் துறைகளிலிருந்து நேரடியாக வருகிறது.",
+
+assurance2Title:"உங்கள் தரவு பாதுகாப்பாக இருக்கும்",
+assurance2Desc:"அடையாளச் சரிபார்ப்புக்குப் பிறகே உரிமை விவரங்கள் காட்டப்படும். ஒவ்வொரு அணுகலும் பதிவு செய்யப்படும்.",
+
+assurance3Title:"உங்கள் மொழியில் செயல்படும்",
+assurance3Desc:"தேடல், படிவங்கள் மற்றும் சான்றிதழ்கள் உள்ளூர் அலுவலகம் பயன்படுத்தும் பிராந்திய மொழிகளில் கிடைக்கும்.",
+
+faqTitle:"எங்கு தொடங்குவது என்று இன்னும் தெரியவில்லையா?",
+
+faq1Q:"எனது சர்வே எண் அல்லது ULPIN தெரியவில்லை",
+faq1A:"அதற்குப் பதிலாக உங்கள் பெயர் மற்றும் கிராமத்தின் மூலம் தேடுங்கள். மேலே உள்ள \"உரிமையாளர் பெயர்\" தாவலைத் தேர்ந்தெடுக்கவும்.",
+
+faq2Q:"காட்டப்படும் உரிமை விவரங்கள் எனக்குத் தெரிந்த தகவலுடன் பொருந்தவில்லை",
+faq2A:"பதிவு பக்கத்தில் \"திருத்தத்தைக் கோருங்கள்\" என்பதைப் பயன்படுத்தவும். அது உங்கள் உள்ளூர் வருவாய் அதிகாரியிடம் நேரடியாகச் செல்லும்.",
+
+faq3Q:"வேறு ஒருவர் எனது நிலத் தகவலை தவறாகப் பயன்படுத்த முடியுமா?",
+faq3A:"அடிப்படை பிளாட் மற்றும் வரைபட விவரங்கள் பொதுவானவை. உரிமை, வரி மற்றும் விண்ணப்ப விவரங்களுக்கு OTP சரிபார்ப்பு தேவை.",
+
+faq4Q:"எனது கிராமம் இன்னும் Land Stack-ல் இல்லை என்றால்?",
+faq4A:"Land Stack மாநிலம் வாரியாக அறிமுகப்படுத்தப்படுகிறது. உங்கள் கிராமம் இன்னும் பட்டியலில் இல்லையெனில் வழக்கம்போல் உள்ளூர் அலுவலகத்தை அணுகலாம்.",
+
+talkTitle:"ஒருவரிடம் பேசுங்கள்",
+helpline:"உதவி எண்",
+hours:"நேரம்",
+hoursValue:"திங்கள்–சனி, காலை 8 – இரவு 8",
+inPerson:"நேரில்",
+nearestCSC:"அருகிலுள்ள பொது சேவை மையம்",
+helpNote:"எந்த நெட்வொர்க்கிலிருந்தும் அழைப்புகள் இலவசம். குடும்ப உறுப்பினர் அல்லது CSC ஆபரேட்டரிடம் உங்கள் சார்பாக தேடச் சொல்லலாம்.",
+
+footerIntro:"Land Stack என்பது நில வளத் துறையின் டிஜிட்டல் பொது உள்கட்டமைப்பு முயற்சியாகும். இது நிலப் பதிவுகள், வரைபடங்கள் மற்றும் சேவைகளை ஒரே இடத்தில் வழங்குகிறது.",
+footerServices:"சேவைகள்",
+footerOwnership:"உரிமையைச் சரிபார்க்கவும்",
+footerTrack:"விண்ணப்பத்தைக் கண்காணிக்கவும்",
+footerTax:"சொத்து வரி செலுத்தவும்",
+footerMap:"பிளாட் வரைபடம்",
+footerSupport:"ஆதரவு",
+footerQuestions:"பொதுவான கேள்விகள்",
+footerVideos:"வீடியோ வழிகாட்டிகள்",
+footerCSC:"பொது சேவை மையத்தைக் கண்டறியவும்",
+footerProblem:"சிக்கலைப் புகாரளிக்கவும்",
+footerAbout:"பற்றி",
+footerVerified:"பதிவுகள் எவ்வாறு சரிபார்க்கப்படுகின்றன",
+footerPrivacy:"தனியுரிமை மற்றும் தரவு பயன்பாடு",
+footerStates:"பங்கேற்கும் மாநிலங்கள்",
+footerAPI:"துறைகளுக்கான API",
+copyright:"© 2026 நில வளத் துறை, இந்திய அரசு",
+pilot:"முன்மாதிரி: சண்டிகர் மற்றும் தமிழ்நாடு",
+
+sessionExpired:"உங்கள் உள்நுழைவு அமர்வு முடிந்துவிட்டது. மீண்டும் உள்நுழையவும்.",
+noPermission:"நிலப் பதிவுகளைத் தேட உங்களுக்கு அனுமதி இல்லை.",
+enterSearch:"தேடல் மதிப்பை உள்ளிடவும்.",
+source:"மூலம்:",
+offlineSource:"Backend கிடைக்கவில்லை — offline demo தரவு காட்டப்படுகிறது.",
+governmentDatabase:"அரசு தரவுத்தளம்",
+supabaseDatabase:"Supabase தரவுத்தளம்",
+offlineDemo:"offline demo தரவு",
+
+ulpin:"ULPIN",
+surveyNumber:"சர்வே எண்",
+owner:"உரிமையாளர்",
+location:"இடம்",
+area:"பரப்பளவு",
+landUse:"நிலப் பயன்பாடு",
+hectares:"ஹெக்டேர்",
+registration:"பதிவு",
+tax:"வரி",
+notAvailable:"கிடைக்கவில்லை",
+
+registered:"பதிவு செய்யப்பட்டது",
+pending:"நிலுவையில்",
+paid:"செலுத்தப்பட்டது",
+due:"நிலுவை",
+agricultural:"விவசாயம்",
+residential:"குடியிருப்பு",
+
+verifiedRecord:"சரிபார்க்கப்பட்ட பதிவு",
+parcel:"பிளாட்",
+status:"நிலை",
+
+heroParcel:"பிளாட் 0142-0087",
+heroRecord:"0.34 ஹெக்டேர் · சரிபார்க்கப்பட்ட பதிவு",
+mapApplication:"நிலப் பிளாட்களின் ஊடாடும் வரைபடம்",
+
+noMapCoordinates:" (இந்த பதிவிற்கு வரைபட ஒருங்கிணைப்புகள் இல்லை.)",
+resultSelect:"நிலப் பதிவைத் தேர்ந்தெடுக்கவும்"
+},
+
+bn: {
+
+skipMain:"মূল বিষয়বস্তুতে যান",
+needHelp:"সাহায্য দরকার?",
+commonQuestions:"সাধারণ প্রশ্ন",
+watchGuide:"২ মিনিটের গাইড দেখুন",
+chooseLanguage:"আপনার ভাষা নির্বাচন করুন",
+department:"ভূমি সম্পদ বিভাগ",
+
+findLand:"আমার জমি খুঁজুন",
+services:"পরিষেবা",
+howItWorks:"কীভাবে কাজ করে",
+help:"সাহায্য",
+
+heroTitle:"আপনার জমি সম্পর্কে সবকিছু এক জায়গায় দেখুন।",
+heroLede:"একটি অনুসন্ধানেই মালিকানার রেকর্ড, মানচিত্র, করের অবস্থা এবং অপেক্ষমাণ আবেদন পাওয়া যায় — আপনার গ্রাম বা ওয়ার্ড অফিসের তথ্য আরও সহজে পাওয়া যাবে।",
+
+searchRecord:"জমির রেকর্ড খুঁজুন",
+searchBy:"যে ভিত্তিতে খুঁজবেন",
+surveyTab:"সার্ভে / ULPIN নম্বর",
+ownerTab:"মালিকের নাম",
+villageTab:"গ্রাম ও প্লট",
+
+enterSurvey:"আপনার সার্ভে নম্বর বা ULPIN লিখুন",
+enterOwner:"মালিকের নাম লিখুন",
+enterVillage:"গ্রাম বা প্লট নম্বর লিখুন",
+
+searchPlaceholder:"যেমন WB000001 বা সার্ভে নম্বর",
+ownerPlaceholder:"মালিকের নাম লিখুন",
+villagePlaceholder:"গ্রাম বা প্লট নম্বর লিখুন",
+
+search:"খুঁজুন",
+searchHint:"কী লিখবেন বুঝতে পারছেন না? আপনার রেশন কার্ডের ঠিকানা চেষ্টা করুন অথবা কাছের কমন সার্ভিস সেন্টারে জিজ্ঞাসা করুন।",
+
+sample1:"WB000001 · কৃষ্ণনগর",
+sample2:"WB000002 · রানাঘাট",
+sample3:"WB000003 · বারাসাত",
+sample4:"WB000004 · চুঁচুড়া",
+sample5:"WB000005 · সোনারপুর",
+sampleOwner:"মালিক: Sourav Roy",
+sampleVillage:"গ্রাম: কৃষ্ণনগর",
+
+landRecord:"জমির রেকর্ড",
+searching:"খোঁজা হচ্ছে...",
+connecting:"Land Stack ডেটাবেসে সংযোগ করা হচ্ছে...",
+noRecord:"কোনও রেকর্ড পাওয়া যায়নি",
+noMatch:"আপনার অনুসন্ধানের সঙ্গে কোনও জমির রেকর্ড মেলেনি।",
+recordFound:"জমির রেকর্ড পাওয়া গেছে",
+recordsFound:"টি রেকর্ড পাওয়া গেছে",
+
+servicesTitle:"আপনি এখানে যা করতে পারেন",
+servicesIntro:"আপনার স্থানীয় রাজস্ব ও রেজিস্ট্রেশন অফিসের একই পরিষেবাগুলি এখানে এক জায়গায় আনা হয়েছে।",
+
+service1Title:"মালিকানার রেকর্ড দেখুন",
+service1Desc:"যে কোনও প্লটের বর্তমান অধিকার রেকর্ড দেখুন — মালিক কে এবং কোনও ঋণ বা দাবি নথিভুক্ত আছে কি না।",
+
+service2Title:"আবেদনের অবস্থা দেখুন",
+service2Desc:"মিউটেশন, রেজিস্ট্রেশন বা বিল্ডিং পারমিশনের আবেদন ধাপে ধাপে অনুসরণ করুন।",
+
+service3Title:"সম্পত্তি কর দিন",
+service3Desc:"এই বছরের বকেয়া সম্পত্তি কর দেখুন এবং সরাসরি পরিশোধ করুন। রসিদ ডাউনলোড করতে পারবেন।",
+
+service4Title:"প্রত্যয়িত নথি পান",
+service4Desc:"এনকামব্রেন্স সার্টিফিকেট, ভূমি ব্যবহার সার্টিফিকেট বা মানচিত্রের কপি চাইতে পারেন।",
+
+service5Title:"প্লটের মানচিত্র দেখুন",
+service5Desc:"আপনার গ্রাম বা ওয়ার্ডের জিওরেফারেন্সড মানচিত্রে সীমানা, রাস্তা এবং আশেপাশের প্লট দেখুন।",
+
+open:"খুলুন",
+
+mapTitle:"প্লটের মানচিত্র দেখুন",
+mapIntro:"এটি একটি বাস্তব, জুম করা যায় এমন মানচিত্র। উপরে কোনও প্লট খুঁজলে তার সীমানা এখানে দেখানো হবে।",
+selectedParcel:"নির্বাচিত প্লট",
+wardBoundary:"গ্রাম / ওয়ার্ড সীমানা",
+
+howTitle:"একটি আবেদন কীভাবে সিস্টেমে এগিয়ে যায়",
+howIntro:"Land Stack-এর প্রতিটি পরিষেবা একই তিনটি ধাপ অনুসরণ করে।",
+
+step1:"ধাপ ১",
+step1Title:"আপনার প্লট খুঁজুন",
+step1Desc:"আপনার সার্ভে নম্বর, ULPIN অথবা গ্রাম ও প্লটের বিবরণ লিখুন। আমরা সরকারি ক্যাডাস্ট্রাল মানচিত্রের সঙ্গে মিলিয়ে দেখব।",
+
+step2:"ধাপ ২",
+step2Title:"রেকর্ডে কী আছে দেখুন",
+step2Desc:"মালিকানা, সীমানা, বকেয়া এবং অপেক্ষমাণ আবেদনগুলি দেখুন।",
+
+step3:"ধাপ ৩",
+step3Title:"পরিষেবা নিন বা আবেদন করুন",
+step3Desc:"পেমেন্ট করুন, আবেদন করুন বা নথি ডাউনলোড করুন। আবেদন নম্বর দিয়ে ট্র্যাক করতে পারবেন।",
+
+assurance1Title:"সরকারি ভাবে যাচাইকৃত তথ্য",
+assurance1Desc:"প্রতিটি রেকর্ড ভূমি, রেজিস্ট্রেশন এবং রাজস্ব বিভাগ থেকে সরাসরি আসে।",
+
+assurance2Title:"আপনার তথ্য সুরক্ষিত",
+assurance2Desc:"পরিচয় যাচাইয়ের পরেই মালিকানার তথ্য দেখানো হয় এবং প্রতিটি অ্যাক্সেস রেকর্ড করা হয়।",
+
+assurance3Title:"আপনার ভাষায় কাজ করে",
+assurance3Desc:"স্থানীয় অফিস যে আঞ্চলিক ভাষা ব্যবহার করে, সেই ভাষায় অনুসন্ধান, ফর্ম এবং সার্টিফিকেট পাওয়া যায়।",
+
+faqTitle:"কোথা থেকে শুরু করবেন বুঝতে পারছেন না?",
+
+faq1Q:"আমি আমার সার্ভে নম্বর বা ULPIN জানি না",
+faq1A:"এর পরিবর্তে আপনার নাম ও গ্রামের মাধ্যমে খুঁজুন। উপরের \"মালিকের নাম\" ট্যাবটি বেছে নিন।",
+
+faq2Q:"দেখানো মালিকানার তথ্য আমার জানা তথ্যের সঙ্গে মেলে না",
+faq2A:"রেকর্ড পেজে \"সংশোধনের অনুরোধ করুন\" ব্যবহার করুন। এটি আপনার স্থানীয় রাজস্ব আধিকারিকের কাছে যাবে।",
+
+faq3Q:"অন্য কেউ কি আমার জমির তথ্যের অপব্যবহার করতে পারে?",
+faq3A:"মৌলিক প্লট ও মানচিত্রের তথ্য প্রকাশ্য। মালিকানা, কর এবং আবেদনের তথ্য দেখার আগে OTP যাচাই প্রয়োজন।",
+
+faq4Q:"আমার গ্রাম এখনও Land Stack-এ না থাকলে?",
+faq4A:"Land Stack ধাপে ধাপে বিভিন্ন রাজ্যে চালু হচ্ছে। আপনার গ্রাম তালিকায় না থাকলে আগের মতো স্থানীয় অফিসে যেতে পারেন।",
+
+talkTitle:"কারও সঙ্গে কথা বলুন",
+helpline:"হেল্পলাইন",
+hours:"সময়",
+hoursValue:"সোম–শনি, সকাল ৮টা – রাত ৮টা",
+inPerson:"সরাসরি",
+nearestCSC:"আপনার নিকটতম কমন সার্ভিস সেন্টার",
+helpNote:"যে কোনও নেটওয়ার্ক থেকে কল বিনামূল্যে। পরিবারের সদস্য বা CSC অপারেটরকেও আপনার হয়ে অনুসন্ধান করতে বলতে পারেন।",
+
+footerIntro:"Land Stack হল ভূমি সম্পদ বিভাগের একটি ডিজিটাল পাবলিক ইনফ্রাস্ট্রাকচার উদ্যোগ, যা জমির রেকর্ড, মানচিত্র এবং পরিষেবাকে সকল নাগরিকের জন্য এক জায়গায় নিয়ে আসে।",
+footerServices:"পরিষেবা",
+footerOwnership:"মালিকানা দেখুন",
+footerTrack:"আবেদন ট্র্যাক করুন",
+footerTax:"সম্পত্তি কর দিন",
+footerMap:"প্লটের মানচিত্র",
+footerSupport:"সহায়তা",
+footerQuestions:"সাধারণ প্রশ্ন",
+footerVideos:"ভিডিও গাইড",
+footerCSC:"কমন সার্ভিস সেন্টার খুঁজুন",
+footerProblem:"সমস্যা জানান",
+footerAbout:"সম্পর্কে",
+footerVerified:"রেকর্ড কীভাবে যাচাই হয়",
+footerPrivacy:"গোপনীয়তা ও ডেটা ব্যবহার",
+footerStates:"অংশগ্রহণকারী রাজ্য",
+footerAPI:"বিভাগের জন্য API",
+copyright:"© 2026 ভূমি সম্পদ বিভাগ, ভারত সরকার",
+pilot:"পাইলট: চণ্ডীগড় ও তামিলনাড়ু",
+
+sessionExpired:"আপনার লগইন সেশন শেষ হয়ে গেছে। অনুগ্রহ করে আবার লগইন করুন।",
+noPermission:"জমির রেকর্ড খোঁজার অনুমতি আপনার নেই।",
+enterSearch:"অনুগ্রহ করে অনুসন্ধানের মান লিখুন।",
+source:"উৎস:",
+offlineSource:"Backend পাওয়া যাচ্ছে না — offline demo data দেখানো হচ্ছে।",
+governmentDatabase:"সরকারি ডেটাবেস",
+supabaseDatabase:"Supabase ডেটাবেস",
+offlineDemo:"offline demo data",
+
+ulpin:"ULPIN",
+surveyNumber:"সার্ভে নম্বর",
+owner:"মালিক",
+location:"অবস্থান",
+area:"আয়তন",
+landUse:"জমির ব্যবহার",
+hectares:"হেক্টর",
+registration:"রেজিস্ট্রেশন",
+tax:"কর",
+notAvailable:"পাওয়া যায়নি",
+
+registered:"নিবন্ধিত",
+pending:"অপেক্ষমাণ",
+paid:"পরিশোধিত",
+due:"বকেয়া",
+agricultural:"কৃষি",
+residential:"আবাসিক",
+
+verifiedRecord:"যাচাইকৃত রেকর্ড",
+parcel:"প্লট",
+status:"অবস্থা",
+
+heroParcel:"প্লট 0142-0087",
+heroRecord:"0.34 হেক্টর · যাচাইকৃত রেকর্ড",
+mapApplication:"জমির প্লটের ইন্টার‍্যাক্টিভ মানচিত্র",
+
+noMapCoordinates:" (এই রেকর্ডের জন্য মানচিত্রের স্থানাঙ্ক নেই।)",
+resultSelect:"জমির রেকর্ড নির্বাচন করুন"
+},
+
+mr: {
+
+skipMain:"मुख्य मजकुराकडे जा",
+needHelp:"मदत हवी आहे?",
+commonQuestions:"सामान्य प्रश्न",
+watchGuide:"2 मिनिटांचा मार्गदर्शक पहा",
+chooseLanguage:"तुमची भाषा निवडा",
+department:"भूमी संसाधन विभाग",
+
+findLand:"माझी जमीन शोधा",
+services:"सेवा",
+howItWorks:"हे कसे कार्य करते",
+help:"मदत",
+
+heroTitle:"तुमच्या जमिनीबद्दलची सर्व माहिती एका ठिकाणी पहा.",
+heroLede:"एका शोधातून मालकीचा रेकॉर्ड, नकाशा, कराची स्थिती आणि प्रलंबित अर्ज मिळतात — तुमच्या गाव किंवा वॉर्ड कार्यालयातील माहिती आता सहज उपलब्ध आहे.",
+
+searchRecord:"जमिनीचा रेकॉर्ड शोधा",
+searchBy:"याद्वारे शोधा",
+surveyTab:"सर्वे / ULPIN क्रमांक",
+ownerTab:"मालकाचे नाव",
+villageTab:"गाव आणि प्लॉट",
+
+enterSurvey:"तुमचा सर्वे क्रमांक किंवा ULPIN प्रविष्ट करा",
+enterOwner:"मालकाचे नाव प्रविष्ट करा",
+enterVillage:"गाव किंवा प्लॉट क्रमांक प्रविष्ट करा",
+
+searchPlaceholder:"उदा. WB000001 किंवा सर्वे क्रमांक",
+ownerPlaceholder:"मालकाचे नाव प्रविष्ट करा",
+villagePlaceholder:"गाव किंवा प्लॉट क्रमांक प्रविष्ट करा",
+
+search:"शोधा",
+searchHint:"काय प्रविष्ट करायचे हे माहीत नाही? तुमचा रेशन कार्ड पत्ता वापरा किंवा जवळच्या कॉमन सर्व्हिस सेंटरमध्ये विचारा.",
+
+sample1:"WB000001 · कृष्णनगर",
+sample2:"WB000002 · राणाघाट",
+sample3:"WB000003 · बारासात",
+sample4:"WB000004 · चिनसुरा",
+sample5:"WB000005 · सोनारपूर",
+sampleOwner:"मालक: Sourav Roy",
+sampleVillage:"गाव: कृष्णनगर",
+
+landRecord:"जमिनीचा रेकॉर्ड",
+searching:"शोधत आहे...",
+connecting:"Land Stack डेटाबेसशी जोडत आहे...",
+noRecord:"रेकॉर्ड सापडला नाही",
+noMatch:"तुमच्या शोधाशी जुळणारा कोणताही जमीन रेकॉर्ड सापडला नाही.",
+recordFound:"जमिनीचा रेकॉर्ड सापडला",
+recordsFound:"रेकॉर्ड सापडले",
+
+servicesTitle:"तुम्ही येथे काय करू शकता",
+servicesIntro:"तुमच्या स्थानिक महसूल आणि नोंदणी कार्यालयांद्वारे दिल्या जाणाऱ्या सेवा येथे एकाच ठिकाणी उपलब्ध आहेत.",
+
+service1Title:"मालकीचा रेकॉर्ड तपासा",
+service1Desc:"कोणत्याही प्लॉटचा सध्याचा हक्क रेकॉर्ड पहा — मालक कोण आहे आणि कोणते कर्ज किंवा दावे नोंदवले आहेत ते तपासा.",
+
+service2Title:"अर्जाचा मागोवा घ्या",
+service2Desc:"म्युटेशन, नोंदणी किंवा बांधकाम परवानगीच्या अर्जाचा प्रत्येक विभागातील टप्प्यांनुसार मागोवा घ्या.",
+
+service3Title:"मालमत्ता कर भरा",
+service3Desc:"या वर्षी तुमच्या मालमत्तेवर किती कर बाकी आहे ते पहा आणि थेट भरा. पावती कधीही डाउनलोड करू शकता.",
+
+service4Title:"प्रमाणित दस्तऐवज मिळवा",
+service4Desc:"एन्कम्ब्रन्स प्रमाणपत्र, जमीन वापर प्रमाणपत्र किंवा नकाशाची प्रत मागवा.",
+
+service5Title:"प्लॉटचा नकाशा पहा",
+service5Desc:"तुमच्या गावाचा किंवा वॉर्डचा जिओरेफरन्स्ड नकाशा पाहून सीमा, रस्ते आणि आसपासचे प्लॉट पहा.",
+
+open:"उघडा",
+
+mapTitle:"प्लॉटचा नकाशा पहा",
+mapIntro:"हा खरा, झूम करता येणारा नकाशा आहे. वर प्लॉट शोधा आणि त्याची सीमा येथे दाखवली जाईल.",
+selectedParcel:"निवडलेला प्लॉट",
+wardBoundary:"गाव / वॉर्ड सीमा",
+
+howTitle:"तुमचा अर्ज प्रणालीमध्ये कसा पुढे जातो",
+howIntro:"Land Stack वरील प्रत्येक सेवा समान तीन टप्प्यांचे पालन करते.",
+
+step1:"टप्पा 1",
+step1Title:"तुमचा प्लॉट शोधा",
+step1Desc:"तुमचा सर्वे क्रमांक, ULPIN किंवा गाव आणि प्लॉटची माहिती प्रविष्ट करा. आम्ही ती अधिकृत कॅडस्ट्रल नकाशाशी जुळवतो.",
+
+step2:"टप्पा 2",
+step2Title:"रेकॉर्डमध्ये काय आहे ते तपासा",
+step2Desc:"मालकी, सीमा, थकबाकी आणि प्रलंबित अर्ज तपासा.",
+
+step3:"टप्पा 3",
+step3Title:"कृती करा किंवा सेवेची विनंती करा",
+step3Desc:"पेमेंट करा, अर्ज करा किंवा दस्तऐवज डाउनलोड करा. अर्ज क्रमांकाद्वारे त्याचा मागोवा घेता येईल.",
+
+assurance1Title:"सरकारद्वारे सत्यापित डेटा",
+assurance1Desc:"प्रत्येक रेकॉर्ड जमीन, नोंदणी आणि महसूल विभागांकडून थेट येतो.",
+
+assurance2Title:"तुमचा डेटा सुरक्षित राहतो",
+assurance2Desc:"ओळख पडताळणीनंतरच मालकीची माहिती दाखवली जाते आणि प्रत्येक प्रवेश नोंदवला जातो.",
+
+assurance3Title:"तुमच्या भाषेत उपलब्ध",
+assurance3Desc:"तुमच्या स्थानिक कार्यालयात वापरल्या जाणाऱ्या प्रादेशिक भाषांमध्ये शोध, फॉर्म आणि प्रमाणपत्रे उपलब्ध आहेत.",
+
+faqTitle:"कुठून सुरुवात करावी हे अजूनही समजत नाही?",
+
+faq1Q:"मला माझा सर्वे क्रमांक किंवा ULPIN माहीत नाही",
+faq1A:"त्याऐवजी तुमचे नाव आणि गाव वापरून शोधा. वरचा \"मालकाचे नाव\" टॅब निवडा.",
+
+faq2Q:"दाखवलेली मालकीची माहिती मला माहीत असलेल्या माहितीशी जुळत नाही",
+faq2A:"रेकॉर्ड पेजवर \"दुरुस्तीची विनंती करा\" वापरा. ती तुमच्या स्थानिक महसूल अधिकाऱ्याकडे थेट जाईल.",
+
+faq3Q:"इतर कोणी माझ्या जमिनीच्या माहितीचा गैरवापर करू शकतो का?",
+faq3A:"मूलभूत प्लॉट आणि नकाशाची माहिती सार्वजनिक आहे. मालकी, कर आणि अर्जाची माहिती दाखवण्यापूर्वी OTP पडताळणी आवश्यक आहे.",
+
+faq4Q:"माझे गाव अजून Land Stack वर नसेल तर?",
+faq4A:"Land Stack राज्यनिहाय सुरू केले जात आहे. तुमचे गाव अद्याप सूचीबद्ध नसल्यास तुम्ही पूर्वीप्रमाणे स्थानिक कार्यालयाला भेट देऊ शकता.",
+
+talkTitle:"कुणाशी तरी बोला",
+helpline:"हेल्पलाइन",
+hours:"वेळ",
+hoursValue:"सोम–शनि, सकाळी 8 – रात्री 8",
+inPerson:"प्रत्यक्ष",
+nearestCSC:"तुमचे जवळचे कॉमन सर्व्हिस सेंटर",
+helpNote:"कोणत्याही नेटवर्कवरून कॉल विनामूल्य आहेत. कुटुंबातील सदस्य किंवा CSC ऑपरेटरला तुमच्या वतीने शोध घेण्यास सांगू शकता.",
+
+footerIntro:"Land Stack हा भूमी संसाधन विभागाचा डिजिटल सार्वजनिक पायाभूत सुविधा उपक्रम आहे, जो जमीन रेकॉर्ड, नकाशे आणि सेवा प्रत्येक नागरिकासाठी एका ठिकाणी आणतो.",
+footerServices:"सेवा",
+footerOwnership:"मालकी तपासा",
+footerTrack:"अर्जाचा मागोवा घ्या",
+footerTax:"मालमत्ता कर भरा",
+footerMap:"प्लॉटचा नकाशा",
+footerSupport:"मदत",
+footerQuestions:"सामान्य प्रश्न",
+footerVideos:"व्हिडिओ मार्गदर्शक",
+footerCSC:"कॉमन सर्व्हिस सेंटर शोधा",
+footerProblem:"समस्या नोंदवा",
+footerAbout:"आमच्याबद्दल",
+footerVerified:"रेकॉर्ड कसे सत्यापित केले जातात",
+footerPrivacy:"गोपनीयता आणि डेटा वापर",
+footerStates:"सहभागी राज्ये",
+footerAPI:"विभागांसाठी API",
+copyright:"© 2026 भूमी संसाधन विभाग, भारत सरकार",
+pilot:"पायलट: चंदीगड आणि तामिळनाडू",
+
+sessionExpired:"तुमचे लॉगिन सत्र संपले आहे. कृपया पुन्हा लॉगिन करा.",
+noPermission:"तुम्हाला जमीन रेकॉर्ड शोधण्याची परवानगी नाही.",
+enterSearch:"कृपया शोध मूल्य प्रविष्ट करा.",
+source:"स्रोत:",
+offlineSource:"Backend उपलब्ध नाही — offline demo data दाखवला जात आहे.",
+governmentDatabase:"सरकारी डेटाबेस",
+supabaseDatabase:"Supabase डेटाबेस",
+offlineDemo:"offline demo data",
+
+ulpin:"ULPIN",
+surveyNumber:"सर्वे क्रमांक",
+owner:"मालक",
+location:"स्थान",
+area:"क्षेत्रफळ",
+landUse:"जमिनीचा वापर",
+hectares:"हेक्टर",
+registration:"नोंदणी",
+tax:"कर",
+notAvailable:"उपलब्ध नाही",
+
+registered:"नोंदणीकृत",
+pending:"प्रलंबित",
+paid:"भरलेले",
+due:"थकबाकी",
+agricultural:"शेती",
+residential:"निवासी",
+
+verifiedRecord:"सत्यापित रेकॉर्ड",
+parcel:"प्लॉट",
+status:"स्थिती",
+
+heroParcel:"प्लॉट 0142-0087",
+heroRecord:"0.34 हेक्टर · सत्यापित रेकॉर्ड",
+mapApplication:"जमिनीच्या प्लॉटचा परस्परसंवादी नकाशा",
+
+noMapCoordinates:" (या रेकॉर्डसाठी नकाशाचे निर्देशांक उपलब्ध नाहीत.)",
+resultSelect:"जमिनीचा रेकॉर्ड निवडा"
+}
+
+};
+
+
+/* =========================================================
+   LANGUAGE FUNCTIONS
+   ========================================================= */
+
+function getLanguage(){
+
+  return localStorage.getItem("landstack_language") || "en";
+
+}
+
+
+function t(key){
+
+  const lang = getLanguage();
+
+  return (
+    TRANSLATIONS[lang] &&
+    TRANSLATIONS[lang][key]
+  ) ||
+  TRANSLATIONS.en[key] ||
+  key;
+
+}
+
+
+function applyLanguage(lang){
+
+  if(!TRANSLATIONS[lang]){
+    lang = "en";
+  }
+
+  localStorage.setItem(
+    "landstack_language",
+    lang
+  );
+
+  document.documentElement.lang = lang;
+
+  document.querySelectorAll("[data-i18n]")
+    .forEach(function(element){
+
+      const key = element.dataset.i18n;
+
+      if(
+        TRANSLATIONS[lang] &&
+        TRANSLATIONS[lang][key]
+      ){
+
+        element.textContent =
+          TRANSLATIONS[lang][key];
+
+      }
+
+    });
+
+
+  /* Accessibility labels */
+
+  const languageSelector =
+    document.getElementById("language-selector");
+
+  if(languageSelector){
+
+    languageSelector.setAttribute(
+      "aria-label",
+      t("chooseLanguage")
+    );
+
+  }
+
+
+  const searchTabsContainer =
+    document.getElementById("search-tabs");
+
+  if(searchTabsContainer){
+
+    searchTabsContainer.setAttribute(
+      "aria-label",
+      t("searchBy")
+    );
+
+  }
+
+
+  const mapElement =
+    document.getElementById("parcel-map");
+
+  if(mapElement){
+
+    mapElement.setAttribute(
+      "aria-label",
+      t("mapApplication")
+    );
+
+  }
+
+
+  const heroMap =
+    document.getElementById("hero-map-svg");
+
+  if(heroMap){
+
+    heroMap.setAttribute(
+      "aria-label",
+      t("mapApplication")
+    );
+
+  }
+
+
+  /* Search input */
+
+  updateSearchPlaceholder();
+
+
+  /* Hero SVG */
+
+  const heroParcelText =
+    document.getElementById("hero-parcel-text");
+
+  if(heroParcelText){
+
+    heroParcelText.textContent =
+      t("heroParcel");
+
+  }
+
+
+  const heroRecordText =
+    document.getElementById("hero-record-text");
+
+  if(heroRecordText){
+
+    heroRecordText.textContent =
+      t("heroRecord");
+
+  }
+
+
+  /* Page title */
+
+  document.title =
+    lang === "en"
+      ? "LandStack — Find and manage your land records"
+      : "LandStack — " + t("findLand");
+
+
+  /* Rebuild map popups */
+
+  updateMapPopups();
+
+
+  /* Update existing result if present */
+
+  if(currentRecords.length > 0){
+
+    renderRecords(
+      currentRecords,
+      currentSource,
+      currentUsedLocal,
+      false
+    );
+
+  }
+
+}
+
+
+function updateSearchPlaceholder(){
+
+  if(!searchInput){
+    return;
+  }
+
+  if(activeMode === "owner"){
+
+    searchInput.placeholder =
+      t("ownerPlaceholder");
+
+  }
+  else if(activeMode === "village"){
+
+    searchInput.placeholder =
+      t("villagePlaceholder");
+
+  }
+  else{
+
+    searchInput.placeholder =
+      t("searchPlaceholder");
+
+  }
+
+}
+
 
 /* =========================================================
    LAND SEARCH → SUPABASE
@@ -2179,7 +3326,7 @@ const resultList =
 
 
 /* =========================================================
-   OFFLINE DEMO DATA (mirrors backend/land_parcels.csv)
+   OFFLINE DEMO DATA
    ========================================================= */
 
 const OFFLINE_RECORDS = [
@@ -2252,7 +3399,7 @@ const OFFLINE_RECORDS = [
 ];
 
 
-/* Approximate sample boundaries for the demo map */
+/* Approximate sample boundaries */
 
 const SAMPLE_COORDS = {
 
@@ -2296,17 +3443,17 @@ const SAMPLE_COORDS = {
 
 let activeMode = "number";
 
+let currentRecords = [];
+let currentSource = "";
+let currentUsedLocal = false;
+
 
 function escapeHtml(text){
 
   return String(text ?? "")
-
     .replace(/&/g, "&amp;")
-
     .replace(/</g, "&lt;")
-
     .replace(/>/g, "&gt;")
-
     .replace(/"/g, "&quot;");
 
 }
@@ -2316,25 +3463,16 @@ function toClientRecord(r){
 
   return {
 
-    ulpin: r.ulpin || "",
-
-    survey_number: r.survey_number || "",
-
-    owner_name: r.owner_name || "",
-
-    state: r.state || "",
-
-    district: r.district || "",
-
-    village: r.village || "",
-
-    area: r.area || "",
-
-    land_use: r.land_use || "",
-
-    registration_status: r.registration_status || "",
-
-    tax_status: r.tax_status || ""
+    ulpin:r.ulpin || "",
+    survey_number:r.survey_number || "",
+    owner_name:r.owner_name || "",
+    state:r.state || "",
+    district:r.district || "",
+    village:r.village || "",
+    area:r.area || "",
+    land_use:r.land_use || "",
+    registration_status:r.registration_status || "",
+    tax_status:r.tax_status || ""
 
   };
 
@@ -2343,31 +3481,40 @@ function toClientRecord(r){
 
 function localSearch(term, mode){
 
-  const t = term.toLowerCase();
+  const searchTerm =
+    term.toLowerCase();
 
   return OFFLINE_RECORDS.filter(function(r){
 
     if(mode === "owner"){
 
-      return r.owner_name.toLowerCase().includes(t);
+      return r.owner_name
+        .toLowerCase()
+        .includes(searchTerm);
 
     }
 
     if(mode === "village"){
 
-      return (r.village + " " + r.survey_number + " " + r.ulpin)
-
-        .toLowerCase()
-
-        .includes(t);
+      return (
+        r.village +
+        " " +
+        r.survey_number +
+        " " +
+        r.ulpin
+      )
+      .toLowerCase()
+      .includes(searchTerm);
 
     }
 
-    return (r.ulpin + " " + r.survey_number)
-
-      .toLowerCase()
-
-      .includes(t);
+    return (
+      r.ulpin +
+      " " +
+      r.survey_number
+    )
+    .toLowerCase()
+    .includes(searchTerm);
 
   });
 
@@ -2378,49 +3525,67 @@ async function fetchBackend(term){
 
   try{
 
-    const controller = new AbortController();
+    const controller =
+      new AbortController();
 
-    const timer = setTimeout(
+    const timer =
+      setTimeout(
+        () => controller.abort(),
+        2500
+      );
 
-      () => controller.abort(),
-
-      2500
-
-    );
-
-    const token = sessionStorage.getItem("landstack_token");
+    const token =
+      sessionStorage.getItem(
+        "landstack_token"
+      );
 
     const headers = {};
 
     if(token){
-      headers["Authorization"] = "Bearer " + token;
+
+      headers["Authorization"] =
+        "Bearer " + token;
+
     }
 
-    const response = await fetch(
+    const response =
+      await fetch(
 
-      (window.LANDSTACK_API_URL || "http://127.0.0.1:8000") + "/search?term=" +
-
+        (
+          window.LANDSTACK_API_URL ||
+          "http://127.0.0.1:8000"
+        ) +
+        "/search?term=" +
         encodeURIComponent(term),
 
-      {
-        signal: controller.signal,
-        headers: headers
-      }
+        {
+          signal:controller.signal,
+          headers:headers
+        }
 
-    );
+      );
 
     clearTimeout(timer);
 
     if(response.status === 401){
-      alert("Your login session has expired. Please login again.");
+
+      alert(t("sessionExpired"));
+
       sessionStorage.clear();
-      window.location.href = "login.html";
+
+      window.location.href =
+        "login.html";
+
       return null;
+
     }
 
     if(response.status === 403){
-      alert("You do not have permission to search land records.");
+
+      alert(t("noPermission"));
+
       return null;
+
     }
 
     if(!response.ok){
@@ -2429,7 +3594,8 @@ async function fetchBackend(term){
 
     }
 
-    const json = await response.json();
+    const json =
+      await response.json();
 
     if(!Array.isArray(json.data)){
 
@@ -2437,9 +3603,12 @@ async function fetchBackend(term){
 
     }
 
-    return json.data.map(toClientRecord);
+    return json.data.map(
+      toClientRecord
+    );
 
-  }catch(error){
+  }
+  catch(error){
 
     return null;
 
@@ -2452,50 +3621,44 @@ async function fetchSupabase(term, mode){
 
   try{
 
-    let query = supabaseClient
-
-      .from("land parcel")
-
-      .select("*");
+    let query =
+      supabaseClient
+        .from("land parcel")
+        .select("*");
 
     if(mode === "owner"){
 
-      query = query.ilike(
-
-        "owner_name",
-
-        "%" + term + "%"
-
-      );
+      query =
+        query.ilike(
+          "owner_name",
+          "%" + term + "%"
+        );
 
     }
 
     else if(mode === "village"){
 
-      query = query.ilike(
-
-        "village",
-
-        "%" + term + "%"
-
-      );
+      query =
+        query.ilike(
+          "village",
+          "%" + term + "%"
+        );
 
     }
 
     else{
 
-      query = query.or(
-
-        "ulpin.eq." + term +
-
-        ",survey_number.eq." + term
-
-      );
+      query =
+        query.or(
+          "ulpin.eq." +
+          term +
+          ",survey_number.eq." +
+          term
+        );
 
     }
 
-    const { data, error } =
-
+    const {data,error} =
       await query.limit(10);
 
     if(error){
@@ -2504,15 +3667,21 @@ async function fetchSupabase(term, mode){
 
     }
 
-    if(!Array.isArray(data) || data.length === 0){
+    if(
+      !Array.isArray(data) ||
+      data.length === 0
+    ){
 
       return [];
 
     }
 
-    return data.map(toClientRecord);
+    return data.map(
+      toClientRecord
+    );
 
-  }catch(error){
+  }
+  catch(error){
 
     return null;
 
@@ -2523,89 +3692,131 @@ async function fetchSupabase(term, mode){
 
 function showSearch(title, html){
 
-  searchResult.style.display = "block";
+  searchResult.style.display =
+    "block";
 
-  resultTitle.textContent = title;
+  resultTitle.textContent =
+    title;
 
-  resultDetails.innerHTML = html;
+  resultDetails.innerHTML =
+    html;
 
-  resultList.innerHTML = "";
+  resultList.innerHTML =
+    "";
 
-  sourceNote.textContent = "";
+  sourceNote.textContent =
+    "";
 
 }
 
 
-searchForm.addEventListener("submit", async function(event){
+searchForm.addEventListener(
+  "submit",
+  async function(event){
 
-  event.preventDefault();
+    event.preventDefault();
 
-  const searchValue =
-    searchInput.value.trim();
+    const searchValue =
+      searchInput.value.trim();
 
-  if(!searchValue){
+    if(!searchValue){
 
-    alert("Please enter a Survey Number or ULPIN.");
+      alert(t("enterSearch"));
 
-    return;
+      return;
 
-  }
+    }
 
-
-  showSearch(
-    "Searching...",
-    "Connecting to Land Stack database..."
-  );
-
-
-  /* 1) FastAPI backend first (falls back to CSV server-side) */
-
-  let records = await fetchBackend(searchValue);
-
-  let source = "government database";
-
-  let usedLocal = false;
-
-
-  /* 2) Supabase next */
-
-  if(!records){
-
-    records = await fetchSupabase(searchValue, activeMode);
-
-    source = "Supabase database";
-
-  }
-
-
-  /* 3) Embedded offline demo data as a last resort */
-
-  if(records === null){
-
-    records = localSearch(searchValue, activeMode);
-
-    source = "offline demo data";
-
-    usedLocal = true;
-
-  }
-
-
-  if(!records || records.length === 0){
 
     showSearch(
-      "No record found",
-      "No land record matched your search."
+      t("searching"),
+      t("connecting")
     );
 
-    return;
+
+    /* 1. FastAPI */
+
+    let records =
+      await fetchBackend(
+        searchValue
+      );
+
+    let source =
+      "government database";
+
+    let usedLocal =
+      false;
+
+
+    /* 2. Supabase */
+
+    if(!records){
+
+      records =
+        await fetchSupabase(
+          searchValue,
+          activeMode
+        );
+
+      source =
+        "Supabase database";
+
+    }
+
+
+    /* 3. Offline */
+
+    if(records === null){
+
+      records =
+        localSearch(
+          searchValue,
+          activeMode
+        );
+
+      source =
+        "offline demo data";
+
+      usedLocal =
+        true;
+
+    }
+
+
+    currentRecords =
+      records || [];
+
+    currentSource =
+      source;
+
+    currentUsedLocal =
+      usedLocal;
+
+
+    if(
+      !records ||
+      records.length === 0
+    ){
+
+      showSearch(
+        t("noRecord"),
+        t("noMatch")
+      );
+
+      return;
+
+    }
+
+
+    renderRecords(
+      records,
+      source,
+      usedLocal,
+      true
+    );
 
   }
-
-
-  renderRecords(records, source, usedLocal);
-
-});
+);
 
 
 /* =========================================================
@@ -2613,85 +3824,81 @@ searchForm.addEventListener("submit", async function(event){
    ========================================================= */
 
 const searchTabs =
-  document.querySelectorAll(".search-tabs button");
-
-searchTabs.forEach(function(button){
-
-  button.addEventListener("click", function(){
-
-    const isOwner = button.textContent.includes("Owner");
-
-    const isVillage = button.textContent.includes("Village");
-
-    activeMode = isOwner ? "owner" : (isVillage ? "village" : "number");
+  document.querySelectorAll(
+    ".search-tabs button"
+  );
 
 
-    searchTabs.forEach(function(btn){
+searchTabs.forEach(
+  function(button){
 
-      btn.setAttribute(
-        "aria-pressed",
-        "false"
-      );
+    button.addEventListener(
+      "click",
+      function(){
 
-    });
+        activeMode =
+          button.dataset.mode ||
+          "number";
 
 
-    button.setAttribute(
-      "aria-pressed",
-      "true"
+        searchTabs.forEach(
+          function(btn){
+
+            btn.setAttribute(
+              "aria-pressed",
+              "false"
+            );
+
+          }
+        );
+
+
+        button.setAttribute(
+          "aria-pressed",
+          "true"
+        );
+
+
+        updateSearchPlaceholder();
+
+      }
     );
 
-
-    if(isOwner){
-
-      searchInput.placeholder =
-        "Enter owner name";
-
-    }
-    else if(isVillage){
-
-      searchInput.placeholder =
-        "Enter village or plot number";
-
-    }
-    else{
-
-      searchInput.placeholder =
-        "e.g. WB000001 or survey number";
-
-    }
-
-  });
-
-});
+  }
+);
 
 
 /* =========================================================
-   KOLKATA MAP
+   KOLKATA / WEST BENGAL MAP
    ========================================================= */
 
-/* West Bengal sample bounds — covers all five demo villages */
+const westBengalBounds =
+  L.latLngBounds(
+    [21.8000,87.9000],
+    [23.9000,89.2000]
+  );
 
-const westBengalBounds = L.latLngBounds(
-  [21.8000, 87.9000],
-  [23.9000, 89.2000]
-);
 
+const map =
+  L.map(
+    "parcel-map",
+    {
 
-const map = L.map("parcel-map", {
+      scrollWheelZoom:false,
 
-  scrollWheelZoom:false,
+      maxBounds:
+        westBengalBounds,
 
-  maxBounds:westBengalBounds,
+      maxBoundsViscosity:1.0,
 
-  maxBoundsViscosity:1.0,
+      minZoom:8
 
-  minZoom:8
-
-}).setView(
-  [22.8000,88.5000],
-  9
-);
+    }
+  )
+  .setView(
+    [22.8000,88.5000],
+    9
+  );
 
 
 L.tileLayer(
@@ -2702,7 +3909,8 @@ L.tileLayer(
 
     minZoom:8,
 
-    bounds:westBengalBounds,
+    bounds:
+      westBengalBounds,
 
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -2765,138 +3973,432 @@ const parcel =
   ).addTo(map);
 
 
-parcel.bindPopup(
-
-  "<strong>Parcel 0142-0087</strong>" +
-  "<br>0.34 hectares" +
-  "<br>Status: Verified record"
-
-);
-
-
-/* Enable map scrolling only after focus */
-
-map.on("focus",function(){
-
-  map.scrollWheelZoom.enable();
-
-});
-
-
-map.on("blur",function(){
-
-  map.scrollWheelZoom.disable();
-
-});
-
-
 /* =========================================================
-   RENDER SEARCH RESULTS + DRAW PARSEL ON MAP
+   MAP POPUPS
    ========================================================= */
 
-let drawnLayer = null;
-
-
-function recordDetailsHtml(r){
-
-  const regClass =
-
-    r.registration_status === "Pending"
-
-      ? "badge-pending"
-
-      : "badge-registered";
-
-  const taxClass =
-
-    r.tax_status === "Due"
-
-      ? "badge-due"
-
-      : "badge-paid";
+function getParcelPopupHtml(){
 
   return (
 
-    '<span class="record-badge ' + regClass + '">' +
-
-      escapeHtml(r.registration_status || "—") +
-
-    "</span>" +
-
-    '<span class="record-badge ' + taxClass + '">' +
-
-      escapeHtml(r.tax_status || "—") + " tax" +
-
-    "</span>" +
+    "<strong>" +
+    escapeHtml(t("heroParcel")) +
+    "</strong>" +
 
     "<br>" +
 
-    "<strong>ULPIN:</strong> " +
-
-      escapeHtml(r.ulpin || "Not available") +
-
-    "<br>" +
-
-    "<strong>Survey Number:</strong> " +
-
-      escapeHtml(r.survey_number || "Not available") +
+    "0.34 " +
+    escapeHtml(t("hectares")) +
 
     "<br>" +
 
-    "<strong>Owner:</strong> " +
-
-      escapeHtml(r.owner_name || "Not available") +
-
-    "<br>" +
-
-    "<strong>Location:</strong> " +
-
-      escapeHtml(r.village || "") + ", " +
-
-      escapeHtml(r.district || "") + ", " +
-
-      escapeHtml(r.state || "") +
-
-    "<br>" +
-
-    "<strong>Area:</strong> " +
-
-      escapeHtml(r.area || "Not available") + " hectares" +
-
-    "<br>" +
-
-    "<strong>Land use:</strong> " +
-
-      escapeHtml(r.land_use || "Not available")
+    escapeHtml(t("status")) +
+    ": " +
+    escapeHtml(t("verifiedRecord"))
 
   );
 
 }
 
 
-function renderRecords(records, source, usedLocal){
+parcel.bindPopup(
+  getParcelPopupHtml()
+);
 
-  searchResult.style.display = "block";
 
-  sourceNote.textContent = usedLocal
+function updateMapPopups(){
 
-    ? "Backend not reachable — showing offline demo data."
+  parcel.setPopupContent(
+    getParcelPopupHtml()
+  );
 
-    : "Source: " + source;
+
+  if(drawnLayer){
+
+    const record =
+      drawnLayer._landstackRecord;
+
+    if(record){
+
+      drawnLayer.setPopupContent(
+        getRecordMapPopupHtml(record)
+      );
+
+    }
+
+  }
+
+}
+
+
+/* Enable map scrolling only after focus */
+
+map.on(
+  "focus",
+  function(){
+
+    map.scrollWheelZoom.enable();
+
+  }
+);
+
+
+map.on(
+  "blur",
+  function(){
+
+    map.scrollWheelZoom.disable();
+
+  }
+);
+
+
+/* =========================================================
+   RECORD TRANSLATION
+   ========================================================= */
+
+function translateRecordStatus(value){
+
+  const key =
+    String(value || "")
+      .toLowerCase();
+
+  if(key === "registered")
+    return t("registered");
+
+  if(key === "pending")
+    return t("pending");
+
+  if(key === "paid")
+    return t("paid");
+
+  if(key === "due")
+    return t("due");
+
+  return value || t("notAvailable");
+
+}
+
+
+function translateLandUse(value){
+
+  const key =
+    String(value || "")
+      .toLowerCase();
+
+  if(key === "agricultural")
+    return t("agricultural");
+
+  if(key === "residential")
+    return t("residential");
+
+  return value || t("notAvailable");
+
+}
+
+
+/* =========================================================
+   RECORD DETAILS
+   ========================================================= */
+
+function recordDetailsHtml(r){
+
+  const regClass =
+    r.registration_status === "Pending"
+      ? "badge-pending"
+      : "badge-registered";
+
+  const taxClass =
+    r.tax_status === "Due"
+      ? "badge-due"
+      : "badge-paid";
+
+
+  return (
+
+    '<span class="record-badge ' +
+      regClass +
+    '">' +
+
+      escapeHtml(
+        translateRecordStatus(
+          r.registration_status
+        )
+      ) +
+
+    "</span>" +
+
+
+    '<span class="record-badge ' +
+      taxClass +
+    '">' +
+
+      escapeHtml(
+        translateRecordStatus(
+          r.tax_status
+        )
+      ) +
+
+      " " +
+      escapeHtml(
+        t("tax")
+      ) +
+
+    "</span>" +
+
+
+    "<br>" +
+
+
+    "<strong>" +
+      escapeHtml(t("ulpin")) +
+    ":</strong> " +
+
+      escapeHtml(
+        r.ulpin ||
+        t("notAvailable")
+      ) +
+
+
+    "<br>" +
+
+
+    "<strong>" +
+      escapeHtml(t("surveyNumber")) +
+    ":</strong> " +
+
+      escapeHtml(
+        r.survey_number ||
+        t("notAvailable")
+      ) +
+
+
+    "<br>" +
+
+
+    "<strong>" +
+      escapeHtml(t("owner")) +
+    ":</strong> " +
+
+      escapeHtml(
+        r.owner_name ||
+        t("notAvailable")
+      ) +
+
+
+    "<br>" +
+
+
+    "<strong>" +
+      escapeHtml(t("location")) +
+    ":</strong> " +
+
+      escapeHtml(
+        r.village || ""
+      ) +
+
+      ", " +
+
+      escapeHtml(
+        r.district || ""
+      ) +
+
+      ", " +
+
+      escapeHtml(
+        r.state || ""
+      ) +
+
+
+    "<br>" +
+
+
+    "<strong>" +
+      escapeHtml(t("area")) +
+    ":</strong> " +
+
+      escapeHtml(
+        r.area ||
+        t("notAvailable")
+      ) +
+
+      " " +
+
+      escapeHtml(
+        t("hectares")
+      ) +
+
+
+    "<br>" +
+
+
+    "<strong>" +
+      escapeHtml(t("landUse")) +
+    ":</strong> " +
+
+      escapeHtml(
+        translateLandUse(
+          r.land_use
+        )
+      )
+
+  );
+
+}
+
+
+/* =========================================================
+   RECORD MAP POPUP
+   ========================================================= */
+
+function getRecordMapPopupHtml(record){
+
+  return (
+
+    "<strong>" +
+
+      escapeHtml(
+        record.survey_number ||
+        record.ulpin
+      ) +
+
+    "</strong>" +
+
+
+    "<br>" +
+
+      escapeHtml(
+        record.village || ""
+      ) +
+
+      ", " +
+
+      escapeHtml(
+        record.district || ""
+      ) +
+
+
+    "<br>" +
+
+      escapeHtml(
+        record.area || ""
+      ) +
+
+      " " +
+
+      escapeHtml(
+        t("hectares")
+      ) +
+
+      " · " +
+
+      escapeHtml(
+        translateLandUse(
+          record.land_use
+        )
+      ) +
+
+
+    "<br>" +
+
+      escapeHtml(
+        t("registration")
+      ) +
+
+      ": " +
+
+      escapeHtml(
+        translateRecordStatus(
+          record.registration_status
+        )
+      ) +
+
+
+    "<br>" +
+
+      escapeHtml(
+        t("tax")
+      ) +
+
+      ": " +
+
+      escapeHtml(
+        translateRecordStatus(
+          record.tax_status
+        )
+      )
+
+  );
+
+}
+
+
+/* =========================================================
+   RENDER SEARCH RESULTS
+   ========================================================= */
+
+function renderRecords(
+  records,
+  source,
+  usedLocal,
+  rememberState
+){
+
+  if(rememberState){
+
+    currentRecords =
+      records;
+
+    currentSource =
+      source;
+
+    currentUsedLocal =
+      usedLocal;
+
+  }
+
+
+  searchResult.style.display =
+    "block";
+
+
+  if(usedLocal){
+
+    sourceNote.textContent =
+      t("offlineSource");
+
+  }
+  else if(source === "government database"){
+
+    sourceNote.textContent =
+      t("source") +
+      " " +
+      t("governmentDatabase");
+
+  }
+  else{
+
+    sourceNote.textContent =
+      t("source") +
+      " " +
+      t("supabaseDatabase");
+
+  }
+
 
   if(records.length === 1){
 
-    const record = records[0];
+    const record =
+      records[0];
 
     resultTitle.textContent =
-
-      "Land record found";
+      t("recordFound");
 
     resultDetails.innerHTML =
-
       recordDetailsHtml(record);
 
-    resultList.innerHTML = "";
+    resultList.innerHTML =
+      "";
 
     drawParcel(record);
 
@@ -2906,188 +4408,332 @@ function renderRecords(records, source, usedLocal){
 
 
   resultTitle.textContent =
+    records.length +
+    " " +
+    t("recordsFound");
 
-    records.length + " records found";
 
-  resultDetails.innerHTML = "";
+  resultDetails.innerHTML =
+    "";
 
-  resultList.innerHTML = records.map(function(r, index){
+  resultList.innerHTML =
+    records.map(
+      function(r,index){
 
-    return (
+        return (
 
-      '<button type="button" data-result-index="' + index + '">' +
+          '<button type="button" ' +
+          'data-result-index="' +
+          index +
+          '">' +
 
-        "<strong>" + escapeHtml(r.survey_number || "") + "</strong>" +
+            "<strong>" +
 
-        " · " + escapeHtml(r.village || "") +
+              escapeHtml(
+                r.survey_number || ""
+              ) +
 
-        ", " + escapeHtml(r.district || "") +
+            "</strong>" +
 
-        " — " + escapeHtml(r.owner_name || "") +
+            " · " +
 
-      "</button>"
+            escapeHtml(
+              r.village || ""
+            ) +
 
+            ", " +
+
+            escapeHtml(
+              r.district || ""
+            ) +
+
+            " — " +
+
+            escapeHtml(
+              r.owner_name || ""
+            ) +
+
+          "</button>"
+
+        );
+
+      }
+    )
+    .join("");
+
+
+  resultList
+    .querySelectorAll("button")
+    .forEach(
+      function(btn){
+
+        btn.addEventListener(
+          "click",
+          function(){
+
+            const record =
+              records[
+                Number(
+                  btn.dataset.resultIndex
+                )
+              ];
+
+            resultTitle.textContent =
+              t("recordFound");
+
+            resultDetails.innerHTML =
+              recordDetailsHtml(record);
+
+            resultList.innerHTML =
+              "";
+
+            drawParcel(record);
+
+          }
+        );
+
+      }
     );
 
-  }).join("");
 
-
-  resultList.querySelectorAll("button")
-
-    .forEach(function(btn){
-
-      btn.addEventListener("click", function(){
-
-        const record =
-
-          records[Number(btn.dataset.resultIndex)];
-
-        resultTitle.textContent =
-
-          "Land record found";
-
-        resultDetails.innerHTML =
-
-          recordDetailsHtml(record);
-
-        resultList.innerHTML = "";
-
-        drawParcel(record);
-
-      });
-
-    });
-
-
-  drawParcel(records[0]);
-
-}
-
-
-function drawParcel(record){
-
-  const coords = SAMPLE_COORDS[record.ulpin];
-
-  if(!coords){
-
-    sourceNote.textContent =
-
-      sourceNote.textContent +
-
-      " (No map coordinates for this record.)";
-
-    return;
-
-  }
-
-  if(drawnLayer){
-
-    map.removeLayer(drawnLayer);
-
-  }
-
-  drawnLayer = L.polygon(coords, {
-
-    color:"#9c5f16",
-
-    weight:2,
-
-    fillColor:"#c1791f",
-
-    fillOpacity:0.55
-
-  }).addTo(map);
-
-  drawnLayer.bindPopup(
-
-    "<strong>" + escapeHtml(record.survey_number || record.ulpin) + "</strong>" +
-
-    "<br>" + escapeHtml(record.village || "") + ", " + escapeHtml(record.district || "") +
-
-    "<br>" + escapeHtml(record.area || "") + " hectares · " + escapeHtml(record.land_use || "") +
-
-    "<br>Registration: " + escapeHtml(record.registration_status || "") +
-
-    "<br>Tax: " + escapeHtml(record.tax_status || "")
-
+  drawParcel(
+    records[0]
   );
-
-  map.fitBounds(drawnLayer.getBounds(), {
-
-    padding:[40,40]
-
-  });
 
 }
 
 
 /* =========================================================
-   SAMPLE-QUICK CHIPS
+   DRAW SEARCHED PARCEL
    ========================================================= */
 
-document.querySelectorAll(".search-chips button")
+let drawnLayer = null;
 
-  .forEach(function(btn){
 
-    btn.addEventListener("click", function(){
+function drawParcel(record){
 
-      let mode = "number";
+  const coords =
+    SAMPLE_COORDS[
+      record.ulpin
+    ];
 
-      let value = btn.dataset.ulpin || "";
 
-      if(btn.dataset.owner){
+  if(!coords){
 
-        mode = "owner";
+    sourceNote.textContent =
+      sourceNote.textContent +
+      t("noMapCoordinates");
 
-        value = btn.dataset.owner;
+    return;
+
+  }
+
+
+  if(drawnLayer){
+
+    map.removeLayer(
+      drawnLayer
+    );
+
+  }
+
+
+  drawnLayer =
+    L.polygon(
+      coords,
+      {
+
+        color:"#9c5f16",
+
+        weight:2,
+
+        fillColor:"#c1791f",
+
+        fillOpacity:0.55
 
       }
-      else if(btn.dataset.village){
+    )
+    .addTo(map);
 
-        mode = "village";
 
-        value = btn.dataset.village;
+  drawnLayer._landstackRecord =
+    record;
 
-      }
 
-      activeMode = mode;
+  drawnLayer.bindPopup(
+    getRecordMapPopupHtml(record)
+  );
 
-      searchTabs.forEach(function(tab){
 
-        const isOwner = tab.textContent.includes("Owner");
+  map.fitBounds(
+    drawnLayer.getBounds(),
+    {
+      padding:[40,40]
+    }
+  );
 
-        const isVillage = tab.textContent.includes("Village");
+}
 
-        const pressed =
 
-          (mode === "owner" && isOwner) ||
+/* =========================================================
+   SAMPLE QUICK CHIPS
+   ========================================================= */
 
-          (mode === "village" && isVillage) ||
+document
+  .querySelectorAll(
+    ".search-chips button"
+  )
+  .forEach(
+    function(btn){
 
-          (mode === "number" && !isOwner && !isVillage);
+      btn.addEventListener(
+        "click",
+        function(){
 
-        tab.setAttribute("aria-pressed", String(pressed));
+          let mode =
+            "number";
 
-      });
+          let value =
+            btn.dataset.ulpin ||
+            "";
 
-      searchInput.value = value;
 
-      searchInput.placeholder =
+          if(btn.dataset.owner){
 
-        mode === "owner" ? "Enter owner name" :
+            mode =
+              "owner";
 
-        mode === "village" ? "Enter village or plot number" :
+            value =
+              btn.dataset.owner;
 
-        "e.g. WB000001 or survey number";
+          }
+          else if(btn.dataset.village){
 
-      searchForm.requestSubmit();
+            mode =
+              "village";
 
-    });
+            value =
+              btn.dataset.village;
 
-  });
+          }
+
+
+          activeMode =
+            mode;
+
+
+          searchTabs.forEach(
+            function(tab){
+
+              const pressed =
+                tab.dataset.mode === mode;
+
+              tab.setAttribute(
+                "aria-pressed",
+                String(pressed)
+              );
+
+            }
+          );
+
+
+          searchInput.value =
+            value;
+
+
+          updateSearchPlaceholder();
+
+
+          searchForm.requestSubmit();
+
+        }
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   NAVIGATION MENU
+   ========================================================= */
+
+const navToggle =
+  document.getElementById(
+    "nav-toggle"
+  );
+
+const primaryNav =
+  document.getElementById(
+    "primary-nav"
+  );
+
+
+navToggle.addEventListener(
+  "click",
+  function(){
+
+    const open =
+      primaryNav.classList.toggle(
+        "open"
+      );
+
+    navToggle.setAttribute(
+      "aria-expanded",
+      String(open)
+    );
+
+    navToggle.setAttribute(
+      "aria-label",
+      open
+        ? t("help")
+        : "Open menu"
+    );
+
+  }
+);
+
+
+/* =========================================================
+   LANGUAGE SELECTOR
+   ========================================================= */
+
+const languageSelector =
+  document.getElementById(
+    "language-selector"
+  );
+
+
+const savedLanguage =
+  localStorage.getItem(
+    "landstack_language"
+  ) || "en";
+
+
+languageSelector.value =
+  savedLanguage;
+
+
+languageSelector.addEventListener(
+  "change",
+  function(){
+
+    applyLanguage(
+      this.value
+    );
+
+  }
+);
+
+
+/* =========================================================
+   START LANGUAGE
+   ========================================================= */
+
+applyLanguage(
+  savedLanguage
+);
 
 </script>
-
 
 </body>
 </html>

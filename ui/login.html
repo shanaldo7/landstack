@@ -29,7 +29,7 @@ body {
 ============================== */
 
 .gov-bar {
-    height: 42px;
+    min-height: 42px;
     background: #071a32;
     display: flex;
     align-items: center;
@@ -37,6 +37,7 @@ body {
     padding: 0 45px;
     font-size: 13px;
     border-bottom: 1px solid rgba(255,255,255,0.1);
+    gap: 15px;
 }
 
 .gov-left {
@@ -54,17 +55,41 @@ body {
 }
 
 /* ==============================
+   LANGUAGE SELECTOR
+============================== */
+
+.language-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.language-box select {
+    width: auto;
+    min-width: 125px;
+    height: 32px;
+    padding: 0 10px;
+    border-radius: 7px;
+    border: 1px solid #38506b;
+    background: #0c223c;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* ==============================
    HEADER
 ============================== */
 
 .header {
-    height: 82px;
+    min-height: 82px;
     background: rgba(7, 27, 50, 0.94);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 55px;
     border-bottom: 1px solid rgba(255,255,255,0.12);
+    gap: 20px;
 }
 
 .brand {
@@ -284,11 +309,14 @@ button.secondary {
     }
 
     .header {
-        padding: 0 20px;
+        padding: 15px 20px;
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .gov-bar {
-        padding: 0 20px;
+        padding: 8px 20px;
+        flex-wrap: wrap;
     }
 
     .header-right {
@@ -297,6 +325,10 @@ button.secondary {
 
     .hero h1 {
         font-size: 30px;
+    }
+
+    .language-box {
+        margin-left: auto;
     }
 }
 </style>
@@ -312,11 +344,28 @@ button.secondary {
 
     <div class="gov-left">
         <span class="gov-emblem">🇮🇳</span>
-        <span>Government of India</span>
+        <span data-i18n="governmentOfIndia">
+            Government of India
+        </span>
     </div>
 
     <div class="gov-right">
-        Digital India • Secure Land Governance
+        <span data-i18n="digitalIndia">
+            Digital India • Secure Land Governance
+        </span>
+    </div>
+
+    <div class="language-box">
+        <select
+            id="language-selector"
+            aria-label="Choose your language"
+        >
+            <option value="en">English</option>
+            <option value="hi">हिंदी</option>
+            <option value="ta">தமிழ்</option>
+            <option value="bn">বাংলা</option>
+            <option value="mr">मराठी</option>
+        </select>
     </div>
 
 </div>
@@ -340,14 +389,18 @@ button.secondary {
             </div>
 
             <div class="brand-subtitle">
-                Ministry of Rural Development · Department of Land Resources
+                <span data-i18n="ministryDepartment">
+                    Ministry of Rural Development · Department of Land Resources
+                </span>
             </div>
         </div>
 
     </div>
 
     <div class="header-right">
-        Integrated GIS-based Land Governance Platform
+        <span data-i18n="platformDescription">
+            Integrated GIS-based Land Governance Platform
+        </span>
     </div>
 
 </header>
@@ -363,11 +416,11 @@ button.secondary {
 
     <div class="hero">
 
-        <h1>
+        <h1 data-i18n="secureSignin">
             Secure Sign-In
         </h1>
 
-        <p>
+        <p data-i18n="heroSubtitle">
             One parcel. One record. One trusted source.
         </p>
 
@@ -385,11 +438,11 @@ button.secondary {
 
             <div class="card-header">
 
-                <h2>
+                <h2 data-i18n="citizenLogin">
                     Citizen / Family Login
                 </h2>
 
-                <p>
+                <p data-i18n="citizenDescription">
                     Access land records, ownership information
                     and registration status.
                 </p>
@@ -401,7 +454,10 @@ button.secondary {
 
                 <div class="form-group">
 
-                    <label for="citizenIdentifier">
+                    <label
+                        for="citizenIdentifier"
+                        data-i18n="mobileCitizenId"
+                    >
                         Mobile Number / Citizen ID
                     </label>
 
@@ -409,6 +465,7 @@ button.secondary {
                         id="citizenIdentifier"
                         type="text"
                         placeholder="Enter mobile number or citizen ID"
+                        data-i18n-placeholder="citizenIdentifierPlaceholder"
                         required
                     >
 
@@ -417,7 +474,10 @@ button.secondary {
 
                 <div class="form-group">
 
-                    <label for="citizenOtp">
+                    <label
+                        for="citizenOtp"
+                        data-i18n="otp"
+                    >
                         OTP
                     </label>
 
@@ -426,6 +486,7 @@ button.secondary {
                         type="text"
                         maxlength="6"
                         placeholder="Enter 6-digit OTP"
+                        data-i18n-placeholder="otpPlaceholder"
                         required
                     >
 
@@ -436,13 +497,17 @@ button.secondary {
                     type="button"
                     class="secondary"
                     id="sendOtpButton"
+                    data-i18n="sendOtp"
                 >
                     Send OTP
                 </button>
 
                 <br><br>
 
-                <button type="submit">
+                <button
+                    type="submit"
+                    data-i18n="continueCitizen"
+                >
                     Continue as Citizen
                 </button>
 
@@ -450,8 +515,10 @@ button.secondary {
 
 
             <div class="demo-note">
-                Demo mode: click "Send OTP" and enter any
-                6-digit OTP.
+                <span data-i18n="citizenDemoNote">
+                    Demo mode: click "Send OTP" and enter any
+                    6-digit OTP.
+                </span>
             </div>
 
 
@@ -472,11 +539,11 @@ button.secondary {
 
             <div class="card-header">
 
-                <h2>
+                <h2 data-i18n="departmentLogin">
                     Department Officer Login
                 </h2>
 
-                <p>
+                <p data-i18n="departmentDescription">
                     Secure access for authorised officers
                     and platform administrators.
                 </p>
@@ -488,17 +555,26 @@ button.secondary {
 
                 <div class="form-group">
 
-                    <label for="selectedRole">
+                    <label
+                        for="selectedRole"
+                        data-i18n="accountType"
+                    >
                         Account Type
                     </label>
 
                     <select id="selectedRole">
 
-                        <option value="OFFICER">
+                        <option
+                            value="OFFICER"
+                            data-i18n="departmentOfficer"
+                        >
                             Department Officer
                         </option>
 
-                        <option value="ADMIN">
+                        <option
+                            value="ADMIN"
+                            data-i18n="administrator"
+                        >
                             Administrator
                         </option>
 
@@ -509,7 +585,10 @@ button.secondary {
 
                 <div class="form-group">
 
-                    <label for="staffUsername">
+                    <label
+                        for="staffUsername"
+                        data-i18n="username"
+                    >
                         Username
                     </label>
 
@@ -517,6 +596,7 @@ button.secondary {
                         id="staffUsername"
                         type="text"
                         placeholder="Enter username"
+                        data-i18n-placeholder="usernamePlaceholder"
                         required
                     >
 
@@ -525,7 +605,10 @@ button.secondary {
 
                 <div class="form-group">
 
-                    <label for="staffPassword">
+                    <label
+                        for="staffPassword"
+                        data-i18n="password"
+                    >
                         Password
                     </label>
 
@@ -533,13 +616,17 @@ button.secondary {
                         id="staffPassword"
                         type="password"
                         placeholder="Enter password"
+                        data-i18n-placeholder="passwordPlaceholder"
                         required
                     >
 
                 </div>
 
 
-                <button type="submit">
+                <button
+                    type="submit"
+                    data-i18n="signIn"
+                >
                     Sign In
                 </button>
 
@@ -547,9 +634,19 @@ button.secondary {
 
 
             <div class="demo-note">
-                Demo accounts:<br>
-                Officer: <b>officer / officer123</b><br>
-                Admin: <b>admin / admin123</b>
+                <span data-i18n="demoAccounts">
+                    Demo accounts:
+                </span>
+                <br>
+                <span data-i18n="officerAccount">
+                    Officer:
+                </span>
+                <b>officer / officer123</b>
+                <br>
+                <span data-i18n="adminAccount">
+                    Admin:
+                </span>
+                <b>admin / admin123</b>
             </div>
 
 
@@ -564,7 +661,9 @@ button.secondary {
 
 
     <div class="footer">
-        LandStack Digital Public Infrastructure · Secure Demo Environment
+        <span data-i18n="footer">
+            LandStack Digital Public Infrastructure · Secure Demo Environment
+        </span>
     </div>
 
 </div>
@@ -573,6 +672,788 @@ button.secondary {
 
 
 <script>
+
+/* =========================================================
+   MULTILINGUAL SYSTEM
+========================================================= */
+
+const TRANSLATIONS = {
+
+    en: {
+
+        governmentOfIndia: "Government of India",
+        digitalIndia: "Digital India • Secure Land Governance",
+
+        ministryDepartment:
+            "Ministry of Rural Development · Department of Land Resources",
+
+        platformDescription:
+            "Integrated GIS-based Land Governance Platform",
+
+        secureSignin:
+            "Secure Sign-In",
+
+        heroSubtitle:
+            "One parcel. One record. One trusted source.",
+
+        citizenLogin:
+            "Citizen / Family Login",
+
+        citizenDescription:
+            "Access land records, ownership information and registration status.",
+
+        mobileCitizenId:
+            "Mobile Number / Citizen ID",
+
+        citizenIdentifierPlaceholder:
+            "Enter mobile number or citizen ID",
+
+        otp:
+            "OTP",
+
+        otpPlaceholder:
+            "Enter 6-digit OTP",
+
+        sendOtp:
+            "Send OTP",
+
+        continueCitizen:
+            "Continue as Citizen",
+
+        citizenDemoNote:
+            'Demo mode: click "Send OTP" and enter any 6-digit OTP.',
+
+        departmentLogin:
+            "Department Officer Login",
+
+        departmentDescription:
+            "Secure access for authorised officers and platform administrators.",
+
+        accountType:
+            "Account Type",
+
+        departmentOfficer:
+            "Department Officer",
+
+        administrator:
+            "Administrator",
+
+        username:
+            "Username",
+
+        usernamePlaceholder:
+            "Enter username",
+
+        password:
+            "Password",
+
+        passwordPlaceholder:
+            "Enter password",
+
+        signIn:
+            "Sign In",
+
+        demoAccounts:
+            "Demo accounts:",
+
+        officerAccount:
+            "Officer:",
+
+        adminAccount:
+            "Admin:",
+
+        footer:
+            "LandStack Digital Public Infrastructure · Secure Demo Environment",
+
+        pleaseEnterCredentials:
+            "Please enter username and password.",
+
+        signingIn:
+            "Signing in...",
+
+        loginFailed:
+            "Login failed.",
+
+        roleMismatch:
+            "This account does not have the selected role.",
+
+        loginSuccessful:
+            "Login successful. Opening dashboard...",
+
+        unableLogin:
+            "Unable to login.",
+
+        pleaseEnterIdentifier:
+            "Please enter your mobile number or Citizen ID.",
+
+        demoOtpSent:
+            "Demo OTP sent. Enter any 6-digit OTP.",
+
+        validOtp:
+            "Please enter a valid 6-digit OTP.",
+
+        verifyingCitizen:
+            "Verifying citizen access...",
+
+        citizenLoginFailed:
+            "Citizen login failed.",
+
+        citizenVerificationFailed:
+            "Citizen account verification failed.",
+
+        citizenDashboard:
+            "Login successful. Opening citizen dashboard...",
+
+        unableCitizenLogin:
+            "Unable to login."
+
+    },
+
+
+    hi: {
+
+        governmentOfIndia:
+            "भारत सरकार",
+
+        digitalIndia:
+            "डिजिटल इंडिया • सुरक्षित भूमि शासन",
+
+        ministryDepartment:
+            "ग्रामीण विकास मंत्रालय · भूमि संसाधन विभाग",
+
+        platformDescription:
+            "एकीकृत GIS-आधारित भूमि शासन प्लेटफ़ॉर्म",
+
+        secureSignin:
+            "सुरक्षित साइन-इन",
+
+        heroSubtitle:
+            "एक भूखंड। एक रिकॉर्ड। एक विश्वसनीय स्रोत।",
+
+        citizenLogin:
+            "नागरिक / परिवार लॉगिन",
+
+        citizenDescription:
+            "भूमि रिकॉर्ड, स्वामित्व की जानकारी और पंजीकरण की स्थिति देखें।",
+
+        mobileCitizenId:
+            "मोबाइल नंबर / नागरिक ID",
+
+        citizenIdentifierPlaceholder:
+            "मोबाइल नंबर या नागरिक ID दर्ज करें",
+
+        otp:
+            "OTP",
+
+        otpPlaceholder:
+            "6 अंकों का OTP दर्ज करें",
+
+        sendOtp:
+            "OTP भेजें",
+
+        continueCitizen:
+            "नागरिक के रूप में जारी रखें",
+
+        citizenDemoNote:
+            'डेमो मोड: "OTP भेजें" पर क्लिक करें और कोई भी 6 अंकों का OTP दर्ज करें।',
+
+        departmentLogin:
+            "विभागीय अधिकारी लॉगिन",
+
+        departmentDescription:
+            "अधिकृत अधिकारियों और प्लेटफ़ॉर्म प्रशासकों के लिए सुरक्षित पहुँच।",
+
+        accountType:
+            "खाता प्रकार",
+
+        departmentOfficer:
+            "विभागीय अधिकारी",
+
+        administrator:
+            "प्रशासक",
+
+        username:
+            "उपयोगकर्ता नाम",
+
+        usernamePlaceholder:
+            "उपयोगकर्ता नाम दर्ज करें",
+
+        password:
+            "पासवर्ड",
+
+        passwordPlaceholder:
+            "पासवर्ड दर्ज करें",
+
+        signIn:
+            "साइन इन",
+
+        demoAccounts:
+            "डेमो खाते:",
+
+        officerAccount:
+            "अधिकारी:",
+
+        adminAccount:
+            "एडमिन:",
+
+        footer:
+            "LandStack डिजिटल सार्वजनिक अवसंरचना · सुरक्षित डेमो वातावरण",
+
+        pleaseEnterCredentials:
+            "कृपया उपयोगकर्ता नाम और पासवर्ड दर्ज करें।",
+
+        signingIn:
+            "साइन इन हो रहा है...",
+
+        loginFailed:
+            "लॉगिन विफल हुआ।",
+
+        roleMismatch:
+            "इस खाते की भूमिका चयनित भूमिका से मेल नहीं खाती।",
+
+        loginSuccessful:
+            "लॉगिन सफल हुआ। डैशबोर्ड खोला जा रहा है...",
+
+        unableLogin:
+            "लॉगिन करने में असमर्थ।",
+
+        pleaseEnterIdentifier:
+            "कृपया अपना मोबाइल नंबर या नागरिक ID दर्ज करें।",
+
+        demoOtpSent:
+            "डेमो OTP भेज दिया गया है। कोई भी 6 अंकों का OTP दर्ज करें।",
+
+        validOtp:
+            "कृपया मान्य 6 अंकों का OTP दर्ज करें।",
+
+        verifyingCitizen:
+            "नागरिक पहुँच सत्यापित की जा रही है...",
+
+        citizenLoginFailed:
+            "नागरिक लॉगिन विफल हुआ।",
+
+        citizenVerificationFailed:
+            "नागरिक खाते का सत्यापन विफल हुआ।",
+
+        citizenDashboard:
+            "लॉगिन सफल हुआ। नागरिक डैशबोर्ड खोला जा रहा है...",
+
+        unableCitizenLogin:
+            "लॉगिन करने में असमर्थ।"
+
+    },
+
+
+    ta: {
+
+        governmentOfIndia:
+            "இந்திய அரசு",
+
+        digitalIndia:
+            "டிஜிட்டல் இந்தியா • பாதுகாப்பான நில நிர்வாகம்",
+
+        ministryDepartment:
+            "ஊரக வளர்ச்சி அமைச்சகம் · நில வளத் துறை",
+
+        platformDescription:
+            "ஒருங்கிணைந்த GIS அடிப்படையிலான நில நிர்வாக தளம்",
+
+        secureSignin:
+            "பாதுகாப்பான உள்நுழைவு",
+
+        heroSubtitle:
+            "ஒரு நிலப்பகுதி. ஒரு பதிவு. ஒரு நம்பகமான ஆதாரம்.",
+
+        citizenLogin:
+            "குடிமகன் / குடும்ப உள்நுழைவு",
+
+        citizenDescription:
+            "நிலப் பதிவுகள், உரிமைத் தகவல்கள் மற்றும் பதிவு நிலையை அணுகவும்.",
+
+        mobileCitizenId:
+            "மொபைல் எண் / குடிமகன் ID",
+
+        citizenIdentifierPlaceholder:
+            "மொபைல் எண் அல்லது குடிமகன் ID உள்ளிடவும்",
+
+        otp:
+            "OTP",
+
+        otpPlaceholder:
+            "6 இலக்க OTP உள்ளிடவும்",
+
+        sendOtp:
+            "OTP அனுப்பவும்",
+
+        continueCitizen:
+            "குடிமகனாக தொடரவும்",
+
+        citizenDemoNote:
+            '"OTP அனுப்பவும்" என்பதைக் கிளிக் செய்து ஏதேனும் 6 இலக்க OTP உள்ளிடவும்.',
+
+        departmentLogin:
+            "துறை அலுவலர் உள்நுழைவு",
+
+        departmentDescription:
+            "அங்கீகரிக்கப்பட்ட அலுவலர்கள் மற்றும் தள நிர்வாகிகளுக்கான பாதுகாப்பான அணுகல்.",
+
+        accountType:
+            "கணக்கு வகை",
+
+        departmentOfficer:
+            "துறை அலுவலர்",
+
+        administrator:
+            "நிர்வாகி",
+
+        username:
+            "பயனர்பெயர்",
+
+        usernamePlaceholder:
+            "பயனர்பெயரை உள்ளிடவும்",
+
+        password:
+            "கடவுச்சொல்",
+
+        passwordPlaceholder:
+            "கடவுச்சொல்லை உள்ளிடவும்",
+
+        signIn:
+            "உள்நுழையவும்",
+
+        demoAccounts:
+            "டெமோ கணக்குகள்:",
+
+        officerAccount:
+            "அலுவலர்:",
+
+        adminAccount:
+            "நிர்வாகி:",
+
+        footer:
+            "LandStack டிஜிட்டல் பொது உள்கட்டமைப்பு · பாதுகாப்பான டெமோ சூழல்",
+
+        pleaseEnterCredentials:
+            "பயனர்பெயர் மற்றும் கடவுச்சொல்லை உள்ளிடவும்.",
+
+        signingIn:
+            "உள்நுழைகிறது...",
+
+        loginFailed:
+            "உள்நுழைவு தோல்வியடைந்தது.",
+
+        roleMismatch:
+            "இந்தக் கணக்கின் பங்கு தேர்ந்தெடுக்கப்பட்ட பங்குடன் பொருந்தவில்லை.",
+
+        loginSuccessful:
+            "உள்நுழைவு வெற்றிகரமாக முடிந்தது. டாஷ்போர்டு திறக்கப்படுகிறது...",
+
+        unableLogin:
+            "உள்நுழைய முடியவில்லை.",
+
+        pleaseEnterIdentifier:
+            "உங்கள் மொபைல் எண்ணை அல்லது குடிமகன் ID-ஐ உள்ளிடவும்.",
+
+        demoOtpSent:
+            "டெமோ OTP அனுப்பப்பட்டது. ஏதேனும் 6 இலக்க OTP உள்ளிடவும்.",
+
+        validOtp:
+            "சரியான 6 இலக்க OTP-ஐ உள்ளிடவும்.",
+
+        verifyingCitizen:
+            "குடிமகன் அணுகல் சரிபார்க்கப்படுகிறது...",
+
+        citizenLoginFailed:
+            "குடிமகன் உள்நுழைவு தோல்வியடைந்தது.",
+
+        citizenVerificationFailed:
+            "குடிமகன் கணக்கு சரிபார்ப்பு தோல்வியடைந்தது.",
+
+        citizenDashboard:
+            "உள்நுழைவு வெற்றிகரமாக முடிந்தது. குடிமகன் டாஷ்போர்டு திறக்கப்படுகிறது...",
+
+        unableCitizenLogin:
+            "உள்நுழைய முடியவில்லை."
+
+    },
+
+
+    bn: {
+
+        governmentOfIndia:
+            "ভারত সরকার",
+
+        digitalIndia:
+            "ডিজিটাল ইন্ডিয়া • নিরাপদ ভূমি প্রশাসন",
+
+        ministryDepartment:
+            "গ্রামীণ উন্নয়ন মন্ত্রক · ভূমি সম্পদ বিভাগ",
+
+        platformDescription:
+            "সমন্বিত GIS-ভিত্তিক ভূমি প্রশাসন প্ল্যাটফর্ম",
+
+        secureSignin:
+            "নিরাপদ সাইন-ইন",
+
+        heroSubtitle:
+            "একটি জমি। একটি রেকর্ড। একটি নির্ভরযোগ্য উৎস।",
+
+        citizenLogin:
+            "নাগরিক / পরিবার লগইন",
+
+        citizenDescription:
+            "ভূমি রেকর্ড, মালিকানার তথ্য এবং নিবন্ধনের অবস্থা দেখুন।",
+
+        mobileCitizenId:
+            "মোবাইল নম্বর / নাগরিক ID",
+
+        citizenIdentifierPlaceholder:
+            "মোবাইল নম্বর বা নাগরিক ID লিখুন",
+
+        otp:
+            "OTP",
+
+        otpPlaceholder:
+            "৬ সংখ্যার OTP লিখুন",
+
+        sendOtp:
+            "OTP পাঠান",
+
+        continueCitizen:
+            "নাগরিক হিসেবে চালিয়ে যান",
+
+        citizenDemoNote:
+            '"OTP পাঠান" ক্লিক করুন এবং যেকোনো ৬ সংখ্যার OTP লিখুন।',
+
+        departmentLogin:
+            "বিভাগীয় কর্মকর্তা লগইন",
+
+        departmentDescription:
+            "অনুমোদিত কর্মকর্তা এবং প্ল্যাটফর্ম প্রশাসকদের জন্য নিরাপদ অ্যাক্সেস।",
+
+        accountType:
+            "অ্যাকাউন্টের ধরন",
+
+        departmentOfficer:
+            "বিভাগীয় কর্মকর্তা",
+
+        administrator:
+            "প্রশাসক",
+
+        username:
+            "ইউজারনেম",
+
+        usernamePlaceholder:
+            "ইউজারনেম লিখুন",
+
+        password:
+            "পাসওয়ার্ড",
+
+        passwordPlaceholder:
+            "পাসওয়ার্ড লিখুন",
+
+        signIn:
+            "সাইন ইন",
+
+        demoAccounts:
+            "ডেমো অ্যাকাউন্ট:",
+
+        officerAccount:
+            "অফিসার:",
+
+        adminAccount:
+            "অ্যাডমিন:",
+
+        footer:
+            "LandStack ডিজিটাল পাবলিক ইনফ্রাস্ট্রাকচার · নিরাপদ ডেমো পরিবেশ",
+
+        pleaseEnterCredentials:
+            "অনুগ্রহ করে ইউজারনেম এবং পাসওয়ার্ড লিখুন।",
+
+        signingIn:
+            "সাইন ইন করা হচ্ছে...",
+
+        loginFailed:
+            "লগইন ব্যর্থ হয়েছে।",
+
+        roleMismatch:
+            "এই অ্যাকাউন্টের ভূমিকা নির্বাচিত ভূমিকার সঙ্গে মেলে না।",
+
+        loginSuccessful:
+            "লগইন সফল হয়েছে। ড্যাশবোর্ড খোলা হচ্ছে...",
+
+        unableLogin:
+            "লগইন করা সম্ভব হয়নি।",
+
+        pleaseEnterIdentifier:
+            "অনুগ্রহ করে আপনার মোবাইল নম্বর বা নাগরিক ID লিখুন।",
+
+        demoOtpSent:
+            "ডেমো OTP পাঠানো হয়েছে। যেকোনো ৬ সংখ্যার OTP লিখুন।",
+
+        validOtp:
+            "অনুগ্রহ করে একটি বৈধ ৬ সংখ্যার OTP লিখুন।",
+
+        verifyingCitizen:
+            "নাগরিক অ্যাক্সেস যাচাই করা হচ্ছে...",
+
+        citizenLoginFailed:
+            "নাগরিক লগইন ব্যর্থ হয়েছে।",
+
+        citizenVerificationFailed:
+            "নাগরিক অ্যাকাউন্ট যাচাই ব্যর্থ হয়েছে।",
+
+        citizenDashboard:
+            "লগইন সফল হয়েছে। নাগরিক ড্যাশবোর্ড খোলা হচ্ছে...",
+
+        unableCitizenLogin:
+            "লগইন করা সম্ভব হয়নি।"
+
+    },
+
+
+    mr: {
+
+        governmentOfIndia:
+            "भारत सरकार",
+
+        digitalIndia:
+            "डिजिटल इंडिया • सुरक्षित भूमी प्रशासन",
+
+        ministryDepartment:
+            "ग्रामीण विकास मंत्रालय · भूमी संसाधन विभाग",
+
+        platformDescription:
+            "एकात्मिक GIS-आधारित भूमी प्रशासन प्लॅटफॉर्म",
+
+        secureSignin:
+            "सुरक्षित साइन-इन",
+
+        heroSubtitle:
+            "एक भूखंड. एक नोंद. एक विश्वासार्ह स्रोत.",
+
+        citizenLogin:
+            "नागरिक / कुटुंब लॉगिन",
+
+        citizenDescription:
+            "भूमी नोंदी, मालकीची माहिती आणि नोंदणीची स्थिती पाहा.",
+
+        mobileCitizenId:
+            "मोबाइल नंबर / नागरिक ID",
+
+        citizenIdentifierPlaceholder:
+            "मोबाइल नंबर किंवा नागरिक ID प्रविष्ट करा",
+
+        otp:
+            "OTP",
+
+        otpPlaceholder:
+            "6 अंकी OTP प्रविष्ट करा",
+
+        sendOtp:
+            "OTP पाठवा",
+
+        continueCitizen:
+            "नागरिक म्हणून पुढे जा",
+
+        citizenDemoNote:
+            '"OTP पाठवा" वर क्लिक करा आणि कोणताही 6 अंकी OTP प्रविष्ट करा.',
+
+        departmentLogin:
+            "विभागीय अधिकारी लॉगिन",
+
+        departmentDescription:
+            "अधिकृत अधिकारी आणि प्लॅटफॉर्म प्रशासकांसाठी सुरक्षित प्रवेश.",
+
+        accountType:
+            "खात्याचा प्रकार",
+
+        departmentOfficer:
+            "विभागीय अधिकारी",
+
+        administrator:
+            "प्रशासक",
+
+        username:
+            "वापरकर्तानाव",
+
+        usernamePlaceholder:
+            "वापरकर्तानाव प्रविष्ट करा",
+
+        password:
+            "पासवर्ड",
+
+        passwordPlaceholder:
+            "पासवर्ड प्रविष्ट करा",
+
+        signIn:
+            "साइन इन",
+
+        demoAccounts:
+            "डेमो खाती:",
+
+        officerAccount:
+            "अधिकारी:",
+
+        adminAccount:
+            "अॅडमिन:",
+
+        footer:
+            "LandStack डिजिटल सार्वजनिक पायाभूत सुविधा · सुरक्षित डेमो वातावरण",
+
+        pleaseEnterCredentials:
+            "कृपया वापरकर्तानाव आणि पासवर्ड प्रविष्ट करा.",
+
+        signingIn:
+            "साइन इन होत आहे...",
+
+        loginFailed:
+            "लॉगिन अयशस्वी झाले.",
+
+        roleMismatch:
+            "या खात्याची भूमिका निवडलेल्या भूमिकेशी जुळत नाही.",
+
+        loginSuccessful:
+            "लॉगिन यशस्वी झाले. डॅशबोर्ड उघडला जात आहे...",
+
+        unableLogin:
+            "लॉगिन करता आले नाही.",
+
+        pleaseEnterIdentifier:
+            "कृपया तुमचा मोबाइल नंबर किंवा नागरिक ID प्रविष्ट करा.",
+
+        demoOtpSent:
+            "डेमो OTP पाठवला आहे. कोणताही 6 अंकी OTP प्रविष्ट करा.",
+
+        validOtp:
+            "कृपया वैध 6 अंकी OTP प्रविष्ट करा.",
+
+        verifyingCitizen:
+            "नागरिक प्रवेशाचे सत्यापन होत आहे...",
+
+        citizenLoginFailed:
+            "नागरिक लॉगिन अयशस्वी झाले.",
+
+        citizenVerificationFailed:
+            "नागरिक खाते सत्यापन अयशस्वी झाले.",
+
+        citizenDashboard:
+            "लॉगिन यशस्वी झाले. नागरिक डॅशबोर्ड उघडला जात आहे...",
+
+        unableCitizenLogin:
+            "लॉगिन करता आले नाही."
+
+    }
+
+};
+
+
+/* =========================================================
+   TRANSLATION FUNCTION
+========================================================= */
+
+function t(key) {
+
+    const lang =
+        localStorage.getItem("landstack_language") || "en";
+
+    return (
+        (TRANSLATIONS[lang] &&
+         TRANSLATIONS[lang][key])
+        ||
+        TRANSLATIONS.en[key]
+        ||
+        key
+    );
+}
+
+
+/* =========================================================
+   APPLY LANGUAGE
+========================================================= */
+
+function applyLanguage(lang) {
+
+    if (!TRANSLATIONS[lang]) {
+        lang = "en";
+    }
+
+    localStorage.setItem(
+        "landstack_language",
+        lang
+    );
+
+    document.documentElement.lang = lang;
+
+
+    /* Regular text */
+
+    document
+        .querySelectorAll("[data-i18n]")
+        .forEach(function(element) {
+
+            element.textContent =
+                t(element.dataset.i18n);
+
+        });
+
+
+    /* Input placeholders */
+
+    document
+        .querySelectorAll("[data-i18n-placeholder]")
+        .forEach(function(element) {
+
+            element.placeholder =
+                t(element.dataset.i18nPlaceholder);
+
+        });
+
+
+    /* Page title */
+
+    document.title =
+        "LandStack — " + t("secureSignin");
+
+}
+
+
+/* =========================================================
+   LANGUAGE SELECTOR
+========================================================= */
+
+const languageSelector =
+    document.getElementById(
+        "language-selector"
+    );
+
+
+const savedLanguage =
+    localStorage.getItem(
+        "landstack_language"
+    ) || "en";
+
+
+languageSelector.value =
+    savedLanguage;
+
+
+languageSelector.addEventListener(
+    "change",
+    function() {
+
+        applyLanguage(
+            this.value
+        );
+
+    }
+);
+
+
+applyLanguage(
+    savedLanguage
+);
+
 
 /* =========================================================
    API CONFIGURATION
@@ -593,12 +1474,16 @@ function redirectByRole(role) {
             .toUpperCase();
 
 
-    console.log("Redirecting user with role:", normalizedRole);
+    console.log(
+        "Redirecting user with role:",
+        normalizedRole
+    );
 
 
     if (normalizedRole === "ADMIN") {
 
-        window.location.href = "admin.html";
+        window.location.href =
+            "admin.html";
 
         return;
     }
@@ -606,7 +1491,8 @@ function redirectByRole(role) {
 
     if (normalizedRole === "OFFICER") {
 
-        window.location.href = "officer.html";
+        window.location.href =
+            "officer.html";
 
         return;
     }
@@ -614,14 +1500,16 @@ function redirectByRole(role) {
 
     if (normalizedRole === "CITIZEN") {
 
-        window.location.href = "citizen.html";
+        window.location.href =
+            "citizen.html";
 
         return;
     }
 
 
     throw new Error(
-        "Unknown user role: " + normalizedRole
+        "Unknown user role: " +
+        normalizedRole
     );
 }
 
@@ -693,8 +1581,11 @@ document
                 .toUpperCase();
 
 
-            message.className = "message";
-            message.textContent = "";
+            message.className =
+                "message";
+
+            message.textContent =
+                "";
 
 
             if (!username || !password) {
@@ -703,7 +1594,7 @@ document
                     "message error";
 
                 message.textContent =
-                    "Please enter username and password.";
+                    t("pleaseEnterCredentials");
 
                 return;
             }
@@ -715,7 +1606,7 @@ document
                     "message success";
 
                 message.textContent =
-                    "Signing in...";
+                    t("signingIn");
 
 
                 const response =
@@ -748,7 +1639,7 @@ document
                     throw new Error(
                         data.detail ||
                         data.message ||
-                        "Login failed."
+                        t("loginFailed")
                     );
 
                 }
@@ -758,7 +1649,7 @@ document
 
                     throw new Error(
                         data.message ||
-                        "Login failed."
+                        t("loginFailed")
                     );
 
                 }
@@ -777,7 +1668,7 @@ document
                 if (actualRole !== selectedRole) {
 
                     throw new Error(
-                        "This account does not have the selected role."
+                        t("roleMismatch")
                     );
 
                 }
@@ -788,9 +1679,16 @@ document
                 ========================================= */
 
                 saveLoginSession({
-                    username: data.username,
-                    role: actualRole,
-                    access_token: data.access_token
+
+                    username:
+                        data.username,
+
+                    role:
+                        actualRole,
+
+                    access_token:
+                        data.access_token
+
                 });
 
 
@@ -798,7 +1696,7 @@ document
                     "message success";
 
                 message.textContent =
-                    "Login successful. Opening dashboard...";
+                    t("loginSuccessful");
 
 
                 /* =========================================
@@ -832,7 +1730,7 @@ document
 
                 message.textContent =
                     error.message ||
-                    "Unable to login.";
+                    t("unableLogin");
 
             }
 
@@ -868,7 +1766,7 @@ document
                     "message error";
 
                 message.textContent =
-                    "Please enter your mobile number or Citizen ID.";
+                    t("pleaseEnterIdentifier");
 
                 return;
             }
@@ -878,7 +1776,7 @@ document
                 "message success";
 
             message.textContent =
-                "Demo OTP sent. Enter any 6-digit OTP.";
+                t("demoOtpSent");
 
         }
     );
@@ -915,8 +1813,11 @@ document
                 ).value.trim();
 
 
-            message.className = "message";
-            message.textContent = "";
+            message.className =
+                "message";
+
+            message.textContent =
+                "";
 
 
             if (!identifier) {
@@ -925,7 +1826,7 @@ document
                     "message error";
 
                 message.textContent =
-                    "Please enter your mobile number or Citizen ID.";
+                    t("pleaseEnterIdentifier");
 
                 return;
             }
@@ -937,7 +1838,7 @@ document
                     "message error";
 
                 message.textContent =
-                    "Please enter a valid 6-digit OTP.";
+                    t("validOtp");
 
                 return;
             }
@@ -949,7 +1850,7 @@ document
                     "message success";
 
                 message.textContent =
-                    "Verifying citizen access...";
+                    t("verifyingCitizen");
 
 
                 /*
@@ -973,9 +1874,11 @@ document
 
                             body: JSON.stringify({
 
-                                username: "citizen",
+                                username:
+                                    "citizen",
 
-                                password: "citizen123"
+                                password:
+                                    "citizen123"
 
                             })
 
@@ -991,7 +1894,7 @@ document
 
                     throw new Error(
                         data.detail ||
-                        "Citizen login failed."
+                        t("citizenLoginFailed")
                     );
 
                 }
@@ -1006,7 +1909,7 @@ document
                 if (actualRole !== "CITIZEN") {
 
                     throw new Error(
-                        "Citizen account verification failed."
+                        t("citizenVerificationFailed")
                     );
 
                 }
@@ -1018,11 +1921,14 @@ document
 
                 saveLoginSession({
 
-                    username: data.username,
+                    username:
+                        data.username,
 
-                    role: actualRole,
+                    role:
+                        actualRole,
 
-                    access_token: data.access_token
+                    access_token:
+                        data.access_token
 
                 });
 
@@ -1031,7 +1937,7 @@ document
                     "message success";
 
                 message.textContent =
-                    "Login successful. Opening citizen dashboard...";
+                    t("citizenDashboard");
 
 
                 setTimeout(
@@ -1061,7 +1967,7 @@ document
 
                 message.textContent =
                     error.message ||
-                    "Unable to login.";
+                    t("unableCitizenLogin");
 
             }
 
