@@ -81,6 +81,16 @@
         padding: 25px;
         border-radius: 15px;
         box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card.interactive-card {
+        cursor: pointer;
+    }
+
+    .card.interactive-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 28px rgba(0,0,0,0.12);
     }
 
     .card h3 {
@@ -95,6 +105,113 @@
         border-radius: 8px;
         cursor: pointer;
         font-weight: bold;
+    }
+
+    button:hover {
+        opacity: 0.92;
+    }
+
+    .module-button {
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: rgba(0,0,0,0.55);
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .modal.show {
+        display: flex;
+    }
+
+    .modal-box {
+        width: min(650px, 100%);
+        max-height: 90vh;
+        overflow-y: auto;
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        box-shadow: 0 15px 50px rgba(0,0,0,0.25);
+        box-sizing: border-box;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .modal-header h2 {
+        margin: 0;
+    }
+
+    .close-button {
+        background: #e5e7eb;
+        color: #172033;
+        padding: 8px 12px;
+        font-size: 18px;
+    }
+
+    .lookup-row {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .lookup-row input {
+        flex: 1;
+        min-width: 0;
+        padding: 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        font-size: 15px;
+    }
+
+    .module-result {
+        margin-top: 20px;
+        padding: 18px;
+        background: #f5f8f7;
+        border-radius: 12px;
+        line-height: 1.7;
+    }
+
+    .module-result strong {
+        color: #101d32;
+    }
+
+    .status-good {
+        color: #166534;
+        font-weight: bold;
+    }
+
+    .status-warning {
+        color: #92400e;
+        font-weight: bold;
+    }
+
+    .status-danger {
+        color: #991b1b;
+        font-weight: bold;
+    }
+
+    .quick-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .quick-actions button {
+        padding: 9px 12px;
     }
 
     .logout {
@@ -175,7 +292,7 @@
 
 <div class="cards">
 
-    <div class="card">
+    <div class="card interactive-card" onclick="openModule('parcel')">
         <h3 data-i18n="parcelManagement">
             🗺️ Parcel Management
         </h3>
@@ -184,12 +301,16 @@
             Search and inspect land parcels.
         </p>
 
-        <button onclick="openLandStack()" data-i18n="openLandStack">
+        <button
+            class="module-button"
+            onclick="event.stopPropagation(); openLandStack()"
+            data-i18n="openLandStack">
             Open Land Stack
         </button>
     </div>
 
-    <div class="card">
+
+    <div class="card interactive-card" onclick="openModule('ownership')">
         <h3 data-i18n="ownershipRecords">
             👤 Ownership Records
         </h3>
@@ -197,9 +318,16 @@
         <p data-i18n="ownershipDescription">
             View ownership information.
         </p>
+
+        <button
+            class="module-button"
+            onclick="event.stopPropagation(); openModule('ownership')">
+            Open Ownership
+        </button>
     </div>
 
-    <div class="card">
+
+    <div class="card interactive-card" onclick="openModule('registration')">
         <h3 data-i18n="registration">
             📜 Registration
         </h3>
@@ -207,9 +335,16 @@
         <p data-i18n="registrationDescription">
             View registration and transaction information.
         </p>
+
+        <button
+            class="module-button"
+            onclick="event.stopPropagation(); openModule('registration')">
+            Open Registration
+        </button>
     </div>
 
-    <div class="card">
+
+    <div class="card interactive-card" onclick="openModule('planning')">
         <h3 data-i18n="planning">
             🏗️ Planning
         </h3>
@@ -217,26 +352,46 @@
         <p data-i18n="planningDescription">
             Review planning and land-use information.
         </p>
+
+        <button
+            class="module-button"
+            onclick="event.stopPropagation(); openModule('planning')">
+            Open Planning
+        </button>
     </div>
 
-    <div class="card">
+
+    <div class="card interactive-card" onclick="openModule('risk')">
         <h3 data-i18n="landRisk">
             ⚠️ Land Risk
         </h3>
 
         <p data-i18n="landRiskDescription">
-            Future module for parcel risk analysis.
+            Check parcel risk indicators.
         </p>
+
+        <button
+            class="module-button"
+            onclick="event.stopPropagation(); openModule('risk')">
+            Open Risk Analysis
+        </button>
     </div>
 
-    <div class="card">
+
+    <div class="card interactive-card" onclick="openModule('gis')">
         <h3 data-i18n="gisSatellite">
             🛰️ GIS / Satellite
         </h3>
 
         <p data-i18n="gisDescription">
-            Future module for change detection.
+            Open GIS map and satellite imagery.
         </p>
+
+        <button
+            class="module-button"
+            onclick="event.stopPropagation(); openModule('gis')">
+            Open GIS / Satellite
+        </button>
     </div>
 
 </div>
@@ -246,6 +401,84 @@
 <button class="logout" onclick="logout()" data-i18n="logout">
     Logout
 </button>
+
+</div>
+
+
+<!-- =========================================================
+     OFFICER MODULE WINDOW
+     ========================================================= -->
+
+<div id="moduleModal" class="modal" onclick="closeModuleOnBackdrop(event)">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+            <h2 id="moduleTitle">Officer Module</h2>
+
+            <button
+                type="button"
+                class="close-button"
+                onclick="closeModule()">
+                ✕
+            </button>
+        </div>
+
+        <p id="moduleDescription">
+            Select a module.
+        </p>
+
+        <div id="lookupArea">
+
+            <label for="moduleUlpin">
+                Enter ULPIN
+            </label>
+
+            <div class="lookup-row">
+
+                <input
+                    id="moduleUlpin"
+                    type="text"
+                    placeholder="Example: ULPIN-WB-0001"
+                    autocomplete="off">
+
+                <button
+                    type="button"
+                    onclick="loadModuleData()">
+                    Check
+                </button>
+
+            </div>
+
+            <div class="quick-actions">
+
+                <button
+                    type="button"
+                    onclick="useSampleUlpin()">
+                    Use sample ULPIN
+                </button>
+
+            </div>
+
+        </div>
+
+        <div id="moduleResult" class="module-result">
+            Enter a ULPIN and click Check.
+        </div>
+
+        <div id="gisActionArea" style="display:none; margin-top:18px;">
+
+            <button
+                type="button"
+                onclick="openLandStack()">
+                Open GIS / Satellite Map
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 ```
 
 </div>
@@ -284,11 +517,11 @@ const TRANSLATIONS = {
 
         landRisk: "⚠️ Land Risk",
         landRiskDescription:
-            "Future module for parcel risk analysis.",
+            "Check parcel risk indicators.",
 
         gisSatellite: "🛰️ GIS / Satellite",
         gisDescription:
-            "Future module for change detection.",
+            "Open GIS map and satellite imagery.",
 
         logout: "Logout"
     },
@@ -319,11 +552,11 @@ const TRANSLATIONS = {
 
         landRisk: "⚠️ भूमि जोखिम",
         landRiskDescription:
-            "पार्सल जोखिम विश्लेषण के लिए भविष्य का मॉड्यूल।",
+            "पार्सल जोखिम संकेतक देखें।",
 
         gisSatellite: "🛰️ GIS / सैटेलाइट",
         gisDescription:
-            "परिवर्तन का पता लगाने के लिए भविष्य का मॉड्यूल।",
+            "GIS मानचित्र और सैटेलाइट इमेजरी खोलें।",
 
         logout: "लॉग आउट"
     },
@@ -354,11 +587,11 @@ const TRANSLATIONS = {
 
         landRisk: "⚠️ நில அபாயம்",
         landRiskDescription:
-            "நிலப் பார்சல் அபாயப் பகுப்பாய்விற்கான எதிர்கால தொகுதி.",
+            "நிலப் பார்சல் அபாயக் குறிகாட்டிகளைப் பார்க்கவும்.",
 
         gisSatellite: "🛰️ GIS / செயற்கைக்கோள்",
         gisDescription:
-            "மாற்றங்களைக் கண்டறிவதற்கான எதிர்கால தொகுதி.",
+            "GIS வரைபடம் மற்றும் செயற்கைக்கோள் படங்களைத் திறக்கவும்.",
 
         logout: "வெளியேறு"
     },
@@ -389,11 +622,11 @@ const TRANSLATIONS = {
 
         landRisk: "⚠️ ভূমি ঝুঁকি",
         landRiskDescription:
-            "পার্সেল ঝুঁকি বিশ্লেষণের জন্য ভবিষ্যৎ মডিউল।",
+            "পার্সেল ঝুঁকির সূচক দেখুন।",
 
         gisSatellite: "🛰️ GIS / স্যাটেলাইট",
         gisDescription:
-            "পরিবর্তন শনাক্তকরণের জন্য ভবিষ্যৎ মডিউল।",
+            "GIS মানচিত্র ও স্যাটেলাইট ছবি খুলুন।",
 
         logout: "লগ আউট"
     },
@@ -424,11 +657,11 @@ const TRANSLATIONS = {
 
         landRisk: "⚠️ जमीन जोखीम",
         landRiskDescription:
-            "पार्सल जोखीम विश्लेषणासाठी भविष्यातील मॉड्यूल.",
+            "पार्सल जोखीम निर्देशक तपासा.",
 
         gisSatellite: "🛰️ GIS / उपग्रह",
         gisDescription:
-            "बदल शोधण्यासाठी भविष्यातील मॉड्यूल.",
+            "GIS नकाशा आणि उपग्रह प्रतिमा उघडा.",
 
         logout: "लॉग आउट"
     }
@@ -575,6 +808,545 @@ function openLandStack() {
     window.location.href = "index.html";
 
 }
+
+
+/* =========================================================
+   INTERACTIVE OFFICER MODULES
+   ========================================================= */
+
+let activeModule = "";
+
+
+const MODULE_INFO = {
+
+    parcel: {
+        title: "Parcel Management",
+        description:
+            "Search and inspect an individual land parcel using its ULPIN."
+    },
+
+    ownership: {
+        title: "Ownership Records",
+        description:
+            "View the owner name and current ownership verification status."
+    },
+
+    registration: {
+        title: "Registration",
+        description:
+            "View registration status and transaction information."
+    },
+
+    planning: {
+        title: "Planning",
+        description:
+            "Review the parcel's current land-use information for planning."
+    },
+
+    risk: {
+        title: "Land Risk",
+        description:
+            "Run a basic screening of registration, ownership and land-use indicators."
+    },
+
+    gis: {
+        title: "GIS / Satellite",
+        description:
+            "Open the LandStack GIS map and use the Street Map or Satellite layer."
+    }
+
+};
+
+
+function openModule(moduleName) {
+
+    activeModule = moduleName;
+
+    const modal =
+        document.getElementById("moduleModal");
+
+    const title =
+        document.getElementById("moduleTitle");
+
+    const description =
+        document.getElementById("moduleDescription");
+
+    const lookupArea =
+        document.getElementById("lookupArea");
+
+    const result =
+        document.getElementById("moduleResult");
+
+    const gisActionArea =
+        document.getElementById("gisActionArea");
+
+
+    const info =
+        MODULE_INFO[moduleName] ||
+        MODULE_INFO.parcel;
+
+
+    title.textContent =
+        info.title;
+
+    description.textContent =
+        info.description;
+
+    result.innerHTML =
+        "Enter a ULPIN and click <strong>Check</strong>.";
+
+
+    if (moduleName === "gis") {
+
+        lookupArea.style.display = "none";
+
+        gisActionArea.style.display = "block";
+
+        result.innerHTML =
+            "<strong>GIS is ready.</strong><br>" +
+            "Open LandStack to use the interactive parcel map, " +
+            "Street Map and Satellite layer.";
+
+    } else {
+
+        lookupArea.style.display = "block";
+
+        gisActionArea.style.display = "none";
+
+        document.getElementById("moduleUlpin").value = "";
+
+    }
+
+
+    modal.classList.add("show");
+
+}
+
+
+function closeModule() {
+
+    document
+        .getElementById("moduleModal")
+        .classList.remove("show");
+
+}
+
+
+function closeModuleOnBackdrop(event) {
+
+    if (event.target.id === "moduleModal") {
+
+        closeModule();
+
+    }
+
+}
+
+
+function useSampleUlpin() {
+
+    document.getElementById("moduleUlpin").value =
+        "ULPIN-WB-0001";
+
+}
+
+
+async function loadModuleData() {
+
+    const ulpin =
+        document
+            .getElementById("moduleUlpin")
+            .value
+            .trim();
+
+
+    const result =
+        document.getElementById("moduleResult");
+
+
+    if (!ulpin) {
+
+        result.innerHTML =
+            '<span class="status-warning">' +
+            "Please enter a ULPIN." +
+            "</span>";
+
+        return;
+
+    }
+
+
+    const savedToken =
+        sessionStorage.getItem("landstack_token");
+
+
+    if (!savedToken) {
+
+        result.innerHTML =
+            '<span class="status-danger">' +
+            "Your login session has expired. Please login again." +
+            "</span>";
+
+        setTimeout(function () {
+
+            window.location.href =
+                "login.html";
+
+        }, 1200);
+
+        return;
+
+    }
+
+
+    result.innerHTML =
+        "Loading parcel information...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                "http://127.0.0.1:8000/parcel/" +
+                encodeURIComponent(ulpin),
+                {
+                    headers: {
+                        "Authorization":
+                            "Bearer " + savedToken
+                    }
+                }
+            );
+
+
+        if (response.status === 401) {
+
+            sessionStorage.clear();
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Parcel not found."
+            );
+
+        }
+
+
+        renderModuleResult(data);
+
+    } catch (error) {
+
+        console.error(error);
+
+        result.innerHTML =
+            '<span class="status-danger">' +
+            "Could not load parcel information.<br>" +
+            escapeModuleHtml(
+                error.message
+            ) +
+            "</span>";
+
+    }
+
+}
+
+
+function renderModuleResult(data) {
+
+    const result =
+        document.getElementById("moduleResult");
+
+
+    const registration =
+        data.registration_status ||
+        "Not available";
+
+
+    const ownership =
+        data.ownership_status ||
+        "Not available";
+
+
+    const owner =
+        data.owner_name ||
+        "Not available";
+
+
+    const landUse =
+        data.land_use ||
+        "Not available";
+
+
+    let html = "";
+
+
+    if (activeModule === "ownership") {
+
+        html =
+            "<strong>Ownership Record</strong><br><br>" +
+
+            "<strong>ULPIN:</strong> " +
+            escapeModuleHtml(data.ulpin) +
+
+            "<br>" +
+
+            "<strong>Owner:</strong> " +
+            escapeModuleHtml(owner) +
+
+            "<br>" +
+
+            "<strong>Ownership Status:</strong> " +
+            escapeModuleHtml(ownership);
+
+    }
+
+
+    else if (activeModule === "registration") {
+
+        html =
+            "<strong>Registration Record</strong><br><br>" +
+
+            "<strong>ULPIN:</strong> " +
+            escapeModuleHtml(data.ulpin) +
+
+            "<br>" +
+
+            "<strong>Registration Status:</strong> " +
+            escapeModuleHtml(registration) +
+
+            "<br>" +
+
+            "<strong>Transaction Type:</strong> " +
+            escapeModuleHtml(
+                data.transaction_type ||
+                "Not available"
+            );
+
+    }
+
+
+    else if (activeModule === "planning") {
+
+        html =
+            "<strong>Planning & Land Use</strong><br><br>" +
+
+            "<strong>ULPIN:</strong> " +
+            escapeModuleHtml(data.ulpin) +
+
+            "<br>" +
+
+            "<strong>Land Use:</strong> " +
+            escapeModuleHtml(landUse) +
+
+            "<br>" +
+
+            "<strong>Location:</strong> " +
+            escapeModuleHtml(
+                [
+                    data.village,
+                    data.district,
+                    data.state
+                ]
+                .filter(Boolean)
+                .join(", ")
+            );
+
+    }
+
+
+    else if (activeModule === "risk") {
+
+        let risk =
+            "Low";
+
+        let riskClass =
+            "status-good";
+
+        let reason =
+            "No high-risk indicator detected in the available parcel data.";
+
+
+        if (
+            registration.toLowerCase() ===
+            "pending"
+        ) {
+
+            risk =
+                "High";
+
+            riskClass =
+                "status-danger";
+
+            reason =
+                "Registration is currently pending.";
+
+        }
+
+
+        else if (
+            ownership.toLowerCase() !==
+                "verified" &&
+            ownership !==
+                "Not available"
+        ) {
+
+            risk =
+                "Medium";
+
+            riskClass =
+                "status-warning";
+
+            reason =
+                "Ownership is not marked as verified.";
+
+        }
+
+
+        html =
+            "<strong>Parcel Risk Screening</strong><br><br>" +
+
+            "<strong>ULPIN:</strong> " +
+            escapeModuleHtml(data.ulpin) +
+
+            "<br>" +
+
+            "<strong>Owner:</strong> " +
+            escapeModuleHtml(owner) +
+
+            "<br>" +
+
+            "<strong>Ownership:</strong> " +
+            escapeModuleHtml(ownership) +
+
+            "<br>" +
+
+            "<strong>Registration:</strong> " +
+            escapeModuleHtml(registration) +
+
+            "<br>" +
+
+            "<strong>Land Use:</strong> " +
+            escapeModuleHtml(landUse) +
+
+            "<br><br>" +
+
+            "<strong>Screening Result:</strong> " +
+            '<span class="' +
+            riskClass +
+            '">' +
+            risk +
+            "</span>" +
+
+            "<br>" +
+
+            "<strong>Reason:</strong> " +
+            escapeModuleHtml(reason) +
+
+            "<br><br>" +
+
+            "<small>This is a basic dashboard screening based only on the data currently available to LandStack.</small>";
+
+    }
+
+
+    else {
+
+        html =
+            "<strong>Parcel Information</strong><br><br>" +
+
+            "<strong>ULPIN:</strong> " +
+            escapeModuleHtml(data.ulpin) +
+
+            "<br>" +
+
+            "<strong>Survey Number:</strong> " +
+            escapeModuleHtml(
+                data.survey_number ||
+                "Not available"
+            ) +
+
+            "<br>" +
+
+            "<strong>Owner:</strong> " +
+            escapeModuleHtml(owner) +
+
+            "<br>" +
+
+            "<strong>Location:</strong> " +
+            escapeModuleHtml(
+                [
+                    data.village,
+                    data.district,
+                    data.state
+                ]
+                .filter(Boolean)
+                .join(", ")
+            ) +
+
+            "<br>" +
+
+            "<strong>Area:</strong> " +
+            escapeModuleHtml(
+                data.area ??
+                "Not available"
+            ) +
+
+            "<br>" +
+
+            "<strong>Land Use:</strong> " +
+            escapeModuleHtml(landUse);
+
+    }
+
+
+    result.innerHTML =
+        html;
+
+}
+
+
+function escapeModuleHtml(value) {
+
+    return String(
+        value ?? ""
+    )
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* Close module with the Escape key */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            closeModule();
+
+        }
+
+    }
+);
 
 
 function logout() {

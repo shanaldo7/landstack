@@ -82,5 +82,28 @@ AND a.r_constraint_name IN (
     FROM user_constraints
     WHERE table_name = 'LAND_PARCELS'
 );
-DESC registration;
-DESC ownership;
+
+SELECT table_name
+FROM user_tables
+ORDER BY table_name;
+DESC land_parcels;
+DESC users;
+DESC transactions;          -- if it exists
+DESC service_requests;      -- if it exists
+DESC department_links;      -- or any cross-dept table
+DESC ror;                   -- if you have a separate RoR table
+DESC parcel_details;        -- or similar
+SELECT table_name
+FROM user_tables
+ORDER BY table_name;
+DESC OWNERSHIP;
+DESC REGISTRATION;
+SELECT table_name
+FROM user_tables
+WHERE UPPER(table_name) LIKE '%ENCUM%'
+   OR UPPER(table_name) LIKE '%MORTG%';
+   SELECT * FROM LAND_PARCELS;
+   SELECT COUNT(*) FROM LAND_PARCELS;
+   SELECT COUNT(*) FROM OWNERSHIP;
+   SELECT ULPIN, OWNER_NAME, OWNERSHIP_STATUS
+FROM OWNERSHIP;

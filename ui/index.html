@@ -3472,7 +3472,9 @@ function toClientRecord(r){
     area:r.area || "",
     land_use:r.land_use || "",
     registration_status:r.registration_status || "",
-    tax_status:r.tax_status || ""
+    tax_status:r.tax_status || "",
+    ownership_status:r.ownership_status || "",
+    transaction_type:r.transaction_type || ""
 
   };
 
@@ -3901,23 +3903,63 @@ const map =
   );
 
 
-L.tileLayer(
-  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+/* =========================================================
+   BASE MAP LAYERS
+   ========================================================= */
+
+const osmLayer =
+  L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+
+      maxZoom:19,
+
+      minZoom:8,
+
+      bounds:
+        westBengalBounds,
+
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+
+    }
+  );
+
+
+/* Satellite layer */
+
+const satelliteLayer =
+  L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    {
+
+      maxZoom:19,
+
+      minZoom:8,
+
+      bounds:
+        westBengalBounds,
+
+      attribution:
+        "Tiles &copy; Esri"
+
+    }
+  );
+
+
+/* Show OpenStreetMap by default */
+
+osmLayer.addTo(map);
+
+
+/* Layer switcher */
+
+L.control.layers(
   {
-
-    maxZoom:19,
-
-    minZoom:8,
-
-    bounds:
-      westBengalBounds,
-
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-
+    "Street Map": osmLayer,
+    "Satellite": satelliteLayer
   }
 ).addTo(map);
-
 
 /* Ward boundary */
 
@@ -4128,7 +4170,6 @@ function recordDetailsHtml(r){
 
     "</span>" +
 
-
     '<span class="record-badge ' +
       taxClass +
     '">' +
@@ -4140,15 +4181,18 @@ function recordDetailsHtml(r){
       ) +
 
       " " +
+
       escapeHtml(
         t("tax")
       ) +
 
     "</span>" +
 
-
     "<br>" +
 
+    "<div style='margin:12px 0 8px; font-size:18px; font-weight:700;'>" +
+      "Record of Rights (RoR)" +
+    "</div>" +
 
     "<strong>" +
       escapeHtml(t("ulpin")) +
@@ -4159,9 +4203,7 @@ function recordDetailsHtml(r){
         t("notAvailable")
       ) +
 
-
     "<br>" +
-
 
     "<strong>" +
       escapeHtml(t("surveyNumber")) +
@@ -4172,9 +4214,7 @@ function recordDetailsHtml(r){
         t("notAvailable")
       ) +
 
-
     "<br>" +
-
 
     "<strong>" +
       escapeHtml(t("owner")) +
@@ -4185,61 +4225,62 @@ function recordDetailsHtml(r){
         t("notAvailable")
       ) +
 
+    "<br>" +
+
+    "<strong>Ownership:</strong> " +
+
+      escapeHtml(
+        r.ownership_status ||
+        t("notAvailable")
+      ) +
 
     "<br>" +
 
+    "<strong>Transaction:</strong> " +
+
+      escapeHtml(
+        r.transaction_type ||
+        t("notAvailable")
+      ) +
+
+    "<br>" +
 
     "<strong>" +
       escapeHtml(t("location")) +
     ":</strong> " +
 
       escapeHtml(
-        r.village || ""
+        [
+          r.village,
+          r.district,
+          r.state
+        ]
+        .filter(Boolean)
+        .join(", ") ||
+        t("notAvailable")
       ) +
-
-      ", " +
-
-      escapeHtml(
-        r.district || ""
-      ) +
-
-      ", " +
-
-      escapeHtml(
-        r.state || ""
-      ) +
-
 
     "<br>" +
-
 
     "<strong>" +
       escapeHtml(t("area")) +
     ":</strong> " +
 
       escapeHtml(
-        r.area ||
-        t("notAvailable")
+        r.area !== "" && r.area !== null
+          ? r.area + " hectares"
+          : t("notAvailable")
       ) +
-
-      " " +
-
-      escapeHtml(
-        t("hectares")
-      ) +
-
 
     "<br>" +
-
 
     "<strong>" +
       escapeHtml(t("landUse")) +
     ":</strong> " +
 
       escapeHtml(
-        translateLandUse(
-          r.land_use
-        )
+        r.land_use ||
+        t("notAvailable")
       )
 
   );
@@ -4737,3 +4778,6 @@ applyLanguage(
 
 </body>
 </html>
+
+
+
