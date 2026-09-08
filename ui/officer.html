@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Land Stack - Officer Dashboard</title>
 
-```
 <style>
     body {
         margin: 0;
@@ -214,6 +213,63 @@
         padding: 9px 12px;
     }
 
+
+    .verification-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        font-size: 14px;
+    }
+
+    .verification-table th,
+    .verification-table td {
+        border: 1px solid #dbe3e8;
+        padding: 10px;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    .verification-table th {
+        background: #174d3b;
+        color: white;
+    }
+
+    .verification-table tr:nth-child(even) {
+        background: #f8faf9;
+    }
+
+    .approve-button {
+        background: #15803d;
+        margin-right: 6px;
+    }
+
+    .reject-button {
+        background: #b91c1c;
+    }
+
+    .small-status {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 15px;
+        font-weight: bold;
+        font-size: 12px;
+    }
+
+    .status-submitted {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+
+    .status-approved {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .status-rejected {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
     .logout {
         background: #9b2c2c;
     }
@@ -239,7 +295,6 @@
         }
     }
 </style>
-```
 
 </head>
 
@@ -247,7 +302,6 @@
 
 <header>
 
-```
 <div class="brand" data-i18n="brand">
     🏛️ Land Stack — Department
 </div>
@@ -268,13 +322,11 @@
     <span id="username"></span>
     <span class="role" data-i18n="officerRole">OFFICER</span>
 </div>
-```
 
 </header>
 
 <div class="container">
 
-```
 <div class="welcome">
 
     <h1 data-i18n="dashboardTitle">Officer Dashboard</h1>
@@ -327,7 +379,7 @@
     </div>
 
 
-    <div class="card interactive-card" onclick="openModule('registration')">
+    <div class="card interactive-card" onclick="openRegistrationVerification()">
         <h3 data-i18n="registration">
             📜 Registration
         </h3>
@@ -338,7 +390,7 @@
 
         <button
             class="module-button"
-            onclick="event.stopPropagation(); openModule('registration')">
+            onclick="event.stopPropagation(); openRegistrationVerification()">
             Open Registration
         </button>
     </div>
@@ -479,7 +531,6 @@
     </div>
 
 </div>
-```
 
 </div>
 
@@ -856,6 +907,303 @@ const MODULE_INFO = {
     }
 
 };
+
+
+
+async function openRegistrationVerification() {
+
+    activeModule = "registration";
+
+    const modal =
+        document.getElementById("moduleModal");
+
+    document.getElementById("moduleTitle").textContent =
+        "Registration Verification";
+
+    document.getElementById("moduleDescription").textContent =
+        "Review citizen registration applications and approve or reject them.";
+
+    document.getElementById("lookupArea").style.display = "none";
+    document.getElementById("gisActionArea").style.display = "none";
+
+    const result =
+        document.getElementById("moduleResult");
+
+    result.innerHTML =
+        "Loading registration applications...";
+
+    modal.classList.add("show");
+
+    await loadRegistrationApplications();
+}
+
+
+async function loadRegistrationApplications() {
+
+    const result =
+        document.getElementById("moduleResult");
+
+    const savedToken =
+        sessionStorage.getItem("landstack_token");
+
+    if (!savedToken) {
+        sessionStorage.clear();
+        window.location.href = "login.html";
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                "http://127.0.0.1:8000/officer/registrations",
+                {
+                    headers: {
+                        "Authorization":
+                            "Bearer " + savedToken
+                    }
+                }
+            );
+
+        if (response.status === 401) {
+            sessionStorage.clear();
+            window.location.href = "login.html";
+            return;
+        }
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.detail ||
+                "Could not load applications."
+            );
+        }
+
+        const applications =
+            Array.isArray(data.data)
+                ? data.data
+                : [];
+
+        if (applications.length === 0) {
+            result.innerHTML =
+                "<strong>No registration applications found.</strong>";
+            return;
+        }
+
+        let html = `
+            <strong>Registration Applications</strong>
+
+            <table class="verification-table">
+                <thead>
+                    <tr>
+                        <th>Application</th>
+                        <th>ULPIN</th>
+                        <th>Applicant</th>
+                        <th>Transaction</th>
+                        <th>Buyer</th>
+                        <th>Fee</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+
+        applications.forEach(function(application) {
+
+            const id =
+                application.application_id || "";
+
+            const status =
+                String(
+                    application.status || "UNKNOWN"
+                ).toUpperCase();
+
+            let statusClass =
+                "status-submitted";
+
+            if (status === "APPROVED") {
+                statusClass = "status-approved";
+            }
+
+            if (status === "REJECTED") {
+                statusClass = "status-rejected";
+            }
+
+            let actions = "";
+
+            if (
+                status !== "APPROVED" &&
+                status !== "REJECTED"
+            ) {
+                actions = `
+                    <button
+                        class="approve-button"
+                        onclick="decideRegistration('${escapeModuleHtml(id)}','APPROVED')">
+                        Approve
+                    </button>
+
+                    <button
+                        class="reject-button"
+                        onclick="decideRegistration('${escapeModuleHtml(id)}','REJECTED')">
+                        Reject
+                    </button>
+                `;
+            } else {
+                actions = "Completed";
+            }
+
+            html += `
+                <tr>
+
+                    <td>
+                        ${escapeModuleHtml(id)}
+                    </td>
+
+                    <td>
+                        ${escapeModuleHtml(
+                            application.ulpin
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeModuleHtml(
+                            application.applicant_username
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeModuleHtml(
+                            application.transaction_type
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeModuleHtml(
+                            application.buyer_name
+                        )}
+                    </td>
+
+                    <td>
+                        ₹${Number(
+                            application.registration_fee || 0
+                        ).toFixed(2)}
+                    </td>
+
+                    <td>
+                        <span class="small-status ${statusClass}">
+                            ${escapeModuleHtml(status)}
+                        </span>
+                    </td>
+
+                    <td>
+                        ${actions}
+                    </td>
+
+                </tr>
+            `;
+        });
+
+        html += `
+                </tbody>
+            </table>
+        `;
+
+        result.innerHTML = html;
+
+    } catch (error) {
+
+        console.error(error);
+
+        result.innerHTML =
+            '<span class="status-danger">' +
+            escapeModuleHtml(error.message) +
+            "</span>";
+    }
+}
+
+
+async function decideRegistration(applicationId, decision) {
+
+    const action =
+        decision === "APPROVED"
+            ? "approve"
+            : "reject";
+
+    if (
+        !confirm(
+            "Are you sure you want to " +
+            action +
+            " this registration application?"
+        )
+    ) {
+        return;
+    }
+
+    const savedToken =
+        sessionStorage.getItem("landstack_token");
+
+    if (!savedToken) {
+        sessionStorage.clear();
+        window.location.href = "login.html";
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                "http://127.0.0.1:8000/officer/registrations/" +
+                encodeURIComponent(applicationId) +
+                "/decision",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Authorization":
+                            "Bearer " + savedToken,
+
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        decision: decision
+                    })
+                }
+            );
+
+        if (response.status === 401) {
+            sessionStorage.clear();
+            window.location.href = "login.html";
+            return;
+        }
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.detail ||
+                "Unable to update application."
+            );
+        }
+
+        alert(
+            "Application " +
+            decision.toLowerCase() +
+            " successfully."
+        );
+
+        await loadRegistrationApplications();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+    }
+}
 
 
 function openModule(moduleName) {

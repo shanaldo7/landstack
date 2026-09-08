@@ -1,1613 +1,2408 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>LandStack - Citizen Dashboard</title>
 
-
     <style>
-
-        /* =====================================================
-           RESET
-        ===================================================== */
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
-
-        html,
-        body {
-            width: 100%;
-            min-height: 100%;
-        }
-
-
         body {
             font-family: Arial, Helvetica, sans-serif;
-
-            background: #f3f6fa;
-
-            color: #172033;
+            background: #f4f7fb;
+            color: #1f2937;
         }
 
-
-        /* =====================================================
-           TOP GOVERNMENT BAR
-        ===================================================== */
-
+        /* TOP BAR */
         .topbar {
-
-            min-height: 54px;
-
-            background: #071b3a;
-
+            background: #0b3d2e;
             color: white;
-
+            padding: 8px 30px;
             display: flex;
-
-            align-items: center;
-
             justify-content: space-between;
-
-            padding: 0 30px;
-
-            gap: 25px;
-        }
-
-
-        .gov {
-
-            line-height: 1.25;
-        }
-
-
-        .gov strong {
-
+            align-items: center;
             font-size: 14px;
         }
 
-
-        .gov span {
-
-            font-size: 12px;
-
-            color: #d9e3f2;
-        }
-
-
-        .language-box {
-
+        .topbar-left {
             display: flex;
-
-            align-items: center;
-
-            gap: 8px;
-
-            margin-left: auto;
+            gap: 20px;
         }
 
-
-        .language-box label {
-
-            font-size: 12px;
-        }
-
-
-        #language-selector {
-
-            height: 32px;
-
-            padding: 0 12px;
-
-            border: 1px solid #cfd6df;
-
-            border-radius: 7px;
-
-            background: white;
-
-            color: #172033;
-
-            cursor: pointer;
-
-            font-size: 13px;
-        }
-
-
-        .secure {
-
-            font-size: 12px;
-
-            color: #d9e3f2;
-        }
-
-
-        /* =====================================================
-           MAIN HEADER
-        ===================================================== */
-
-        .header {
-
-            min-height: 88px;
-
-            background: white;
-
-            border-bottom: 1px solid #dce2e8;
-
+        .topbar-right {
             display: flex;
+            gap: 20px;
+        }
 
-            align-items: center;
-
+        /* HEADER */
+        header {
+            background: white;
+            padding: 18px 35px;
+            display: flex;
             justify-content: space-between;
-
-            padding: 0 38px;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
         }
 
-
-        .brand {
-
+        .logo-section {
             display: flex;
-
             align-items: center;
-
             gap: 15px;
         }
 
-
         .logo {
-
-            width: 47px;
-
-            height: 47px;
-
-            background: #0b3d91;
-
+            width: 55px;
+            height: 55px;
+            background: #0b3d2e;
             color: white;
-
-            border-radius: 10px;
-
+            border-radius: 50%;
             display: flex;
-
             align-items: center;
-
             justify-content: center;
-
-            font-size: 21px;
-
             font-weight: bold;
+            font-size: 17px;
         }
 
-
-        .brand h1 {
-
-            font-size: 24px;
-
-            margin-bottom: 3px;
+        .logo-text h1 {
+            color: #0b3d2e;
+            font-size: 25px;
         }
 
-
-        .brand p {
-
-            font-size: 12px;
-
-            color: #63748a;
+        .logo-text p {
+            color: #666;
+            font-size: 13px;
+            margin-top: 3px;
         }
 
-
-        .citizen-info {
-
-            text-align: right;
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
+        select {
+            padding: 9px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: white;
+        }
 
-        .citizen-info strong {
+        /* MAIN */
+        .container {
+            max-width: 1250px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
 
-            display: block;
+        .welcome-card {
+            background: linear-gradient(135deg, #0b3d2e, #176b50);
+            color: white;
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 25px;
+        }
 
-            font-size: 14px;
+        .welcome-card h2 {
+            margin-bottom: 8px;
+            font-size: 27px;
+        }
 
+        .welcome-card p {
+            opacity: 0.9;
+        }
+
+        /* SERVICE CARDS */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 10px;
+            padding: 22px;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .service-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.09);
+        }
+
+        .service-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .service-card h3 {
+            color: #0b3d2e;
             margin-bottom: 7px;
         }
 
-
-        .role-badge {
-
-            display: inline-block;
-
-            background: #e4f4ec;
-
-            color: #17663e;
-
-            padding: 6px 11px;
-
-            border-radius: 20px;
-
-            font-size: 10px;
-
-            font-weight: bold;
-
-            letter-spacing: 0.4px;
-        }
-
-
-        /* =====================================================
-           PAGE
-        ===================================================== */
-
-        .container {
-
-            max-width: 1150px;
-
-            margin: 0 auto;
-
-            padding: 32px;
-        }
-
-
-        /* =====================================================
-           WELCOME CARD
-        ===================================================== */
-
-        .welcome {
-
-            background: white;
-
-            padding: 28px;
-
-            border-radius: 12px;
-
-            border: 1px solid #dfe5eb;
-
-            box-shadow:
-                0 3px 12px rgba(0, 0, 0, 0.04);
-
-            margin-bottom: 22px;
-        }
-
-
-        .welcome h2 {
-
-            font-size: 26px;
-
-            margin-bottom: 10px;
-        }
-
-
-        .welcome p {
-
-            color: #65758a;
-
+        .service-card p {
+            color: #666;
             font-size: 14px;
-
-            line-height: 1.6;
-
-            margin-bottom: 5px;
+            line-height: 1.5;
         }
 
-
-        .welcome p:last-child {
-
-            margin-bottom: 0;
-        }
-
-
-        .welcome strong {
-
-            color: #172033;
-        }
-
-
-        /* =====================================================
-           SERVICE CARDS
-        ===================================================== */
-
-        .cards {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, minmax(0, 1fr));
-
-            gap: 18px;
-
-            align-items: stretch;
-
-            margin-top: 0;
-        }
-
-
-        .card {
-
+        /* SERVICE PANEL */
+        .service-panel {
             background: white;
-
-            min-width: 0;
-
-            min-height: 220px;
-
-            padding: 23px;
-
-            border-radius: 11px;
-
-            border: 1px solid #dfe5eb;
-
-            box-shadow:
-                0 3px 12px rgba(0, 0, 0, 0.04);
-
-            display: flex;
-
-            flex-direction: column;
-
-            align-items: flex-start;
+            border-radius: 12px;
+            padding: 28px;
+            border: 1px solid #e2e8f0;
+            min-height: 250px;
+            margin-bottom: 25px;
         }
 
-
-        .card-icon {
-
-            width: 43px;
-
-            height: 43px;
-
-            border-radius: 9px;
-
-            background: #edf3fb;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-size: 20px;
-
-            margin-bottom: 16px;
+        .service-panel h2 {
+            color: #0b3d2e;
+            margin-bottom: 15px;
         }
 
+        .service-panel h3 {
+            color: #0b3d2e;
+            margin-bottom: 15px;
+        }
 
-        .card h3 {
+        .input-group {
+            margin-bottom: 15px;
+        }
 
-            font-size: 16px;
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
 
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .input-group textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .btn {
+            border: none;
+            background: #0b3d2e;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .btn:hover {
+            background: #176b50;
+        }
+
+        .btn-secondary {
+            background: #64748b;
+        }
+
+        .btn-danger {
+            background: #b91c1c;
+        }
+
+        .btn-warning {
+            background: #b45309;
+        }
+
+        .btn-success {
+            background: #15803d;
+        }
+
+        /* TABLE */
+        .table-wrapper {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            text-align: left;
+        }
+
+        th {
+            background: #0b3d2e;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        /* STATUS */
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-paid {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-submitted {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        /* INFO CARD */
+        .info-card {
+            background: #ecfdf5;
+            border-left: 5px solid #0b3d2e;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .info-card h3 {
+            color: #0b3d2e;
+            margin-bottom: 8px;
+        }
+
+        /* LOGOUT */
+        .logout-btn {
+            background: #b91c1c;
+            color: white;
+            border: none;
+            padding: 9px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .logout-btn:hover {
+            background: #991b1b;
+        }
+
+        /* MESSAGE */
+        .message {
+            padding: 15px;
+            border-radius: 7px;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+
+        .message-success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+
+        .message-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .message-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #93c5fd;
+        }
+
+        /* TAX CARD */
+        .tax-card {
+            border: 1px solid #dbe4ea;
+            border-radius: 8px;
+            padding: 18px;
+            margin-top: 15px;
+            background: #fafafa;
+        }
+
+        .tax-row {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 10px;
             margin-bottom: 9px;
         }
 
-
-        .card p {
-
-            color: #65758a;
-
-            font-size: 12px;
-
-            line-height: 1.55;
-
-            flex: 1;
-
-            margin-bottom: 18px;
-        }
-
-
-        /* =====================================================
-           BUTTONS
-        ===================================================== */
-
-        button {
-
-            border: none;
-
-            padding: 11px 17px;
-
-            border-radius: 7px;
-
-            cursor: pointer;
-
+        .tax-label {
             font-weight: bold;
-
-            font-size: 12px;
-
-            transition:
-                background 0.2s ease,
-                transform 0.1s ease;
         }
 
-
-        button:active {
-
-            transform: translateY(1px);
+        /* REGISTRATION */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
 
+        .full-width {
+            grid-column: 1 / -1;
+        }
 
-        .primary-btn {
-
-            background: #0b3d91;
-
+        /* FOOTER */
+        footer {
+            margin-top: 35px;
+            background: #0b3d2e;
             color: white;
-        }
-
-
-        .primary-btn:hover {
-
-            background: #092f70;
-        }
-
-
-        .logout-wrapper {
-
-            margin-top: 24px;
-
-            display: flex;
-
-            justify-content: flex-end;
-        }
-
-
-        .logout {
-
-            background: #9b2c2c;
-
-            color: white;
-        }
-
-
-        .logout:hover {
-
-            background: #822525;
-        }
-
-
-        /* =====================================================
-           INFORMATION SECTION
-        ===================================================== */
-
-        .info-card {
-
-            background: white;
-
-            margin-top: 22px;
-
-            padding: 22px;
-
-            border-radius: 11px;
-
-            border: 1px solid #dfe5eb;
-
-            box-shadow:
-                0 3px 12px rgba(0, 0, 0, 0.04);
-        }
-
-
-        .info-card h3 {
-
-            font-size: 16px;
-
-            margin-bottom: 10px;
-        }
-
-
-        .info-card p {
-
-            color: #65758a;
-
-            font-size: 12px;
-
-            line-height: 1.6;
-        }
-
-
-        /* =====================================================
-           FOOTER
-        ===================================================== */
-
-        .footer {
-
             text-align: center;
-
-            margin-top: 25px;
-
-            color: #7b8797;
-
-            font-size: 11px;
+            padding: 20px;
+            font-size: 13px;
         }
 
-
-        /* =====================================================
-           TABLET
-        ===================================================== */
-
+        /* RESPONSIVE */
         @media (max-width: 900px) {
-
-            .cards {
-
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
 
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
-
-        /* =====================================================
-           MOBILE
-        ===================================================== */
-
-        @media (max-width: 650px) {
-
-            .topbar {
-
-                padding: 12px 18px;
-
-                flex-wrap: wrap;
-
-                gap: 10px;
-            }
-
-
-            .gov {
-
-                width: 100%;
-            }
-
-
-            .language-box {
-
-                margin-left: 0;
-            }
-
-
-            .secure {
-
-                display: none;
-            }
-
-
-            .header {
-
-                padding: 18px;
-
-                flex-direction: column;
-
-                align-items: flex-start;
-
-                gap: 15px;
-            }
-
-
-            .citizen-info {
-
-                text-align: left;
-            }
-
-
-            .container {
-
-                padding: 20px 16px;
-            }
-
-
-            .welcome {
-
-                padding: 22px;
-            }
-
-
-            .welcome h2 {
-
-                font-size: 23px;
-            }
-
-
-            .cards {
-
+        @media (max-width: 600px) {
+            .services-grid {
                 grid-template-columns: 1fr;
             }
 
-
-            .card {
-
-                min-height: 200px;
+            header {
+                padding: 15px;
+                flex-direction: column;
+                gap: 15px;
             }
 
-
-            .logout-wrapper {
-
-                justify-content: flex-start;
+            .topbar {
+                flex-direction: column;
+                gap: 5px;
             }
 
+            .tax-row {
+                grid-template-columns: 1fr;
+            }
         }
-
-
     </style>
-
 </head>
-
 
 <body>
 
+    <!-- TOP BAR -->
+    <div class="topbar">
+        <div class="topbar-left">
+            <span id="topGov">Government of India</span>
+            <span id="topMinistry">Ministry of Rural Development</span>
+        </div>
 
-<!-- =====================================================
-     GOVERNMENT TOP BAR
-===================================================== -->
+        <div class="topbar-right">
+            <span id="topDigital">Digital Public Infrastructure</span>
+            <span id="topLand">Land Resources</span>
+        </div>
+    </div>
 
-<div class="topbar">
+    <!-- HEADER -->
+    <header>
+        <div class="logo-section">
+            <div class="logo">LS</div>
+
+            <div class="logo-text">
+                <h1>LandStack</h1>
+                <p id="subtitle">
+                    Integrated GIS-based Digital Public Infrastructure for Land Governance
+                </p>
+            </div>
+        </div>
+
+        <div class="header-right">
+            <select id="languageSelect" onchange="changeLanguage()">
+                <option value="en">English</option>
+                <option value="hi">हिन्दी</option>
+                <option value="ta">தமிழ்</option>
+                <option value="bn">বাংলা</option>
+                <option value="mr">मराठी</option>
+            </select>
+
+            <button class="logout-btn" onclick="logout()" id="logoutBtn">
+                Logout
+            </button>
+        </div>
+    </header>
 
 
-    <div class="gov">
+    <main class="container">
 
-        <strong data-i18n="government">
-            Government of India
-        </strong>
+        <!-- WELCOME -->
+        <div class="welcome-card">
+            <h2 id="welcomeTitle">Welcome, Citizen</h2>
+            <p id="welcomeText">
+                Access land records, ownership information, registration services,
+                property tax and application tracking from one platform.
+            </p>
+        </div>
 
-        <br>
 
-        <span data-i18n="ministry">
-            Ministry of Rural Development · Department of Land Resources
+        <!-- SERVICES -->
+        <div class="services-grid">
+
+            <div class="service-card" onclick="searchParcel()">
+                <div class="service-icon">🗺️</div>
+                <h3 id="service1Title">Search Parcel</h3>
+                <p id="service1Text">
+                    Search land parcels using ULPIN or Survey Number and view the GIS map.
+                </p>
+            </div>
+
+
+            <div class="service-card" onclick="openOwnershipService()">
+                <div class="service-icon">👤</div>
+                <h3 id="service2Title">Ownership</h3>
+                <p id="service2Text">
+                    View ownership information and verification status.
+                </p>
+            </div>
+
+
+            <div class="service-card" onclick="openRegistrationService()">
+                <div class="service-icon">📜</div>
+                <h3 id="service3Title">Registration</h3>
+                <p id="service3Text">
+                    Check registration status and transaction information.
+                </p>
+            </div>
+
+
+            <div class="service-card" onclick="openTaxService()">
+                <div class="service-icon">💰</div>
+                <h3 id="service4Title">Property Tax</h3>
+                <p id="service4Text">
+                    Check property tax dues and make online payment.
+                </p>
+            </div>
+
+
+            <div class="service-card" onclick="openOnlineRegistration()">
+                <div class="service-icon">📝</div>
+                <h3 id="service5Title">Online Registration</h3>
+                <p id="service5Text">
+                    Submit a new land registration application online.
+                </p>
+            </div>
+
+
+            <div class="service-card" onclick="trackApplication()">
+                <div class="service-icon">📊</div>
+                <h3 id="service6Title">Track Application</h3>
+                <p id="service6Text">
+                    Track the status of your submitted registration applications.
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- SERVICE PANEL -->
+        <div class="service-panel" id="servicePanel">
+
+            <h2 id="panelTitle">
+                Citizen Services
+            </h2>
+
+            <p id="panelText">
+                Select a service above to continue.
+            </p>
+
+        </div>
+
+
+        <!-- INFORMATION -->
+        <div class="info-card">
+            <h3 id="infoTitle">LandStack Citizen Portal</h3>
+
+            <p id="infoText">
+                LandStack provides citizens with integrated access to
+                land information, GIS parcel maps, ownership verification,
+                registration services, property tax and application tracking.
+            </p>
+        </div>
+
+    </main>
+
+
+    <footer>
+        <span id="footerText">
+            LandStack • Integrated Land Governance Platform • SIH 2026
         </span>
-
-    </div>
-
-
-    <div class="language-box">
-
-        <label
-            for="language-selector"
-            data-i18n="language"
-        >
-            Language
-        </label>
-
-
-        <select id="language-selector">
-
-            <option value="en">
-                English
-            </option>
-
-            <option value="hi">
-                हिंदी
-            </option>
-
-            <option value="ta">
-                தமிழ்
-            </option>
-
-            <option value="bn">
-                বাংলা
-            </option>
-
-            <option value="mr">
-                मराठी
-            </option>
-
-        </select>
-
-    </div>
-
-
-    <div
-        class="secure"
-        data-i18n="securePlatform"
-    >
-        🔒 Secure Land Governance Platform
-    </div>
-
-</div>
-
-
-<!-- =====================================================
-     LANDSTACK HEADER
-===================================================== -->
-
-<header class="header">
-
-
-    <div class="brand">
-
-
-        <div class="logo">
-            LS
-        </div>
-
-
-        <div>
-
-            <h1>
-                LandStack
-            </h1>
-
-
-            <p data-i18n="platformDescription">
-                Integrated GIS-based Digital Public Infrastructure
-                for Land Governance
-            </p>
-
-        </div>
-
-
-    </div>
-
-
-    <div class="citizen-info">
-
-
-        <strong id="username">
-            Citizen
-        </strong>
-
-
-        <span
-            class="role-badge"
-            data-i18n="citizenRole"
-        >
-            CITIZEN
-        </span>
-
-
-    </div>
-
-
-</header>
-
-
-<!-- =====================================================
-     MAIN CONTENT
-===================================================== -->
-
-<div class="container">
-
-
-    <!-- WELCOME -->
-
-    <div class="welcome">
-
-
-        <h2 data-i18n="citizenDashboard">
-            Citizen Dashboard
-        </h2>
-
-
-        <p>
-
-            <span data-i18n="welcome">
-                Welcome,
-            </span>
-
-            <strong id="welcomeUser"></strong>
-
-        </p>
-
-
-        <p data-i18n="dashboardDescription">
-            Access your permitted land information and parcel services.
-        </p>
-
-
-    </div>
-
-
-    <!-- SERVICE CARDS -->
-
-    <div class="cards">
-
-
-        <!-- SEARCH PARCEL -->
-
-        <div class="card">
-
-
-            <div class="card-icon">
-                🗺️
-            </div>
-
-
-            <h3 data-i18n="searchParcel">
-                Search Parcel
-            </h3>
-
-
-            <p data-i18n="searchParcelDescription">
-                Search land parcels using ULPIN or parcel number.
-            </p>
-
-
-            <button
-                class="primary-btn"
-                onclick="searchParcel()"
-                data-i18n="searchParcelButton"
-            >
-                Search Parcel
-            </button>
-
-
-        </div>
-
-
-        <!-- OWNERSHIP -->
-
-        <div class="card">
-
-
-            <div class="card-icon">
-                📜
-            </div>
-
-
-            <h3 data-i18n="ownership">
-                Ownership
-            </h3>
-
-
-            <p data-i18n="ownershipDescription">
-                View permitted ownership information.
-            </p>
-
-
-            <button
-                class="primary-btn"
-                onclick="openLandStack()"
-                data-i18n="viewRecords"
-            >
-                View Records
-            </button>
-
-
-        </div>
-
-
-        <!-- REGISTRATION -->
-
-        <div class="card">
-
-
-            <div class="card-icon">
-                📋
-            </div>
-
-
-            <h3 data-i18n="registration">
-                Registration
-            </h3>
-
-
-            <p data-i18n="registrationDescription">
-                View registration status of your parcel.
-            </p>
-
-
-            <button
-                class="primary-btn"
-                onclick="openLandStack()"
-                data-i18n="viewStatus"
-            >
-                View Status
-            </button>
-
-
-        </div>
-
-
-    </div>
-
-
-    <!-- INFORMATION -->
-
-    <div class="info-card">
-
-
-        <h3 data-i18n="citizenServices">
-            Citizen Land Services
-        </h3>
-
-
-        <p data-i18n="citizenServicesDescription">
-            LandStack provides citizens with secure access to permitted
-            land records, parcel information, ownership details and
-            registration services through a unified digital platform.
-        </p>
-
-
-    </div>
-
-
-    <!-- LOGOUT -->
-
-    <div class="logout-wrapper">
-
-
-        <button
-            class="logout"
-            onclick="logout()"
-            data-i18n="logout"
-        >
-            Logout
-        </button>
-
-
-    </div>
-
-
-    <!-- FOOTER -->
-
-    <div
-        class="footer"
-        data-i18n="footer"
-    >
-        LandStack · Government of India · Department of Land Resources
-    </div>
-
-
-</div>
+    </footer>
 
 
 <script>
 
+    /* ============================================================
+       API CONFIGURATION
+       ============================================================ */
 
-/* =========================================================
-   TRANSLATIONS
-========================================================= */
+    const API_BASE_URL = "http://127.0.0.1:8000";
 
-const TRANSLATIONS = {
 
+    /* ============================================================
+       SESSION PROTECTION
+       ============================================================ */
 
-    en: {
+    const token = sessionStorage.getItem("landstack_token");
+    const username = sessionStorage.getItem("landstack_username");
+    const role = sessionStorage.getItem("landstack_role");
 
-        government:
-            "Government of India",
-
-        ministry:
-            "Ministry of Rural Development · Department of Land Resources",
-
-        language:
-            "Language",
-
-        securePlatform:
-            "🔒 Secure Land Governance Platform",
-
-        platformDescription:
-            "Integrated GIS-based Digital Public Infrastructure for Land Governance",
-
-        citizenRole:
-            "CITIZEN",
-
-        citizenDashboard:
-            "Citizen Dashboard",
-
-        welcome:
-            "Welcome,",
-
-        dashboardDescription:
-            "Access your permitted land information and parcel services.",
-
-        searchParcel:
-            "Search Parcel",
-
-        searchParcelDescription:
-            "Search land parcels using ULPIN or parcel number.",
-
-        searchParcelButton:
-            "Search Parcel",
-
-        ownership:
-            "Ownership",
-
-        ownershipDescription:
-            "View permitted ownership information.",
-
-        registration:
-            "Registration",
-
-        registrationDescription:
-            "View registration status of your parcel.",
-
-        viewRecords:
-            "View Records",
-
-        viewStatus:
-            "View Status",
-
-        citizenServices:
-            "Citizen Land Services",
-
-        citizenServicesDescription:
-            "LandStack provides citizens with secure access to permitted land records, parcel information, ownership details and registration services through a unified digital platform.",
-
-        logout:
-            "Logout",
-
-        administratorAccess:
-            "Citizen access required.",
-
-        footer:
-            "LandStack · Government of India · Department of Land Resources"
-
-    },
-
-
-    hi: {
-
-        government:
-            "भारत सरकार",
-
-        ministry:
-            "ग्रामीण विकास मंत्रालय · भूमि संसाधन विभाग",
-
-        language:
-            "भाषा",
-
-        securePlatform:
-            "🔒 सुरक्षित भूमि शासन प्लेटफ़ॉर्म",
-
-        platformDescription:
-            "भूमि शासन के लिए एकीकृत GIS-आधारित डिजिटल सार्वजनिक अवसंरचना",
-
-        citizenRole:
-            "नागरिक",
-
-        citizenDashboard:
-            "नागरिक डैशबोर्ड",
-
-        welcome:
-            "स्वागत है,",
-
-        dashboardDescription:
-            "अपनी अनुमत भूमि जानकारी और पार्सल सेवाओं तक पहुँचें।",
-
-        searchParcel:
-            "भूमि पार्सल खोजें",
-
-        searchParcelDescription:
-            "ULPIN या पार्सल नंबर का उपयोग करके भूमि पार्सल खोजें।",
-
-        searchParcelButton:
-            "पार्सल खोजें",
-
-        ownership:
-            "स्वामित्व",
-
-        ownershipDescription:
-            "अनुमत स्वामित्व जानकारी देखें।",
-
-        registration:
-            "पंजीकरण",
-
-        registrationDescription:
-            "अपने पार्सल की पंजीकरण स्थिति देखें।",
-
-        viewRecords:
-            "रिकॉर्ड देखें",
-
-        viewStatus:
-            "स्थिति देखें",
-
-        citizenServices:
-            "नागरिक भूमि सेवाएँ",
-
-        citizenServicesDescription:
-            "LandStack नागरिकों को एकीकृत डिजिटल प्लेटफ़ॉर्म के माध्यम से अनुमत भूमि रिकॉर्ड, पार्सल जानकारी, स्वामित्व विवरण और पंजीकरण सेवाओं तक सुरक्षित पहुँच प्रदान करता है।",
-
-        logout:
-            "लॉग आउट",
-
-        administratorAccess:
-            "नागरिक की अनुमति आवश्यक है।",
-
-        footer:
-            "LandStack · भारत सरकार · भूमि संसाधन विभाग"
-
-    },
-
-
-    ta: {
-
-        government:
-            "இந்திய அரசு",
-
-        ministry:
-            "ஊரக வளர்ச்சி அமைச்சகம் · நில வளத் துறை",
-
-        language:
-            "மொழி",
-
-        securePlatform:
-            "🔒 பாதுகாப்பான நில நிர்வாக தளம்",
-
-        platformDescription:
-            "நில நிர்வாகத்திற்கான ஒருங்கிணைந்த GIS அடிப்படையிலான டிஜிட்டல் பொது உள்கட்டமைப்பு",
-
-        citizenRole:
-            "குடிமகன்",
-
-        citizenDashboard:
-            "குடிமகன் டாஷ்போர்டு",
-
-        welcome:
-            "வரவேற்கிறோம்,",
-
-        dashboardDescription:
-            "உங்களுக்கு அனுமதிக்கப்பட்ட நிலத் தகவல்கள் மற்றும் பார்சல் சேவைகளை அணுகவும்.",
-
-        searchParcel:
-            "நிலப் பார்சலைத் தேடுங்கள்",
-
-        searchParcelDescription:
-            "ULPIN அல்லது பார்சல் எண்ணைப் பயன்படுத்தி நிலப் பார்சல்களைத் தேடுங்கள்.",
-
-        searchParcelButton:
-            "பார்சலைத் தேடுங்கள்",
-
-        ownership:
-            "உரிமை",
-
-        ownershipDescription:
-            "அனுமதிக்கப்பட்ட உரிமைத் தகவல்களைப் பார்க்கவும்.",
-
-        registration:
-            "பதிவு",
-
-        registrationDescription:
-            "உங்கள் பார்சலின் பதிவு நிலையைப் பார்க்கவும்.",
-
-        viewRecords:
-            "பதிவுகளைப் பார்க்கவும்",
-
-        viewStatus:
-            "நிலையைப் பார்க்கவும்",
-
-        citizenServices:
-            "குடிமக்கள் நில சேவைகள்",
-
-        citizenServicesDescription:
-            "LandStack ஒருங்கிணைந்த டிஜிட்டல் தளத்தின் மூலம் அனுமதிக்கப்பட்ட நிலப் பதிவுகள், பார்சல் தகவல்கள், உரிமை விவரங்கள் மற்றும் பதிவு சேவைகளுக்கு பாதுகாப்பான அணுகலை வழங்குகிறது.",
-
-        logout:
-            "வெளியேறு",
-
-        administratorAccess:
-            "குடிமகன் அனுமதி தேவை.",
-
-        footer:
-            "LandStack · இந்திய அரசு · நில வளத் துறை"
-
-    },
-
-
-    bn: {
-
-        government:
-            "ভারত সরকার",
-
-        ministry:
-            "গ্রামোন্নয়ন মন্ত্রক · ভূমি সম্পদ বিভাগ",
-
-        language:
-            "ভাষা",
-
-        securePlatform:
-            "🔒 নিরাপদ ভূমি প্রশাসন প্ল্যাটফর্ম",
-
-        platformDescription:
-            "ভূমি প্রশাসনের জন্য সমন্বিত GIS-ভিত্তিক ডিজিটাল পাবলিক ইনফ্রাস্ট্রাকচার",
-
-        citizenRole:
-            "নাগরিক",
-
-        citizenDashboard:
-            "নাগরিক ড্যাশবোর্ড",
-
-        welcome:
-            "স্বাগতম,",
-
-        dashboardDescription:
-            "আপনার অনুমোদিত ভূমি তথ্য এবং পার্সেল পরিষেবাগুলিতে প্রবেশ করুন।",
-
-        searchParcel:
-            "জমির পার্সেল খুঁজুন",
-
-        searchParcelDescription:
-            "ULPIN বা পার্সেল নম্বর ব্যবহার করে জমির পার্সেল খুঁজুন।",
-
-        searchParcelButton:
-            "পার্সেল খুঁজুন",
-
-        ownership:
-            "মালিকানা",
-
-        ownershipDescription:
-            "অনুমোদিত মালিকানা তথ্য দেখুন।",
-
-        registration:
-            "নিবন্ধন",
-
-        registrationDescription:
-            "আপনার পার্সেলের নিবন্ধনের অবস্থা দেখুন।",
-
-        viewRecords:
-            "রেকর্ড দেখুন",
-
-        viewStatus:
-            "অবস্থা দেখুন",
-
-        citizenServices:
-            "নাগরিক ভূমি পরিষেবা",
-
-        citizenServicesDescription:
-            "LandStack একটি একীভূত ডিজিটাল প্ল্যাটফর্মের মাধ্যমে নাগরিকদের অনুমোদিত ভূমি রেকর্ড, পার্সেল তথ্য, মালিকানার বিবরণ এবং নিবন্ধন পরিষেবায় নিরাপদ প্রবেশাধিকার প্রদান করে।",
-
-        logout:
-            "লগ আউট",
-
-        administratorAccess:
-            "নাগরিকের অনুমতি প্রয়োজন।",
-
-        footer:
-            "LandStack · ভারত সরকার · ভূমি সম্পদ বিভাগ"
-
-    },
-
-
-    mr: {
-
-        government:
-            "भारत सरकार",
-
-        ministry:
-            "ग्रामीण विकास मंत्रालय · भूमि संसाधन विभाग",
-
-        language:
-            "भाषा",
-
-        securePlatform:
-            "🔒 सुरक्षित जमीन प्रशासन प्लॅटफॉर्म",
-
-        platformDescription:
-            "जमीन प्रशासनासाठी एकात्मिक GIS-आधारित डिजिटल सार्वजनिक पायाभूत सुविधा",
-
-        citizenRole:
-            "नागरिक",
-
-        citizenDashboard:
-            "नागरिक डॅशबोर्ड",
-
-        welcome:
-            "स्वागत आहे,",
-
-        dashboardDescription:
-            "आपल्या परवानगी असलेल्या जमीन माहिती आणि पार्सल सेवांमध्ये प्रवेश करा.",
-
-        searchParcel:
-            "जमीन पार्सल शोधा",
-
-        searchParcelDescription:
-            "ULPIN किंवा पार्सल क्रमांक वापरून जमीन पार्सल शोधा.",
-
-        searchParcelButton:
-            "पार्सल शोधा",
-
-        ownership:
-            "मालकी",
-
-        ownershipDescription:
-            "परवानगी असलेली मालकी माहिती पहा.",
-
-        registration:
-            "नोंदणी",
-
-        registrationDescription:
-            "आपल्या पार्सलची नोंदणी स्थिती पहा.",
-
-        viewRecords:
-            "नोंदी पहा",
-
-        viewStatus:
-            "स्थिती पहा",
-
-        citizenServices:
-            "नागरिक जमीन सेवा",
-
-        citizenServicesDescription:
-            "LandStack एकात्मिक डिजिटल प्लॅटफॉर्मद्वारे नागरिकांना परवानगी असलेल्या जमीन नोंदी, पार्सल माहिती, मालकी तपशील आणि नोंदणी सेवांमध्ये सुरक्षित प्रवेश प्रदान करते.",
-
-        logout:
-            "लॉग आउट",
-
-        administratorAccess:
-            "नागरिकाची परवानगी आवश्यक आहे.",
-
-        footer:
-            "LandStack · भारत सरकार · भूमि संसाधन विभाग"
-
-    }
-
-};
-
-
-/* =========================================================
-   TRANSLATION FUNCTION
-========================================================= */
-
-function t(key) {
-
-    const lang =
-        localStorage.getItem(
-            "landstack_language"
-        ) || "en";
-
-
-    return (
-        (
-            TRANSLATIONS[lang] &&
-            TRANSLATIONS[lang][key]
-        )
-        ||
-        TRANSLATIONS.en[key]
-        ||
-        key
-    );
-
-}
-
-
-/* =========================================================
-   APPLY LANGUAGE
-========================================================= */
-
-function applyLanguage(lang) {
-
-    if (!TRANSLATIONS[lang]) {
-
-        lang = "en";
-
+    if (!token || role !== "CITIZEN") {
+        window.location.replace("login.html");
     }
 
 
-    localStorage.setItem(
-        "landstack_language",
-        lang
-    );
+    let currentToken = token;
 
 
-    document.documentElement.lang =
-        lang;
+    /* ============================================================
+       COMMON API FUNCTION
+       ============================================================ */
+
+    async function serviceFetch(url, options = {}) {
+
+        try {
+
+            const headers = {
+                "Authorization": "Bearer " + currentToken,
+                "Content-Type": "application/json",
+                ...(options.headers || {})
+            };
+
+            const response = await fetch(
+                API_BASE_URL + url,
+                {
+                    ...options,
+                    headers: headers
+                }
+            );
 
 
-    document
-        .querySelectorAll("[data-i18n]")
-        .forEach(function(element) {
+            if (response.status === 401) {
 
-            const key =
-                element.getAttribute(
-                    "data-i18n"
+                alert(
+                    "Your login session has expired. Please login again."
+                );
+
+                sessionStorage.clear();
+
+                window.location.replace("login.html");
+
+                return null;
+            }
+
+
+            return response;
+
+        } catch (error) {
+
+            console.error("API error:", error);
+
+            alert(
+                "Unable to connect to LandStack backend.\n\n" +
+                "Make sure the FastAPI server is running on port 8000."
+            );
+
+            return null;
+        }
+    }
+
+
+    /* ============================================================
+       LOGOUT
+       ============================================================ */
+
+    function logout() {
+
+        sessionStorage.clear();
+
+        window.location.replace("login.html");
+    }
+
+
+    /* ============================================================
+       SEARCH PARCEL
+       ============================================================ */
+
+    function searchParcel() {
+
+        window.location.href = "index.html";
+    }
+
+
+    function openLandStack() {
+
+        window.location.href = "index.html";
+    }
+
+
+    /* ============================================================
+       OWNERSHIP
+       ============================================================ */
+
+    function openOwnershipService() {
+
+        document.getElementById("servicePanel").innerHTML = `
+
+            <h2>Ownership Information</h2>
+
+            <p>
+                Search a parcel to view its ownership information
+                and verification status.
+            </p>
+
+            <br>
+
+            <button class="btn" onclick="searchParcel()">
+                Search Parcel
+            </button>
+
+        `;
+    }
+
+
+    /* ============================================================
+       REGISTRATION STATUS
+       ============================================================ */
+
+    function openRegistrationService() {
+
+        document.getElementById("servicePanel").innerHTML = `
+
+            <h2>Registration Status</h2>
+
+            <div class="input-group">
+
+                <label>
+                    ULPIN
+                </label>
+
+                <input
+                    type="text"
+                    id="registrationStatusUlpin"
+                    value="ULPIN-WB-0001"
+                    placeholder="Enter ULPIN"
+                >
+
+            </div>
+
+            <button
+                class="btn"
+                onclick="checkRegistrationStatus()"
+            >
+                Check Registration
+            </button>
+
+            <div id="registrationStatusResult"></div>
+
+        `;
+    }
+
+
+    async function checkRegistrationStatus() {
+
+        const ulpin =
+            document
+                .getElementById("registrationStatusUlpin")
+                .value
+                .trim();
+
+
+        if (!ulpin) {
+
+            alert("Please enter ULPIN.");
+
+            return;
+        }
+
+
+        const result =
+            document.getElementById("registrationStatusResult");
+
+
+        result.innerHTML =
+            `<div class="message message-info">
+                Checking registration status...
+            </div>`;
+
+
+        try {
+
+            const response =
+                await serviceFetch(
+                    "/search/" + encodeURIComponent(ulpin)
                 );
 
 
-            if (
-                TRANSLATIONS[lang] &&
-                TRANSLATIONS[lang][key]
-            ) {
+            if (!response) return;
 
-                element.textContent =
-                    TRANSLATIONS[lang][key];
 
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                result.innerHTML =
+                    `<div class="message message-error">
+                        ${escapeHtml(
+                            data.detail || "Unable to fetch registration information."
+                        )}
+                    </div>`;
+
+                return;
             }
 
-        });
+
+            const registration =
+                data.registration || data.data?.registration;
 
 
-    if (lang === "en") {
+            if (!registration) {
 
-        document.title =
-            "LandStack - Citizen Dashboard";
+                result.innerHTML =
+                    `<div class="message message-info">
+                        No registration information found for this parcel.
+                    </div>`;
 
-    } else {
+                return;
+            }
 
-        document.title =
-            TRANSLATIONS[lang]
-                .citizenDashboard;
 
+            result.innerHTML = `
+
+                <div class="tax-card">
+
+                    <div class="tax-row">
+                        <div class="tax-label">ULPIN</div>
+                        <div>${escapeHtml(ulpin)}</div>
+                    </div>
+
+                    <div class="tax-row">
+                        <div class="tax-label">Registration Status</div>
+                        <div>
+                            ${escapeHtml(
+                                registration.registration_status ||
+                                registration.REGISTRATION_STATUS ||
+                                "Not Available"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="tax-row">
+                        <div class="tax-label">Transaction Type</div>
+                        <div>
+                            ${escapeHtml(
+                                registration.transaction_type ||
+                                registration.TRANSACTION_TYPE ||
+                                "Not Available"
+                            )}
+                        </div>
+                    </div>
+
+                </div>
+
+            `;
+
+        } catch (error) {
+
+            console.error(error);
+
+            result.innerHTML =
+                `<div class="message message-error">
+                    Unable to fetch registration information.
+                </div>`;
+        }
     }
 
-}
+
+    /* ============================================================
+       PROPERTY TAX
+       ============================================================ */
+
+    function openTaxService() {
+
+        document.getElementById("servicePanel").innerHTML = `
+
+            <h2>Property Tax</h2>
+
+            <p>
+                Check your property tax dues and make an online payment.
+            </p>
+
+            <br>
+
+            <div class="input-group">
+
+                <label>
+                    ULPIN
+                </label>
+
+                <input
+                    type="text"
+                    id="taxUlpin"
+                    value="ULPIN-WB-0001"
+                    placeholder="Enter ULPIN"
+                >
+
+            </div>
 
 
-/* =========================================================
-   LANGUAGE SELECTOR
-========================================================= */
-
-const languageSelector =
-    document.getElementById(
-        "language-selector"
-    );
+            <button
+                class="btn"
+                onclick="checkTax()"
+            >
+                Check Tax
+            </button>
 
 
-const savedLanguage =
-    localStorage.getItem(
-        "landstack_language"
-    ) || "en";
+            <div id="taxResult"></div>
 
-
-languageSelector.value =
-    savedLanguage;
-
-
-languageSelector.addEventListener(
-    "change",
-    function() {
-
-        applyLanguage(
-            this.value
-        );
-
+        `;
     }
-);
 
 
-/* =========================================================
-   AUTHENTICATION
-========================================================= */
+    /* ============================================================
+       CHECK TAX
+       IMPORTANT:
+       Backend returns:
+       {
+           "data": [
+               {
+                   "tax_id": ...,
+                   "tax_year": ...,
+                   "amount_due": ...,
+                   "due_date": ...,
+                   "status": ...
+               }
+           ]
+       }
+       ============================================================ */
 
-const token =
-    sessionStorage.getItem(
-        "landstack_token"
-    );
+    async function checkTax() {
 
-
-const username =
-    sessionStorage.getItem(
-        "landstack_username"
-    );
-
-
-const role =
-    sessionStorage.getItem(
-        "landstack_role"
-    );
-
-
-/* =========================================================
-   PROTECT PAGE
-========================================================= */
-
-if (
-    !token ||
-    role !== "CITIZEN"
-) {
-
-    window.location.href =
-        "login.html";
-
-}
+        const ulpin =
+            document
+                .getElementById("taxUlpin")
+                .value
+                .trim();
 
 
-/* =========================================================
-   DISPLAY USER
-========================================================= */
+        if (!ulpin) {
 
-if (username) {
+            alert("Please enter ULPIN.");
 
-    document.getElementById(
-        "username"
-    ).textContent =
-        username;
+            return;
+        }
 
 
-    document.getElementById(
-        "welcomeUser"
-    ).textContent =
-        username;
-
-}
+        const result =
+            document.getElementById("taxResult");
 
 
-/* =========================================================
-   TEST PROTECTED CITIZEN ENDPOINT
-========================================================= */
+        result.innerHTML =
+            `<div class="message message-info">
+                Checking property tax...
+            </div>`;
 
-fetch(
-    "http://127.0.0.1:8000/citizen/dashboard",
-    {
 
-        headers: {
+        try {
 
-            "Authorization":
-                "Bearer " + token
+            const response =
+                await serviceFetch(
+                    "/citizen/taxes/" +
+                    encodeURIComponent(ulpin)
+                );
+
+
+            if (!response) return;
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                result.innerHTML =
+                    `<div class="message message-error">
+                        ${escapeHtml(
+                            data.detail ||
+                            "Unable to fetch property tax."
+                        )}
+                    </div>`;
+
+                return;
+            }
+
+
+            /*
+             * FIX:
+             *
+             * Backend uses data.data
+             * NOT data.taxes
+             */
+
+            const taxes =
+                Array.isArray(data.data)
+                    ? data.data
+                    : [];
+
+
+            if (taxes.length === 0) {
+
+                result.innerHTML =
+                    `<div class="message message-info">
+                        No tax records found for this ULPIN.
+                    </div>`;
+
+                return;
+            }
+
+
+            let html = "";
+
+
+            taxes.forEach(function(tax) {
+
+                /*
+                 * FIX:
+                 * Backend returns lowercase keys.
+                 */
+
+                const taxId =
+                    tax.tax_id;
+
+                const taxYear =
+                    tax.tax_year;
+
+                const amount =
+                    Number(tax.amount_due || 0);
+
+                const dueDate =
+                    tax.due_date || "Not Available";
+
+                const status =
+                    String(
+                        tax.status || "UNKNOWN"
+                    ).toUpperCase();
+
+
+                let statusClass =
+                    "status-pending";
+
+
+                if (status === "PAID") {
+
+                    statusClass =
+                        "status-paid";
+                }
+
+
+                let paymentButton = "";
+
+
+                if (status === "PAID") {
+
+                    paymentButton = `
+
+                        <div class="message message-success">
+
+                            Property tax for this record
+                            has already been paid.
+
+                            ${
+                                tax.payment_id
+                                    ? `<br>
+                                       <strong>
+                                       Payment ID:
+                                       </strong>
+                                       ${escapeHtml(
+                                           tax.payment_id
+                                       )}`
+                                    : ""
+                            }
+
+                            ${
+                                tax.paid_at
+                                    ? `<br>
+                                       <strong>
+                                       Paid At:
+                                       </strong>
+                                       ${escapeHtml(
+                                           tax.paid_at
+                                       )}`
+                                    : ""
+                            }
+
+                        </div>
+
+                    `;
+
+                } else {
+
+                    paymentButton = `
+
+                        <button
+                            class="btn btn-success"
+                            onclick="payTax(${Number(taxId)})"
+                        >
+                            Pay Online
+                        </button>
+
+                    `;
+                }
+
+
+                html += `
+
+                    <div class="tax-card">
+
+                        <div class="tax-row">
+
+                            <div class="tax-label">
+                                Tax Year
+                            </div>
+
+                            <div>
+                                ${escapeHtml(
+                                    String(taxYear)
+                                )}
+                            </div>
+
+                        </div>
+
+
+                        <div class="tax-row">
+
+                            <div class="tax-label">
+                                Amount Due
+                            </div>
+
+                            <div>
+                                ₹${amount.toFixed(2)}
+                            </div>
+
+                        </div>
+
+
+                        <div class="tax-row">
+
+                            <div class="tax-label">
+                                Due Date
+                            </div>
+
+                            <div>
+                                ${escapeHtml(
+                                    String(dueDate)
+                                )}
+                            </div>
+
+                        </div>
+
+
+                        <div class="tax-row">
+
+                            <div class="tax-label">
+                                Status
+                            </div>
+
+                            <div>
+
+                                <span
+                                    class="status ${statusClass}"
+                                >
+                                    ${escapeHtml(status)}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        ${
+                            tax.payment_id
+                                ? `
+                                    <div class="tax-row">
+
+                                        <div class="tax-label">
+                                            Payment ID
+                                        </div>
+
+                                        <div>
+                                            ${escapeHtml(
+                                                tax.payment_id
+                                            )}
+                                        </div>
+
+                                    </div>
+                                  `
+                                : ""
+                        }
+
+
+                        <br>
+
+                        ${paymentButton}
+
+                    </div>
+
+                `;
+            });
+
+
+            result.innerHTML = html;
+
+
+        } catch (error) {
+
+            console.error(
+                "Tax error:",
+                error
+            );
+
+
+            result.innerHTML =
+                `<div class="message message-error">
+                    Unable to fetch property tax.
+                </div>`;
+        }
+    }
+
+
+    /* ============================================================
+       PAY TAX
+       ============================================================ */
+
+    async function payTax(taxId) {
+
+        if (!taxId) {
+
+            alert("Invalid Tax ID.");
+
+            return;
+        }
+
+
+        const confirmed =
+            confirm(
+                "Do you want to proceed with the property tax payment?"
+            );
+
+
+        if (!confirmed) {
+
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await serviceFetch(
+                    "/citizen/taxes/pay",
+                    {
+                        method: "POST",
+
+                        body: JSON.stringify({
+                            tax_id: Number(taxId)
+                        })
+                    }
+                );
+
+
+            if (!response) return;
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                alert(
+                    data.detail ||
+                    "Payment failed."
+                );
+
+                return;
+            }
+
+
+            /*
+             * Backend payment is currently DEMO/SIMULATED.
+             */
+
+            alert(
+                "Payment successful (DEMO).\n\n" +
+                "Payment ID: " +
+                (data.payment_id || "N/A") +
+                "\n" +
+                "Amount: ₹" +
+                Number(data.amount || 0).toFixed(2) +
+                "\n" +
+                "Status: " +
+                (data.status || "PAID")
+            );
+
+
+            /*
+             * Refresh tax information
+             * so status changes to PAID.
+             */
+
+            checkTax();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Unable to process payment."
+            );
+        }
+    }
+
+
+    /* ============================================================
+       ONLINE REGISTRATION
+       ============================================================ */
+
+    function openOnlineRegistration() {
+
+        document.getElementById("servicePanel").innerHTML = `
+
+            <h2>Online Land Registration</h2>
+
+            <p>
+                Submit a new registration application.
+            </p>
+
+            <br>
+
+
+            <div class="form-grid">
+
+
+                <div class="input-group">
+
+                    <label>
+                        ULPIN
+                    </label>
+
+                    <input
+                        type="text"
+                        id="regUlpin"
+                        value="ULPIN-WB-0001"
+                        placeholder="Enter ULPIN"
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Transaction Type
+                    </label>
+
+                    <select id="transactionType">
+
+                        <option value="Sale">
+                            Sale
+                        </option>
+
+                        <option value="Gift">
+                            Gift
+                        </option>
+
+                        <option value="Lease">
+                            Lease
+                        </option>
+
+                        <option value="Transfer">
+                            Transfer
+                        </option>
+
+                        <option value="Mortgage">
+                            Mortgage
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Buyer Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="buyerName"
+                        placeholder="Enter buyer name"
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Buyer Mobile
+                    </label>
+
+                    <input
+                        type="text"
+                        id="buyerMobile"
+                        placeholder="Enter mobile number"
+                    >
+
+                </div>
+
+
+                <div class="input-group full-width">
+
+                    <label>
+                        Buyer Address
+                    </label>
+
+                    <textarea
+                        id="buyerAddress"
+                        placeholder="Enter complete address"
+                    ></textarea>
+
+                </div>
+
+
+                <div class="input-group full-width">
+
+                    <label>
+                        Upload Document
+                    </label>
+
+                    <input
+                        type="file"
+                        id="registrationDocument"
+                    >
+
+                    <small>
+                        Demo mode: only the document filename is recorded.
+                    </small>
+
+                </div>
+
+
+            </div>
+
+
+            <button
+                class="btn"
+                onclick="submitRegistration()"
+            >
+                Submit Registration
+            </button>
+
+
+            <div id="registrationResult"></div>
+
+        `;
+    }
+
+
+    /* ============================================================
+       SUBMIT REGISTRATION
+       ============================================================ */
+
+    async function submitRegistration() {
+
+        const ulpin =
+            document
+                .getElementById("regUlpin")
+                .value
+                .trim();
+
+
+        const transactionType =
+            document
+                .getElementById("transactionType")
+                .value;
+
+
+        const buyerName =
+            document
+                .getElementById("buyerName")
+                .value
+                .trim();
+
+
+        const buyerMobile =
+            document
+                .getElementById("buyerMobile")
+                .value
+                .trim();
+
+
+        const buyerAddress =
+            document
+                .getElementById("buyerAddress")
+                .value
+                .trim();
+
+
+        const documentInput =
+            document
+                .getElementById("registrationDocument");
+
+
+        const result =
+            document
+                .getElementById("registrationResult");
+
+
+        if (!ulpin ||
+            !buyerName ||
+            !buyerMobile ||
+            !buyerAddress) {
+
+            alert(
+                "Please fill all required fields."
+            );
+
+            return;
+        }
+
+
+        let documentName = "";
+
+
+        if (
+            documentInput &&
+            documentInput.files &&
+            documentInput.files.length > 0
+        ) {
+
+            documentName =
+                documentInput.files[0].name;
+        }
+
+
+        result.innerHTML =
+            `<div class="message message-info">
+                Submitting registration application...
+            </div>`;
+
+
+        try {
+
+            const response =
+                await serviceFetch(
+                    "/citizen/registrations",
+                    {
+                        method: "POST",
+
+                        body: JSON.stringify({
+
+                            ulpin: ulpin,
+
+                            transaction_type:
+                                transactionType,
+
+                            buyer_name:
+                                buyerName,
+
+                            buyer_mobile:
+                                buyerMobile,
+
+                            buyer_address:
+                                buyerAddress,
+
+                            document_name:
+                                documentName
+
+                        })
+                    }
+                );
+
+
+            if (!response) return;
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                result.innerHTML =
+                    `<div class="message message-error">
+                        ${escapeHtml(
+                            data.detail ||
+                            "Registration submission failed."
+                        )}
+                    </div>`;
+
+                return;
+            }
+
+
+            result.innerHTML = `
+
+                <div class="message message-success">
+
+                    <strong>
+                        Registration application submitted successfully.
+                    </strong>
+
+                    <br><br>
+
+                    Application ID:
+                    <strong>
+                        ${escapeHtml(
+                            data.application_id ||
+                            "N/A"
+                        )}
+                    </strong>
+
+                    <br>
+
+                    Registration Fee:
+                    <strong>
+                        ₹${Number(
+                            data.registration_fee ||
+                            data.fee ||
+                            0
+                        ).toFixed(2)}
+                    </strong>
+
+                    <br>
+
+                    Status:
+                    <strong>
+                        ${escapeHtml(
+                            data.status ||
+                            "SUBMITTED"
+                        )}
+                    </strong>
+
+                </div>
+
+            `;
+
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            result.innerHTML =
+                `<div class="message message-error">
+                    Unable to submit registration application.
+                </div>`;
+        }
+    }
+
+
+    /* ============================================================
+       TRACK APPLICATION
+       ============================================================ */
+
+    async function trackApplication() {
+
+        document.getElementById("servicePanel").innerHTML = `
+
+            <h2>Track Application</h2>
+
+            <p>
+                View the registration applications submitted
+                using your citizen account.
+            </p>
+
+            <br>
+
+            <button
+                class="btn"
+                onclick="loadApplications()"
+            >
+                Check Applications
+            </button>
+
+            <div id="applicationResult"></div>
+
+        `;
+
+
+        await loadApplications();
+    }
+
+
+    async function loadApplications() {
+
+        const result =
+            document
+                .getElementById("applicationResult");
+
+
+        if (!result) return;
+
+
+        result.innerHTML =
+            `<div class="message message-info">
+                Loading applications...
+            </div>`;
+
+
+        try {
+
+            const response =
+                await serviceFetch(
+                    "/citizen/registrations"
+                );
+
+
+            if (!response) return;
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                result.innerHTML =
+                    `<div class="message message-error">
+                        ${escapeHtml(
+                            data.detail ||
+                            "Unable to load applications."
+                        )}
+                    </div>`;
+
+                return;
+            }
+
+
+            /*
+             * Support both possible response wrappers:
+             *
+             * data.data
+             * data.applications
+             */
+
+            const applications =
+                Array.isArray(data.data)
+                    ? data.data
+                    : Array.isArray(data.applications)
+                        ? data.applications
+                        : [];
+
+
+            if (applications.length === 0) {
+
+                result.innerHTML =
+                    `<div class="message message-info">
+                        No registration applications found.
+                    </div>`;
+
+                return;
+            }
+
+
+            let html = `
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Application ID
+                                </th>
+
+                                <th>
+                                    ULPIN
+                                </th>
+
+                                <th>
+                                    Transaction Type
+                                </th>
+
+                                <th>
+                                    Buyer Name
+                                </th>
+
+                                <th>
+                                    Registration Fee
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+            `;
+
+
+            applications.forEach(function(application) {
+
+                /*
+                 * Support lowercase and uppercase
+                 * response keys so the frontend remains
+                 * compatible with the backend.
+                 */
+
+                const applicationId =
+                    application.application_id ??
+                    application.APPLICATION_ID ??
+                    "N/A";
+
+
+                const ulpin =
+                    application.ulpin ??
+                    application.ULPIN ??
+                    "N/A";
+
+
+                const transactionType =
+                    application.transaction_type ??
+                    application.TRANSACTION_TYPE ??
+                    "N/A";
+
+
+                const buyerName =
+                    application.buyer_name ??
+                    application.BUYER_NAME ??
+                    "N/A";
+
+
+                const registrationFee =
+                    application.registration_fee ??
+                    application.REGISTRATION_FEE ??
+                    0;
+
+
+                const status =
+                    String(
+                        application.status ??
+                        application.STATUS ??
+                        "UNKNOWN"
+                    ).toUpperCase();
+
+
+                let statusClass =
+                    "status-submitted";
+
+
+                if (
+                    status === "PAID" ||
+                    status === "APPROVED" ||
+                    status === "COMPLETED"
+                ) {
+
+                    statusClass =
+                        "status-paid";
+                }
+
+
+                if (
+                    status === "PENDING" ||
+                    status === "SUBMITTED"
+                ) {
+
+                    statusClass =
+                        "status-submitted";
+                }
+
+
+                html += `
+
+                    <tr>
+
+                        <td>
+                            ${escapeHtml(
+                                String(applicationId)
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                String(ulpin)
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                String(transactionType)
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                String(buyerName)
+                            )}
+                        </td>
+
+                        <td>
+                            ₹${Number(
+                                registrationFee || 0
+                            ).toFixed(2)}
+                        </td>
+
+                        <td>
+
+                            <span
+                                class="status ${statusClass}"
+                            >
+                                ${escapeHtml(status)}
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                `;
+            });
+
+
+            html += `
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            `;
+
+
+            result.innerHTML = html;
+
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            result.innerHTML =
+                `<div class="message message-error">
+                    Unable to load applications.
+                </div>`;
+        }
+    }
+
+
+    /* ============================================================
+       HTML ESCAPE
+       Prevents database/API text from being inserted
+       as executable HTML.
+       ============================================================ */
+
+    function escapeHtml(value) {
+
+        if (value === null ||
+            value === undefined) {
+
+            return "";
+        }
+
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+
+    /* ============================================================
+       LANGUAGE SUPPORT
+       ============================================================ */
+
+    const translations = {
+
+        en: {
+
+            subtitle:
+                "Integrated GIS-based Digital Public Infrastructure for Land Governance",
+
+            welcomeTitle:
+                "Welcome, Citizen",
+
+            welcomeText:
+                "Access land records, ownership information, registration services, property tax and application tracking from one platform.",
+
+            service1Title:
+                "Search Parcel",
+
+            service1Text:
+                "Search land parcels using ULPIN or Survey Number and view the GIS map.",
+
+            service2Title:
+                "Ownership",
+
+            service2Text:
+                "View ownership information and verification status.",
+
+            service3Title:
+                "Registration",
+
+            service3Text:
+                "Check registration status and transaction information.",
+
+            service4Title:
+                "Property Tax",
+
+            service4Text:
+                "Check property tax dues and make online payment.",
+
+            service5Title:
+                "Online Registration",
+
+            service5Text:
+                "Submit a new land registration application online.",
+
+            service6Title:
+                "Track Application",
+
+            service6Text:
+                "Track the status of your submitted registration applications.",
+
+            panelTitle:
+                "Citizen Services",
+
+            panelText:
+                "Select a service above to continue.",
+
+            infoTitle:
+                "LandStack Citizen Portal",
+
+            infoText:
+                "LandStack provides citizens with integrated access to land information, GIS parcel maps, ownership verification, registration services, property tax and application tracking.",
+
+            footerText:
+                "LandStack • Integrated Land Governance Platform • SIH 2026"
+
+        },
+
+
+        hi: {
+
+            subtitle:
+                "भूमि शासन के लिए एकीकृत GIS आधारित डिजिटल सार्वजनिक अवसंरचना",
+
+            welcomeTitle:
+                "स्वागत है, नागरिक",
+
+            welcomeText:
+                "एक ही प्लेटफॉर्म से भूमि रिकॉर्ड, स्वामित्व, पंजीकरण, संपत्ति कर और आवेदन की स्थिति देखें।",
+
+            service1Title:
+                "पार्सल खोजें",
+
+            service1Text:
+                "ULPIN या सर्वे नंबर से भूमि पार्सल खोजें और GIS मानचित्र देखें।",
+
+            service2Title:
+                "स्वामित्व",
+
+            service2Text:
+                "स्वामित्व की जानकारी और सत्यापन स्थिति देखें।",
+
+            service3Title:
+                "पंजीकरण",
+
+            service3Text:
+                "पंजीकरण स्थिति और लेनदेन की जानकारी देखें।",
+
+            service4Title:
+                "संपत्ति कर",
+
+            service4Text:
+                "संपत्ति कर की बकाया राशि देखें और ऑनलाइन भुगतान करें।",
+
+            service5Title:
+                "ऑनलाइन पंजीकरण",
+
+            service5Text:
+                "नया भूमि पंजीकरण आवेदन ऑनलाइन जमा करें।",
+
+            service6Title:
+                "आवेदन ट्रैक करें",
+
+            service6Text:
+                "अपने पंजीकरण आवेदन की स्थिति देखें।",
+
+            panelTitle:
+                "नागरिक सेवाएं",
+
+            panelText:
+                "जारी रखने के लिए ऊपर दी गई कोई सेवा चुनें।",
+
+            infoTitle:
+                "LandStack नागरिक पोर्टल",
+
+            infoText:
+                "LandStack नागरिकों को भूमि जानकारी, GIS पार्सल मानचित्र, स्वामित्व सत्यापन, पंजीकरण, संपत्ति कर और आवेदन ट्रैकिंग की सुविधा देता है।",
+
+            footerText:
+                "LandStack • एकीकृत भूमि शासन प्लेटफॉर्म • SIH 2026"
+
+        },
+
+
+        ta: {
+
+            subtitle:
+                "நில நிர்வாகத்திற்கான ஒருங்கிணைந்த GIS அடிப்படையிலான டிஜிட்டல் பொது உள்கட்டமைப்பு",
+
+            welcomeTitle:
+                "வரவேற்கிறோம், குடிமகனே",
+
+            welcomeText:
+                "நில பதிவுகள், உரிமை தகவல், பதிவு சேவைகள், சொத்து வரி மற்றும் விண்ணப்ப நிலையை ஒரே தளத்தில் அணுகலாம்.",
+
+            service1Title:
+                "நிலப்பகுதியைத் தேடு",
+
+            service1Text:
+                "ULPIN அல்லது சர்வே எண்ணைப் பயன்படுத்தி நிலப்பகுதியைத் தேடுங்கள்.",
+
+            service2Title:
+                "உரிமை",
+
+            service2Text:
+                "உரிமை தகவல் மற்றும் சரிபார்ப்பு நிலையைப் பார்க்கவும்.",
+
+            service3Title:
+                "பதிவு",
+
+            service3Text:
+                "பதிவு நிலை மற்றும் பரிவர்த்தனை தகவலைப் பார்க்கவும்.",
+
+            service4Title:
+                "சொத்து வரி",
+
+            service4Text:
+                "சொத்து வரி நிலுவைகளைப் பார்த்து ஆன்லைனில் செலுத்தவும்.",
+
+            service5Title:
+                "ஆன்லைன் பதிவு",
+
+            service5Text:
+                "புதிய நில பதிவு விண்ணப்பத்தை ஆன்லைனில் சமர்ப்பிக்கவும்.",
+
+            service6Title:
+                "விண்ணப்பத்தை கண்காணிக்கவும்",
+
+            service6Text:
+                "உங்கள் பதிவு விண்ணப்பத்தின் நிலையை கண்காணிக்கவும்.",
+
+            panelTitle:
+                "குடிமக்கள் சேவைகள்",
+
+            panelText:
+                "தொடர மேலே உள்ள சேவையைத் தேர்ந்தெடுக்கவும்.",
+
+            infoTitle:
+                "LandStack குடிமக்கள் போர்டல்",
+
+            infoText:
+                "LandStack நில தகவல், GIS நிலப்பகுதி வரைபடம், உரிமை சரிபார்ப்பு, பதிவு சேவைகள், சொத்து வரி மற்றும் விண்ணப்ப கண்காணிப்பை வழங்குகிறது.",
+
+            footerText:
+                "LandStack • ஒருங்கிணைந்த நில நிர்வாக தளம் • SIH 2026"
+
+        },
+
+
+        bn: {
+
+            subtitle:
+                "ভূমি শাসনের জন্য সমন্বিত GIS-ভিত্তিক ডিজিটাল পাবলিক ইনফ্রাস্ট্রাকচার",
+
+            welcomeTitle:
+                "স্বাগতম, নাগরিক",
+
+            welcomeText:
+                "একটি প্ল্যাটফর্ম থেকে জমির রেকর্ড, মালিকানা, নিবন্ধন, সম্পত্তি কর এবং আবেদনের অবস্থা দেখুন।",
+
+            service1Title:
+                "পার্সেল খুঁজুন",
+
+            service1Text:
+                "ULPIN বা সার্ভে নম্বর ব্যবহার করে জমির পার্সেল খুঁজুন এবং GIS মানচিত্র দেখুন।",
+
+            service2Title:
+                "মালিকানা",
+
+            service2Text:
+                "মালিকানার তথ্য এবং যাচাইয়ের অবস্থা দেখুন।",
+
+            service3Title:
+                "নিবন্ধন",
+
+            service3Text:
+                "নিবন্ধনের অবস্থা এবং লেনদেনের তথ্য দেখুন।",
+
+            service4Title:
+                "সম্পত্তি কর",
+
+            service4Text:
+                "সম্পত্তি করের বকেয়া দেখুন এবং অনলাইনে পেমেন্ট করুন।",
+
+            service5Title:
+                "অনলাইন নিবন্ধন",
+
+            service5Text:
+                "নতুন জমি নিবন্ধনের আবেদন অনলাইনে জমা দিন।",
+
+            service6Title:
+                "আবেদন ট্র্যাক করুন",
+
+            service6Text:
+                "আপনার জমা দেওয়া নিবন্ধন আবেদনের অবস্থা দেখুন।",
+
+            panelTitle:
+                "নাগরিক পরিষেবা",
+
+            panelText:
+                "চালিয়ে যেতে উপরের একটি পরিষেবা নির্বাচন করুন।",
+
+            infoTitle:
+                "LandStack নাগরিক পোর্টাল",
+
+            infoText:
+                "LandStack নাগরিকদের জমির তথ্য, GIS পার্সেল মানচিত্র, মালিকানা যাচাই, নিবন্ধন পরিষেবা, সম্পত্তি কর এবং আবেদন ট্র্যাকিং প্রদান করে।",
+
+            footerText:
+                "LandStack • সমন্বিত ভূমি শাসন প্ল্যাটফর্ম • SIH 2026"
+
+        },
+
+
+        mr: {
+
+            subtitle:
+                "जमीन प्रशासनासाठी एकात्मिक GIS आधारित डिजिटल सार्वजनिक पायाभूत सुविधा",
+
+            welcomeTitle:
+                "स्वागत आहे, नागरिक",
+
+            welcomeText:
+                "एका प्लॅटफॉर्मवरून जमीन नोंदी, मालकी, नोंदणी सेवा, मालमत्ता कर आणि अर्जाची स्थिती तपासा.",
+
+            service1Title:
+                "पार्सल शोधा",
+
+            service1Text:
+                "ULPIN किंवा सर्व्हे क्रमांक वापरून जमीन पार्सल शोधा आणि GIS नकाशा पहा.",
+
+            service2Title:
+                "मालकी",
+
+            service2Text:
+                "मालकीची माहिती आणि पडताळणी स्थिती पहा.",
+
+            service3Title:
+                "नोंदणी",
+
+            service3Text:
+                "नोंदणी स्थिती आणि व्यवहाराची माहिती पहा.",
+
+            service4Title:
+                "मालमत्ता कर",
+
+            service4Text:
+                "मालमत्ता कराची थकबाकी तपासा आणि ऑनलाइन पेमेंट करा.",
+
+            service5Title:
+                "ऑनलाइन नोंदणी",
+
+            service5Text:
+                "नवीन जमीन नोंदणी अर्ज ऑनलाइन सादर करा.",
+
+            service6Title:
+                "अर्जाचा मागोवा घ्या",
+
+            service6Text:
+                "आपल्या नोंदणी अर्जाची स्थिती तपासा.",
+
+            panelTitle:
+                "नागरिक सेवा",
+
+            panelText:
+                "पुढे जाण्यासाठी वरील सेवा निवडा.",
+
+            infoTitle:
+                "LandStack नागरिक पोर्टल",
+
+            infoText:
+                "LandStack नागरिकांना जमीन माहिती, GIS पार्सल नकाशे, मालकी पडताळणी, नोंदणी सेवा, मालमत्ता कर आणि अर्ज ट्रॅकिंग प्रदान करते.",
+
+            footerText:
+                "LandStack • एकात्मिक जमीन प्रशासन प्लॅटफॉर्म • SIH 2026"
 
         }
 
+    };
+
+
+    /* ============================================================
+       CHANGE LANGUAGE
+       ============================================================ */
+
+    function changeLanguage() {
+
+        const language =
+            document
+                .getElementById("languageSelect")
+                .value;
+
+
+        const t =
+            translations[language];
+
+
+        if (!t) return;
+
+
+        document.getElementById("subtitle").textContent =
+            t.subtitle;
+
+
+        document.getElementById("welcomeTitle").textContent =
+            t.welcomeTitle;
+
+
+        document.getElementById("welcomeText").textContent =
+            t.welcomeText;
+
+
+        document.getElementById("service1Title").textContent =
+            t.service1Title;
+
+
+        document.getElementById("service1Text").textContent =
+            t.service1Text;
+
+
+        document.getElementById("service2Title").textContent =
+            t.service2Title;
+
+
+        document.getElementById("service2Text").textContent =
+            t.service2Text;
+
+
+        document.getElementById("service3Title").textContent =
+            t.service3Title;
+
+
+        document.getElementById("service3Text").textContent =
+            t.service3Text;
+
+
+        document.getElementById("service4Title").textContent =
+            t.service4Title;
+
+
+        document.getElementById("service4Text").textContent =
+            t.service4Text;
+
+
+        document.getElementById("service5Title").textContent =
+            t.service5Title;
+
+
+        document.getElementById("service5Text").textContent =
+            t.service5Text;
+
+
+        document.getElementById("service6Title").textContent =
+            t.service6Title;
+
+
+        document.getElementById("service6Text").textContent =
+            t.service6Text;
+
+
+        document.getElementById("panelTitle").textContent =
+            t.panelTitle;
+
+
+        document.getElementById("panelText").textContent =
+            t.panelText;
+
+
+        document.getElementById("infoTitle").textContent =
+            t.infoTitle;
+
+
+        document.getElementById("infoText").textContent =
+            t.infoText;
+
+
+        document.getElementById("footerText").textContent =
+            t.footerText;
     }
-)
 
-.then(function(response) {
 
-    if (!response.ok) {
+    /* ============================================================
+       SHOW LOGGED-IN USER
+       ============================================================ */
 
-        throw new Error(
-            "Access denied"
-        );
+    if (username) {
 
+        document.getElementById("welcomeTitle").textContent =
+            "Welcome, " + username;
     }
 
-
-    return response.json();
-
-})
-
-.then(function(data) {
-
-    console.log(
-        "Citizen authorization:",
-        data
-    );
-
-})
-
-.catch(function(error) {
-
-    console.error(
-        "Citizen authorization error:",
-        error
-    );
-
-
-    logout();
-
-});
-
-
-/* =========================================================
-   SEARCH PARCEL
-========================================================= */
-
-function searchParcel() {
-
-    window.location.href =
-        "index.html";
-
-}
-
-
-/* =========================================================
-   OPEN LANDSTACK
-========================================================= */
-
-function openLandStack() {
-
-    window.location.href =
-        "index.html";
-
-}
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-function logout() {
-
-    sessionStorage.clear();
-
-    window.location.href =
-        "login.html";
-
-}
-
-
-/* =========================================================
-   START LANGUAGE
-========================================================= */
-
-applyLanguage(
-    savedLanguage
-);
 
 </script>
 
-
 </body>
-
 </html>

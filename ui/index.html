@@ -899,6 +899,132 @@ footer.site{
   background:#f7f4ea;
 }
 
+
+/* ================= LANDSTACK AI ================= */
+#landstack-ai-button{
+  position:fixed;
+  right:25px;
+  bottom:25px;
+  z-index:9999;
+  border:2px solid var(--ochre-deep);
+  border-radius:999px;
+  padding:12px 18px;
+  background:var(--ochre);
+  color:var(--white);
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+#landstack-ai-button:hover{background:var(--ochre-deep);}
+#landstack-ai-panel{
+  display:none;
+  position:fixed;
+  right:25px;
+  bottom:82px;
+  width:370px;
+  height:520px;
+  z-index:10000;
+  background:var(--white);
+  color:var(--ink);
+  border:2px solid var(--ink);
+  border-radius:8px;
+  box-shadow:0 12px 35px rgba(0,0,0,.3);
+  overflow:hidden;
+}
+.landstack-ai-header{
+  height:58px;
+  background:var(--forest);
+  color:var(--white);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 15px;
+  font-weight:700;
+}
+.landstack-ai-close{
+  border:0;
+  background:transparent;
+  color:var(--white);
+  font-size:26px;
+  line-height:1;
+  cursor:pointer;
+}
+#landstack-ai-context{
+  padding:7px 12px;
+  font-size:11px;
+  color:#475569;
+  background:#eef5f1;
+  border-bottom:1px solid var(--line-soft);
+}
+#landstack-ai-messages{
+  height:390px;
+  overflow-y:auto;
+  padding:14px;
+  background:#f7f4ea;
+}
+.landstack-ai-message{
+  margin-bottom:10px;
+  padding:10px 12px;
+  border-radius:10px;
+  max-width:86%;
+  line-height:1.45;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+.landstack-ai-user{
+  margin-left:auto;
+  background:#dbeafe;
+  color:#17365f;
+}
+.landstack-ai-bot{
+  margin-right:auto;
+  background:var(--white);
+  border:1px solid var(--line-soft);
+}
+.landstack-ai-input-area{
+  display:flex;
+  gap:7px;
+  padding:9px;
+  border-top:1px solid var(--line-soft);
+  background:var(--white);
+}
+#landstack-ai-input{
+  flex:1;
+  min-width:0;
+  border:2px solid var(--ink);
+  border-radius:999px;
+  padding:9px 13px;
+  font:inherit;
+  outline:none;
+}
+#landstack-ai-send{
+  width:43px;
+  height:43px;
+  flex:0 0 43px;
+  border:2px solid var(--forest-deep);
+  border-radius:50%;
+  background:var(--forest);
+  color:var(--white);
+  cursor:pointer;
+  font-size:17px;
+}
+#landstack-ai-send:disabled,
+#landstack-ai-input:disabled{
+  opacity:.6;
+}
+@media(max-width:520px){
+  #landstack-ai-panel{
+    left:10px;
+    right:10px;
+    bottom:78px;
+    width:auto;
+    height:500px;
+  }
+  #landstack-ai-messages{height:370px;}
+  #landstack-ai-button{right:12px;bottom:12px;}
+}
+
 </style>
 </head>
 
@@ -3474,7 +3600,9 @@ function toClientRecord(r){
     registration_status:r.registration_status || "",
     tax_status:r.tax_status || "",
     ownership_status:r.ownership_status || "",
-    transaction_type:r.transaction_type || ""
+    transaction_type:r.transaction_type || "",
+    latitude:r.latitude ?? "",
+    longitude:r.longitude ?? ""
 
   };
 
@@ -3483,8 +3611,18 @@ function toClientRecord(r){
 
 function localSearch(term, mode){
 
+  let normalizedTerm =
+    term.trim().toUpperCase();
+
+  /* Accept both ULPIN formats:
+     WB000001 and ULPIN-WB-0001 */
+  if(/^ULPIN-WB-\d{4}$/.test(normalizedTerm)){
+    normalizedTerm =
+      "WB" + normalizedTerm.substring(9).padStart(6, "0");
+  }
+
   const searchTerm =
-    term.toLowerCase();
+    normalizedTerm.toLowerCase();
 
   return OFFLINE_RECORDS.filter(function(r){
 
@@ -3768,7 +3906,7 @@ searchForm.addEventListener(
 
     /* 3. Offline */
 
-    if(records === null){
+    if(!records || records.length === 0){
 
       records =
         localSearch(
@@ -4146,15 +4284,50 @@ function translateLandUse(value){
 function recordDetailsHtml(r){
 
   const regClass =
-    r.registration_status === "Pending"
+    String(r.registration_status || "").toLowerCase() === "pending"
       ? "badge-pending"
       : "badge-registered";
 
   const taxClass =
-    r.tax_status === "Due"
+    String(r.tax_status || "").toLowerCase() === "due"
       ? "badge-due"
       : "badge-paid";
 
+  /* Land Risk screening is calculated only from fields already
+     available in the current LandStack record. */
+  const registration =
+    String(r.registration_status || "")
+      .trim()
+      .toLowerCase();
+
+  const ownership =
+    String(r.ownership_status || "")
+      .trim()
+      .toLowerCase();
+
+  let risk = "Low";
+  let riskStyle =
+    "color:#1f6b3b; background:#e4efe7; border:1px solid #1f6b3b66;";
+
+  let reason =
+    "No high-risk indicator detected in the available parcel data.";
+
+  if(registration === "pending"){
+    risk = "High";
+    riskStyle =
+      "color:#a03022; background:#fbe4e0; border:1px solid #a0302266;";
+    reason = "Registration is currently pending.";
+  }
+  else if(
+    ownership !== "verified" &&
+    ownership !== "" &&
+    ownership !== "not available"
+  ){
+    risk = "Medium";
+    riskStyle =
+      "color:#8a5a00; background:#fdf3dc; border:1px solid #8a5a0066;";
+    reason = "Ownership is not marked as verified.";
+  }
 
   return (
 
@@ -4281,10 +4454,61 @@ function recordDetailsHtml(r){
       escapeHtml(
         r.land_use ||
         t("notAvailable")
-      )
+      ) +
+
+    /* ================= LAND RISK ================= */
+
+    "<div style='margin:18px 0 8px; font-size:18px; font-weight:700;'>" +
+      "⚠️ Land Risk" +
+    "</div>" +
+
+    "<div style='border:2px solid var(--ink); padding:12px; background:#fffdf8;'>" +
+
+      "<div style='font-weight:700; margin-bottom:10px;'>" +
+        "Parcel Risk Screening" +
+      "</div>" +
+
+      "<strong>ULPIN:</strong> " +
+      escapeHtml(r.ulpin || t("notAvailable")) +
+      "<br>" +
+
+      "<strong>Owner:</strong> " +
+      escapeHtml(r.owner_name || t("notAvailable")) +
+      "<br>" +
+
+      "<strong>Ownership:</strong> " +
+      escapeHtml(r.ownership_status || t("notAvailable")) +
+      "<br>" +
+
+      "<strong>Registration:</strong> " +
+      escapeHtml(r.registration_status || t("notAvailable")) +
+      "<br>" +
+
+      "<strong>Land Use:</strong> " +
+      escapeHtml(r.land_use || t("notAvailable")) +
+
+      "<br><br>" +
+
+      "<strong>Screening Result:</strong> " +
+
+      "<span style='" +
+        riskStyle +
+        " display:inline-block; padding:3px 9px; border-radius:999px; font-weight:700;'>" +
+        escapeHtml(risk) +
+      "</span>" +
+
+      "<br>" +
+
+      "<strong>Reason:</strong> " +
+      escapeHtml(reason) +
+
+      "<div style='margin-top:10px; font-size:12px; color:#666;'>" +
+        "This is a basic dashboard screening based only on the data currently available to LandStack." +
+      "</div>" +
+
+    "</div>"
 
   );
-
 }
 
 
@@ -4549,67 +4773,84 @@ function renderRecords(
    ========================================================= */
 
 let drawnLayer = null;
+let searchedMarker = null;
 
 
 function drawParcel(record){
 
-  const coords =
-    SAMPLE_COORDS[
-      record.ulpin
-    ];
+  /* Remove the previous search highlight */
+  if(drawnLayer){
+    map.removeLayer(drawnLayer);
+    drawnLayer = null;
+  }
 
+  if(searchedMarker){
+    map.removeLayer(searchedMarker);
+    searchedMarker = null;
+  }
+
+  /* Prefer real coordinates returned by the backend. */
+  const latitude = Number(record.latitude);
+  const longitude = Number(record.longitude);
+
+  if(
+    Number.isFinite(latitude) &&
+    Number.isFinite(longitude) &&
+    latitude >= -90 && latitude <= 90 &&
+    longitude >= -180 && longitude <= 180
+  ){
+    searchedMarker = L.marker(
+      [latitude, longitude],
+      { title: record.ulpin || "Searched parcel" }
+    ).addTo(map);
+
+    searchedMarker._landstackRecord = record;
+    searchedMarker.bindPopup(
+      getRecordMapPopupHtml(record)
+    );
+
+    /* Focus the map on the exact searched place. */
+    map.setView(
+      [latitude, longitude],
+      17,
+      { animate:true }
+    );
+
+    searchedMarker.openPopup();
+    return;
+  }
+
+  /* Fallback for offline/demo records with sample boundaries. */
+  const coords = SAMPLE_COORDS[record.ulpin];
 
   if(!coords){
-
     sourceNote.textContent =
       sourceNote.textContent +
       t("noMapCoordinates");
-
     return;
-
   }
 
+  drawnLayer = L.polygon(
+    coords,
+    {
+      color:"#9c5f16",
+      weight:2,
+      fillColor:"#c1791f",
+      fillOpacity:0.55
+    }
+  ).addTo(map);
 
-  if(drawnLayer){
-
-    map.removeLayer(
-      drawnLayer
-    );
-
-  }
-
-
-  drawnLayer =
-    L.polygon(
-      coords,
-      {
-
-        color:"#9c5f16",
-
-        weight:2,
-
-        fillColor:"#c1791f",
-
-        fillOpacity:0.55
-
-      }
-    )
-    .addTo(map);
-
-
-  drawnLayer._landstackRecord =
-    record;
-
+  drawnLayer._landstackRecord = record;
 
   drawnLayer.bindPopup(
     getRecordMapPopupHtml(record)
   );
 
-
   map.fitBounds(
     drawnLayer.getBounds(),
     {
-      padding:[40,40]
+      padding:[40,40],
+      maxZoom:17
     }
   );
 
@@ -4776,8 +5017,402 @@ applyLanguage(
 
 </script>
 
+
+<!-- ================= LANDSTACK AI ================= -->
+<button id="landstack-ai-button" type="button" onclick="toggleLandStackAI()">
+  🤖 Ask LandStack AI
+</button>
+
+<div id="landstack-ai-panel" aria-label="LandStack AI assistant">
+
+  <div class="landstack-ai-header">
+    <span>🤖 LandStack AI</span>
+    <button
+      class="landstack-ai-close"
+      type="button"
+      onclick="toggleLandStackAI()"
+      aria-label="Close AI">
+      ×
+    </button>
+  </div>
+
+  <div id="landstack-ai-context">
+    No parcel selected
+  </div>
+
+  <div id="landstack-ai-messages">
+    <div class="landstack-ai-message landstack-ai-bot">
+      Hello! I am LandStack AI. Ask me about your selected land parcel, ownership, land use, registration, or tax information.
+    </div>
+  </div>
+
+  <div class="landstack-ai-input-area">
+    <input
+      id="landstack-ai-input"
+      type="text"
+      placeholder="Ask something..."
+      autocomplete="off"
+      onkeydown="if(event.key==='Enter') sendLandStackAI()">
+    <button
+      id="landstack-ai-send"
+      type="button"
+      onclick="sendLandStackAI()"
+      aria-label="Send">
+      ➤
+    </button>
+  </div>
+
+</div>
+
+<script>
+/* ================= LANDSTACK AI ================= */
+
+const LANDSTACK_AI_API =
+  window.LANDSTACK_API_URL ||
+  "http://127.0.0.1:8000";
+
+function getLandStackAIULPIN(){
+
+  try{
+
+    if(
+      typeof currentRecords !== "undefined" &&
+      Array.isArray(currentRecords) &&
+      currentRecords.length > 0
+    ){
+
+      const record = currentRecords[0];
+
+      return (
+        record.ulpin ||
+        record.ULPIN ||
+        ""
+      );
+    }
+
+  }catch(error){
+
+    console.log(
+      "LandStack AI parcel context error:",
+      error
+    );
+
+  }
+
+  return "";
+}
+
+
+function updateLandStackAIContext(){
+
+  const context =
+    document.getElementById(
+      "landstack-ai-context"
+    );
+
+  if(!context){
+    return;
+  }
+
+  const ulpin =
+    getLandStackAIULPIN();
+
+  context.textContent =
+    ulpin
+      ? "Using parcel context: " + ulpin
+      : "No parcel selected";
+}
+
+
+function toggleLandStackAI(){
+
+  const panel =
+    document.getElementById(
+      "landstack-ai-panel"
+    );
+
+  if(!panel){
+    return;
+  }
+
+  if(
+    panel.style.display === "block"
+  ){
+
+    panel.style.display = "none";
+
+  }else{
+
+    panel.style.display = "block";
+
+    updateLandStackAIContext();
+
+    setTimeout(
+      function(){
+
+        const input =
+          document.getElementById(
+            "landstack-ai-input"
+          );
+
+        if(input){
+          input.focus();
+        }
+
+      },
+      100
+    );
+
+  }
+
+}
+
+
+function addLandStackAIMessage(
+  message,
+  type
+){
+
+  const messages =
+    document.getElementById(
+      "landstack-ai-messages"
+    );
+
+  if(!messages){
+    return;
+  }
+
+  const div =
+    document.createElement(
+      "div"
+    );
+
+  div.className =
+    "landstack-ai-message " +
+    (
+      type === "user"
+        ? "landstack-ai-user"
+        : "landstack-ai-bot"
+    );
+
+  div.textContent =
+    message;
+
+  messages.appendChild(div);
+
+  messages.scrollTop =
+    messages.scrollHeight;
+}
+
+
+async function sendLandStackAI(){
+
+  const input =
+    document.getElementById(
+      "landstack-ai-input"
+    );
+
+  const sendButton =
+    document.getElementById(
+      "landstack-ai-send"
+    );
+
+  if(!input || !sendButton){
+    return;
+  }
+
+  const message =
+    input.value.trim();
+
+  if(!message){
+    return;
+  }
+
+  const token =
+    sessionStorage.getItem(
+      "landstack_token"
+    );
+
+  if(!token){
+
+    addLandStackAIMessage(
+      "Please login first to use LandStack AI.",
+      "bot"
+    );
+
+    return;
+  }
+
+  addLandStackAIMessage(
+    message,
+    "user"
+  );
+
+  input.value = "";
+
+  input.disabled = true;
+  sendButton.disabled = true;
+
+  const loading =
+    document.createElement(
+      "div"
+    );
+
+  loading.id =
+    "landstack-ai-loading";
+
+  loading.className =
+    "landstack-ai-message landstack-ai-bot";
+
+  loading.textContent =
+    "LandStack AI is thinking...";
+
+  document
+    .getElementById(
+      "landstack-ai-messages"
+    )
+    .appendChild(loading);
+
+
+  try{
+
+    const ulpin =
+      getLandStackAIULPIN();
+
+    const response =
+      await fetch(
+        LANDSTACK_AI_API + "/ai/chat",
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json",
+
+            "Authorization":
+              "Bearer " + token
+          },
+
+          body:JSON.stringify({
+            message:message,
+            ulpin:ulpin
+          })
+        }
+      );
+
+
+    const loadingElement =
+      document.getElementById(
+        "landstack-ai-loading"
+      );
+
+    if(loadingElement){
+      loadingElement.remove();
+    }
+
+
+    if(response.status === 401){
+
+      sessionStorage.clear();
+
+      addLandStackAIMessage(
+        "Your login session has expired. Please login again.",
+        "bot"
+      );
+
+      return;
+    }
+
+
+    let data = {};
+
+    try{
+
+      data =
+        await response.json();
+
+    }catch(error){
+
+      throw new Error(
+        "The AI server returned an invalid response."
+      );
+
+    }
+
+
+    if(!response.ok){
+
+      throw new Error(
+        data.detail ||
+        "AI request failed."
+      );
+
+    }
+
+
+    if(
+      !data.answer ||
+      !String(data.answer).trim()
+    ){
+
+      throw new Error(
+        "AI returned an empty response."
+      );
+
+    }
+
+
+    addLandStackAIMessage(
+      data.answer,
+      "bot"
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "LandStack AI error:",
+      error
+    );
+
+    const loadingElement =
+      document.getElementById(
+        "landstack-ai-loading"
+      );
+
+    if(loadingElement){
+      loadingElement.remove();
+    }
+
+    addLandStackAIMessage(
+      "Unable to connect to LandStack AI.\n\n" +
+      error.message,
+      "bot"
+    );
+
+  }finally{
+
+    input.disabled = false;
+    sendButton.disabled = false;
+
+    input.focus();
+
+  }
+
+}
+
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function(){
+
+    updateLandStackAIContext();
+
+  }
+);
+
+</script>
+
 </body>
 </html>
-
-
 

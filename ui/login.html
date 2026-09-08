@@ -250,6 +250,12 @@ button.secondary {
     border: 1px solid #38506b;
 }
 
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
 .demo-note {
     margin-top: 15px;
     padding: 11px 12px;
@@ -344,6 +350,7 @@ button.secondary {
 
     <div class="gov-left">
         <span class="gov-emblem">🇮🇳</span>
+
         <span data-i18n="governmentOfIndia">
             Government of India
         </span>
@@ -356,6 +363,7 @@ button.secondary {
     </div>
 
     <div class="language-box">
+
         <select
             id="language-selector"
             aria-label="Choose your language"
@@ -366,6 +374,7 @@ button.secondary {
             <option value="bn">বাংলা</option>
             <option value="mr">मराठी</option>
         </select>
+
     </div>
 
 </div>
@@ -384,23 +393,29 @@ button.secondary {
         </div>
 
         <div>
+
             <div class="brand-title">
                 LandStack
             </div>
 
             <div class="brand-subtitle">
+
                 <span data-i18n="ministryDepartment">
                     Ministry of Rural Development · Department of Land Resources
                 </span>
+
             </div>
+
         </div>
 
     </div>
 
     <div class="header-right">
+
         <span data-i18n="platformDescription">
             Integrated GIS-based Land Governance Platform
         </span>
+
     </div>
 
 </header>
@@ -485,6 +500,7 @@ button.secondary {
                         id="citizenOtp"
                         type="text"
                         maxlength="6"
+                        inputmode="numeric"
                         placeholder="Enter 6-digit OTP"
                         data-i18n-placeholder="otpPlaceholder"
                         required
@@ -506,6 +522,7 @@ button.secondary {
 
                 <button
                     type="submit"
+                    id="citizenContinueButton"
                     data-i18n="continueCitizen"
                 >
                     Continue as Citizen
@@ -515,10 +532,11 @@ button.secondary {
 
 
             <div class="demo-note">
+
                 <span data-i18n="citizenDemoNote">
-                    Demo mode: click "Send OTP" and enter any
-                    6-digit OTP.
+                    Demo mode: click "Send OTP" and enter any 6-digit OTP.
                 </span>
+
             </div>
 
 
@@ -634,19 +652,27 @@ button.secondary {
 
 
             <div class="demo-note">
+
                 <span data-i18n="demoAccounts">
                     Demo accounts:
                 </span>
+
                 <br>
+
                 <span data-i18n="officerAccount">
                     Officer:
                 </span>
+
                 <b>officer / officer123</b>
+
                 <br>
+
                 <span data-i18n="adminAccount">
                     Admin:
                 </span>
+
                 <b>admin / admin123</b>
+
             </div>
 
 
@@ -661,9 +687,11 @@ button.secondary {
 
 
     <div class="footer">
+
         <span data-i18n="footer">
             LandStack Digital Public Infrastructure · Secure Demo Environment
         </span>
+
     </div>
 
 </div>
@@ -681,8 +709,11 @@ const TRANSLATIONS = {
 
     en: {
 
-        governmentOfIndia: "Government of India",
-        digitalIndia: "Digital India • Secure Land Governance",
+        governmentOfIndia:
+            "Government of India",
+
+        digitalIndia:
+            "Digital India • Secure Land Governance",
 
         ministryDepartment:
             "Ministry of Rural Development · Department of Land Resources",
@@ -1386,8 +1417,6 @@ function applyLanguage(lang) {
     document.documentElement.lang = lang;
 
 
-    /* Regular text */
-
     document
         .querySelectorAll("[data-i18n]")
         .forEach(function(element) {
@@ -1397,8 +1426,6 @@ function applyLanguage(lang) {
 
         });
 
-
-    /* Input placeholders */
 
     document
         .querySelectorAll("[data-i18n-placeholder]")
@@ -1410,11 +1437,8 @@ function applyLanguage(lang) {
         });
 
 
-    /* Page title */
-
     document.title =
         "LandStack — " + t("secureSignin");
-
 }
 
 
@@ -1427,16 +1451,13 @@ const languageSelector =
         "language-selector"
     );
 
-
 const savedLanguage =
     localStorage.getItem(
         "landstack_language"
     ) || "en";
 
-
 languageSelector.value =
     savedLanguage;
-
 
 languageSelector.addEventListener(
     "change",
@@ -1449,7 +1470,6 @@ languageSelector.addEventListener(
     }
 );
 
-
 applyLanguage(
     savedLanguage
 );
@@ -1459,7 +1479,8 @@ applyLanguage(
    API CONFIGURATION
 ========================================================= */
 
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL =
+    "http://127.0.0.1:8000";
 
 
 /* =========================================================
@@ -1473,39 +1494,37 @@ function redirectByRole(role) {
             .trim()
             .toUpperCase();
 
-
     console.log(
         "Redirecting user with role:",
         normalizedRole
     );
 
-
     if (normalizedRole === "ADMIN") {
 
-        window.location.href =
-            "admin.html";
+        window.location.assign(
+            "./admin.html"
+        );
 
         return;
     }
-
 
     if (normalizedRole === "OFFICER") {
 
-        window.location.href =
-            "officer.html";
+        window.location.assign(
+            "./officer.html"
+        );
 
         return;
     }
-
 
     if (normalizedRole === "CITIZEN") {
 
-        window.location.href =
-            "citizen.html";
+        window.location.assign(
+            "./citizen.html"
+        );
 
         return;
     }
-
 
     throw new Error(
         "Unknown user role: " +
@@ -1527,17 +1546,21 @@ function saveLoginSession(data) {
 
     sessionStorage.setItem(
         "landstack_username",
-        data.username
+        data.username || ""
     );
 
     sessionStorage.setItem(
         "landstack_role",
-        data.role
+        data.role || ""
     );
 
     sessionStorage.setItem(
         "landstack_token",
-        data.access_token
+        data.access_token || ""
+    );
+
+    console.log(
+        "Login session saved."
     );
 }
 
@@ -1554,24 +1577,20 @@ document
 
             event.preventDefault();
 
-
             const message =
                 document.getElementById(
                     "staffMessage"
                 );
-
 
             const username =
                 document.getElementById(
                     "staffUsername"
                 ).value.trim();
 
-
             const password =
                 document.getElementById(
                     "staffPassword"
                 ).value;
-
 
             const selectedRole =
                 document.getElementById(
@@ -1580,13 +1599,11 @@ document
                 .trim()
                 .toUpperCase();
 
-
             message.className =
                 "message";
 
             message.textContent =
                 "";
-
 
             if (!username || !password) {
 
@@ -1599,7 +1616,6 @@ document
                 return;
             }
 
-
             try {
 
                 message.className =
@@ -1607,7 +1623,6 @@ document
 
                 message.textContent =
                     t("signingIn");
-
 
                 const response =
                     await fetch(
@@ -1622,17 +1637,25 @@ document
                             },
 
                             body: JSON.stringify({
-                                username: username,
-                                password: password
+
+                                username:
+                                    username,
+
+                                password:
+                                    password
+
                             })
 
                         }
                     );
 
-
                 const data =
                     await response.json();
 
+                console.log(
+                    "Staff login response:",
+                    data
+                );
 
                 if (!response.ok) {
 
@@ -1641,9 +1664,7 @@ document
                         data.message ||
                         t("loginFailed")
                     );
-
                 }
-
 
                 if (!data.success) {
 
@@ -1651,32 +1672,19 @@ document
                         data.message ||
                         t("loginFailed")
                     );
-
                 }
-
-
-                /* =========================================
-                   VERIFY SELECTED ROLE
-                ========================================= */
 
                 const actualRole =
                     String(data.role || "")
                         .trim()
                         .toUpperCase();
 
-
                 if (actualRole !== selectedRole) {
 
                     throw new Error(
                         t("roleMismatch")
                     );
-
                 }
-
-
-                /* =========================================
-                   SAVE SESSION
-                ========================================= */
 
                 saveLoginSession({
 
@@ -1691,17 +1699,11 @@ document
 
                 });
 
-
                 message.className =
                     "message success";
 
                 message.textContent =
                     t("loginSuccessful");
-
-
-                /* =========================================
-                   REDIRECT
-                ========================================= */
 
                 setTimeout(
                     function() {
@@ -1716,14 +1718,12 @@ document
 
             }
 
-
             catch(error) {
 
                 console.error(
-                    "Login error:",
+                    "Staff login error:",
                     error
                 );
-
 
                 message.className =
                     "message error";
@@ -1731,7 +1731,6 @@ document
                 message.textContent =
                     error.message ||
                     t("unableLogin");
-
             }
 
         }
@@ -1739,7 +1738,7 @@ document
 
 
 /* =========================================================
-   CITIZEN OTP DEMO
+   CITIZEN SEND OTP
 ========================================================= */
 
 document
@@ -1748,17 +1747,19 @@ document
         "click",
         function() {
 
+            console.log(
+                "Send OTP clicked."
+            );
+
             const identifier =
                 document.getElementById(
                     "citizenIdentifier"
                 ).value.trim();
 
-
             const message =
                 document.getElementById(
                     "citizenMessage"
                 );
-
 
             if (!identifier) {
 
@@ -1770,7 +1771,6 @@ document
 
                 return;
             }
-
 
             message.className =
                 "message success";
@@ -1793,6 +1793,18 @@ document
         async function(event) {
 
             event.preventDefault();
+
+            console.log(
+                "================================="
+            );
+
+            console.log(
+                "CITIZEN LOGIN BUTTON CLICKED"
+            );
+
+            console.log(
+                "================================="
+            );
 
 
             const message =
@@ -1820,6 +1832,10 @@ document
                 "";
 
 
+            /* ==============================
+               CHECK CITIZEN ID
+            ============================== */
+
             if (!identifier) {
 
                 message.className =
@@ -1828,9 +1844,17 @@ document
                 message.textContent =
                     t("pleaseEnterIdentifier");
 
+                console.log(
+                    "Citizen ID missing."
+                );
+
                 return;
             }
 
+
+            /* ==============================
+               CHECK OTP
+            ============================== */
 
             if (!/^\d{6}$/.test(otp)) {
 
@@ -1840,25 +1864,46 @@ document
                 message.textContent =
                     t("validOtp");
 
+                console.log(
+                    "Invalid OTP:",
+                    otp
+                );
+
                 return;
             }
 
 
+            /* ==============================
+               START LOGIN
+            ============================== */
+
+            message.className =
+                "message success";
+
+            message.textContent =
+                t("verifyingCitizen");
+
+
+            console.log(
+                "Citizen ID:",
+                identifier
+            );
+
+            console.log(
+                "OTP accepted."
+            );
+
+            console.log(
+                "Calling backend:",
+                API_BASE_URL + "/login"
+            );
+
+
             try {
 
-                message.className =
-                    "message success";
-
-                message.textContent =
-                    t("verifyingCitizen");
-
-
-                /*
-                   DEMO CITIZEN LOGIN
-
-                   The current backend uses the demo
-                   citizen account.
-                */
+                /* =========================================
+                   USE EXISTING BACKEND CITIZEN ACCOUNT
+                ========================================= */
 
                 const response =
                     await fetch(
@@ -1868,8 +1913,10 @@ document
                             method: "POST",
 
                             headers: {
+
                                 "Content-Type":
                                     "application/json"
+
                             },
 
                             body: JSON.stringify({
@@ -1886,32 +1933,92 @@ document
                     );
 
 
+                console.log(
+                    "Backend response status:",
+                    response.status
+                );
+
+
                 const data =
                     await response.json();
 
+
+                console.log(
+                    "Backend response:",
+                    data
+                );
+
+
+                /* =========================================
+                   CHECK HTTP RESPONSE
+                ========================================= */
 
                 if (!response.ok) {
 
                     throw new Error(
                         data.detail ||
+                        data.message ||
                         t("citizenLoginFailed")
                     );
-
                 }
 
 
-                const actualRole =
-                    String(data.role || "")
-                        .trim()
-                        .toUpperCase();
+                /* =========================================
+                   CHECK SUCCESS
+                ========================================= */
 
-
-                if (actualRole !== "CITIZEN") {
+                if (
+                    data.success === false
+                ) {
 
                     throw new Error(
-                        t("citizenVerificationFailed")
+                        data.message ||
+                        t("citizenLoginFailed")
                     );
+                }
 
+
+                /* =========================================
+                   CHECK ROLE
+                ========================================= */
+
+                const actualRole =
+                    String(
+                        data.role || ""
+                    )
+                    .trim()
+                    .toUpperCase();
+
+
+                console.log(
+                    "Backend role:",
+                    actualRole
+                );
+
+
+                if (
+                    actualRole !== "CITIZEN"
+                ) {
+
+                    throw new Error(
+                        t(
+                            "citizenVerificationFailed"
+                        )
+                    );
+                }
+
+
+                /* =========================================
+                   CHECK JWT
+                ========================================= */
+
+                if (
+                    !data.access_token
+                ) {
+
+                    throw new Error(
+                        "Backend did not return an access token."
+                    );
                 }
 
 
@@ -1922,7 +2029,8 @@ document
                 saveLoginSession({
 
                     username:
-                        data.username,
+                        data.username ||
+                        "citizen",
 
                     role:
                         actualRole,
@@ -1933,11 +2041,29 @@ document
                 });
 
 
+                console.log(
+                    "Citizen JWT saved."
+                );
+
+
+                /* =========================================
+                   SUCCESS MESSAGE
+                ========================================= */
+
                 message.className =
                     "message success";
 
                 message.textContent =
                     t("citizenDashboard");
+
+
+                /* =========================================
+                   REDIRECT
+                ========================================= */
+
+                console.log(
+                    "Redirecting to citizen.html..."
+                );
 
 
                 setTimeout(
@@ -1965,6 +2091,7 @@ document
                 message.className =
                     "message error";
 
+
                 message.textContent =
                     error.message ||
                     t("unableCitizenLogin");
@@ -1973,6 +2100,24 @@ document
 
         }
     );
+
+
+/* =========================================================
+   FINAL INITIALIZATION MESSAGE
+========================================================= */
+
+console.log(
+    "LandStack login page JavaScript loaded successfully."
+);
+
+console.log(
+    "API:",
+    API_BASE_URL
+);
+
+console.log(
+    "Citizen login handler ready."
+);
 
 </script>
 

@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>LandStack — Admin Dashboard</title>
 
 <style>
@@ -254,31 +253,48 @@ body {
     color: #6b7788;
 }
 
-/* USERS */
-.user-table {
+/* TABLES */
+.user-table,
+.verification-table {
     width: 100%;
     border-collapse: collapse;
 }
 
 .user-table th,
-.user-table td {
+.user-table td,
+.verification-table th,
+.verification-table td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #edf0f4;
     font-size: 13px;
+    vertical-align: top;
 }
 
-.user-table th {
+.user-table th,
+.verification-table th {
     color: #68758a;
     font-size: 12px;
     text-transform: uppercase;
 }
 
+.verification-wrap {
+    overflow-x: auto;
+    border: 1px solid #e1e6ec;
+    border-radius: 9px;
+}
+
+.verification-table {
+    min-width: 900px;
+}
+
+/* BADGES */
 .badge {
     padding: 5px 9px;
     border-radius: 20px;
     font-size: 11px;
     font-weight: bold;
+    display: inline-block;
 }
 
 .badge-active {
@@ -289,6 +305,21 @@ body {
 .badge-role {
     background: #e9f0fb;
     color: #24518f;
+}
+
+.status-pending {
+    background: #fff4d6;
+    color: #8a5a00;
+}
+
+.status-approved {
+    background: #e5f7ec;
+    color: #18733a;
+}
+
+.status-rejected {
+    background: #fde8e7;
+    color: #b42318;
 }
 
 /* STATUS */
@@ -326,7 +357,7 @@ body {
 }
 
 .modal {
-    width: min(760px, 100%);
+    width: min(1050px, 100%);
     max-height: 85vh;
     overflow: auto;
     background: white;
@@ -427,6 +458,15 @@ body {
     font-size: 14px;
 }
 
+.report-box {
+    white-space: pre-wrap;
+    background: #f7f9fc;
+    border: 1px solid #e1e6ec;
+    border-radius: 9px;
+    padding: 15px;
+    line-height: 1.6;
+}
+
 .risk-high {
     color: #b42318;
     font-weight: bold;
@@ -440,15 +480,6 @@ body {
 .risk-low {
     color: #18733a;
     font-weight: bold;
-}
-
-.report-box {
-    white-space: pre-wrap;
-    background: #f7f9fc;
-    border: 1px solid #e1e6ec;
-    border-radius: 9px;
-    padding: 15px;
-    line-height: 1.6;
 }
 
 /* FOOTER */
@@ -528,284 +559,357 @@ body {
 
 <!-- HEADER -->
 <div class="header">
+
     <div class="brand">
-        <div class="logo">LS</div>
+
+        <div class="logo">
+            LS
+        </div>
 
         <div>
             <h1>LandStack</h1>
+
             <p>
                 Integrated GIS-based Digital Public Infrastructure for Land Governance
             </p>
         </div>
+
     </div>
 
     <div class="admin-info">
-        <strong id="adminUsername">Administrator</strong>
-        <span>System Administrator</span>
+
+        <strong id="adminUsername">
+            Administrator
+        </strong>
+
+        <span>
+            System Administrator
+        </span>
+
     </div>
+
 </div>
 
 <div class="layout">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
+<!-- SIDEBAR -->
+<aside class="sidebar">
 
-        <div class="sidebar-title">
-            Administration
-        </div>
+    <div class="sidebar-title">
+        Administration
+    </div>
 
-        <div class="nav active" onclick="goDashboard()">
-            🏠 Dashboard
-        </div>
+    <div class="nav active" onclick="goDashboard()">
+        🏠 Dashboard
+    </div>
 
-        <div class="nav" onclick="openModule('landRecords')">
-            🗺️ Land Records
-        </div>
+    <div class="nav" onclick="openModule('landRecords')">
+        🗺️ Land Records
+    </div>
 
-        <div class="nav" onclick="openModule('users')">
-            👥 User Management
-        </div>
+    <div class="nav" onclick="openModule('users')">
+        👥 User Management
+    </div>
 
-        <div class="nav" onclick="openModule('ownership')">
-            📋 Ownership
-        </div>
+    <div class="nav" onclick="openModule('ownership')">
+        📋 Ownership
+    </div>
 
-        <div class="nav" onclick="openModule('registration')">
-            📝 Registration
-        </div>
+    <div class="nav" onclick="openModule('registration')">
+        📝 Registration
+    </div>
 
-        <div class="nav" onclick="openModule('risk')">
-            ⚠️ Land Risk
-        </div>
+    <div class="nav" onclick="openModule('risk')">
+        ⚠️ Land Risk
+    </div>
 
-        <div class="nav" onclick="openModule('gis')">
-            🛰️ GIS & Satellite
-        </div>
+    <div class="nav" onclick="openModule('gis')">
+        🛰️ GIS & Satellite
+    </div>
 
-        <div class="nav" onclick="openModule('reports')">
-            📊 Reports
-        </div>
+    <div class="nav" onclick="openModule('reports')">
+        📊 Reports
+    </div>
 
-        <div class="sidebar-title" style="margin-top:25px;">
-            System
-        </div>
+    <div class="sidebar-title" style="margin-top:25px;">
+        System
+    </div>
 
-        <div class="nav" onclick="openModule('security')">
-            🔐 Security
-        </div>
+    <div class="nav" onclick="openModule('security')">
+        🔐 Security
+    </div>
 
-        <div class="nav" onclick="openModule('audit')">
-            🧾 Audit Logs
-        </div>
+    <div class="nav" onclick="openModule('audit')">
+        🧾 Audit Logs
+    </div>
 
-        <div class="logout nav" onclick="logout()">
-            🚪 Logout
-        </div>
+    <div class="logout nav" onclick="logout()">
+        🚪 Logout
+    </div>
 
-    </aside>
+</aside>
 
-    <!-- MAIN CONTENT -->
-    <main class="main">
+<!-- MAIN CONTENT -->
+<main class="main">
 
-        <div class="page-title">
-            <h2>Admin Dashboard</h2>
-            <p>
-                Central administration and monitoring for the LandStack platform.
-            </p>
-        </div>
+    <div class="page-title">
 
-        <!-- STATISTICS -->
-        <section class="stats">
+        <h2>
+            Admin Dashboard
+        </h2>
 
-            <div class="card stat-card" onclick="openModule('landRecords')">
-                <div class="stat-label">
-                    Total Land Parcels
-                </div>
+        <p>
+            Central administration and monitoring for the LandStack platform.
+        </p>
 
-                <div class="stat-number" id="parcelCount">
-                    —
-                </div>
+    </div>
 
-                <div class="stat-small">
-                    Registered in LandStack
-                </div>
+    <!-- STATISTICS -->
+    <section class="stats">
+
+        <div class="card stat-card"
+             onclick="openModule('landRecords')">
+
+            <div class="stat-label">
+                Total Land Parcels
             </div>
 
-            <div class="card stat-card" onclick="openModule('ownership')">
-                <div class="stat-label">
-                    Verified Owners
-                </div>
-
-                <div class="stat-number" id="ownerCount">
-                    —
-                </div>
-
-                <div class="stat-small">
-                    Ownership records
-                </div>
+            <div class="stat-number" id="parcelCount">
+                —
             </div>
 
-            <div class="card stat-card" onclick="openModule('registration')">
-                <div class="stat-label">
-                    Registrations
-                </div>
-
-                <div class="stat-number" id="registrationCount">
-                    —
-                </div>
-
-                <div class="stat-small">
-                    Land transactions
-                </div>
-            </div>
-
-            <div class="card stat-card" onclick="openModule('users')">
-                <div class="stat-label">
-                    Active Users
-                </div>
-
-                <div class="stat-number" id="userCount">
-                    —
-                </div>
-
-                <div class="stat-small">
-                    Platform accounts
-                </div>
-            </div>
-
-        </section>
-
-        <!-- MAIN GRID -->
-        <div class="grid">
-
-            <!-- ADMINISTRATIVE ACTIONS -->
-            <div class="card">
-
-                <div class="section-title">
-                    Administrative Actions
-                </div>
-
-                <div class="actions">
-
-                    <div class="action" onclick="openModule('landRecords')">
-                        <strong>🗺️ Manage Land Parcels</strong>
-                        <span>
-                            Search and inspect integrated parcel records.
-                        </span>
-                    </div>
-
-                    <div class="action" onclick="openModule('users')">
-                        <strong>👥 Manage Users</strong>
-                        <span>
-                            Manage citizen, officer and administrator accounts.
-                        </span>
-                    </div>
-
-                    <div class="action" onclick="openModule('risk')">
-                        <strong>⚠️ Land Risk Monitoring</strong>
-                        <span>
-                            Monitor potentially high-risk land records.
-                        </span>
-                    </div>
-
-                    <div class="action" onclick="openModule('gis')">
-                        <strong>🛰️ GIS & Satellite</strong>
-                        <span>
-                            Review geospatial and satellite monitoring data.
-                        </span>
-                    </div>
-
-                    <div class="action" onclick="openModule('reports')">
-                        <strong>📊 Generate Reports</strong>
-                        <span>
-                            Prepare governance and land administration reports.
-                        </span>
-                    </div>
-
-                    <div class="action" onclick="openModule('audit')">
-                        <strong>🧾 Audit Logs</strong>
-                        <span>
-                            Review administrative activity and security events.
-                        </span>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- SYSTEM STATUS -->
-            <div class="card">
-
-                <div class="section-title">
-                    System Status
-                </div>
-
-                <div class="system-row">
-                    <span>FastAPI Backend</span>
-                    <span class="status-ok">● Online</span>
-                </div>
-
-                <div class="system-row">
-                    <span>Oracle Database</span>
-                    <span class="status-ok">● Online</span>
-                </div>
-
-                <div class="system-row">
-                    <span>Authentication</span>
-                    <span class="status-ok">● Active</span>
-                </div>
-
-                <div class="system-row">
-                    <span>RBAC</span>
-                    <span class="status-ok">● Active</span>
-                </div>
-
-                <div class="system-row">
-                    <span>GIS Services</span>
-                    <span class="status-ok">● Available</span>
-                </div>
-
+            <div class="stat-small">
+                Registered in LandStack
             </div>
 
         </div>
 
-        <!-- USERS -->
+        <div class="card stat-card"
+             onclick="openModule('ownership')">
+
+            <div class="stat-label">
+                Verified Owners
+            </div>
+
+            <div class="stat-number" id="ownerCount">
+                —
+            </div>
+
+            <div class="stat-small">
+                Ownership records
+            </div>
+
+        </div>
+
+        <div class="card stat-card"
+             onclick="openModule('registration')">
+
+            <div class="stat-label">
+                Registrations
+            </div>
+
+            <div class="stat-number" id="registrationCount">
+                —
+            </div>
+
+            <div class="stat-small">
+                Land transactions
+            </div>
+
+        </div>
+
+        <div class="card stat-card"
+             onclick="openModule('users')">
+
+            <div class="stat-label">
+                Active Users
+            </div>
+
+            <div class="stat-number" id="userCount">
+                —
+            </div>
+
+            <div class="stat-small">
+                Platform accounts
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- MAIN GRID -->
+    <div class="grid">
+
+        <!-- ADMINISTRATIVE ACTIONS -->
         <div class="card">
 
             <div class="section-title">
-                Platform Users
+                Administrative Actions
             </div>
 
-            <div style="overflow-x:auto;">
-                <table class="user-table">
+            <div class="actions">
 
-                    <thead>
-                        <tr>
-                            <th>User ID</th>
-                            <th>Username</th>
-                            <th>Role</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
+                <div class="action"
+                     onclick="openModule('landRecords')">
 
-                    <tbody id="usersTable">
-                        <tr>
-                            <td colspan="4">
-                                Loading users...
-                            </td>
-                        </tr>
-                    </tbody>
+                    <strong>
+                        🗺️ Manage Land Parcels
+                    </strong>
 
-                </table>
+                    <span>
+                        Search and inspect integrated parcel records.
+                    </span>
+
+                </div>
+
+                <div class="action"
+                     onclick="openModule('users')">
+
+                    <strong>
+                        👥 Manage Users
+                    </strong>
+
+                    <span>
+                        Manage citizen, officer and administrator accounts.
+                    </span>
+
+                </div>
+
+                <div class="action"
+                     onclick="openModule('risk')">
+
+                    <strong>
+                        ⚠️ Land Risk Monitoring
+                    </strong>
+
+                    <span>
+                        Monitor potentially high-risk land records.
+                    </span>
+
+                </div>
+
+                <div class="action"
+                     onclick="openModule('gis')">
+
+                    <strong>
+                        🛰️ GIS & Satellite
+                    </strong>
+
+                    <span>
+                        Review geospatial and satellite monitoring data.
+                    </span>
+
+                </div>
+
+                <div class="action"
+                     onclick="openModule('reports')">
+
+                    <strong>
+                        📊 Generate Reports
+                    </strong>
+
+                    <span>
+                        Prepare governance and land administration reports.
+                    </span>
+
+                </div>
+
+                <div class="action"
+                     onclick="openModule('audit')">
+
+                    <strong>
+                        🧾 Audit Logs
+                    </strong>
+
+                    <span>
+                        Review administrative activity and security events.
+                    </span>
+
+                </div>
+
             </div>
 
         </div>
 
-        <div class="footer">
-            LandStack · Government of India · Department of Land Resources
+        <!-- SYSTEM STATUS -->
+        <div class="card">
+
+            <div class="section-title">
+                System Status
+            </div>
+
+            <div class="system-row">
+                <span>FastAPI Backend</span>
+                <span class="status-ok">● Online</span>
+            </div>
+
+            <div class="system-row">
+                <span>Oracle Database</span>
+                <span class="status-ok">● Online</span>
+            </div>
+
+            <div class="system-row">
+                <span>Authentication</span>
+                <span class="status-ok">● Active</span>
+            </div>
+
+            <div class="system-row">
+                <span>RBAC</span>
+                <span class="status-ok">● Active</span>
+            </div>
+
+            <div class="system-row">
+                <span>GIS Services</span>
+                <span class="status-ok">● Available</span>
+            </div>
+
         </div>
 
-    </main>
+    </div>
+
+    <!-- USERS -->
+    <div class="card">
+
+        <div class="section-title">
+            Platform Users
+        </div>
+
+        <div style="overflow-x:auto;">
+
+            <table class="user-table">
+
+                <thead>
+
+                    <tr>
+                        <th>User ID</th>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="usersTable">
+
+                    <tr>
+                        <td colspan="4">
+                            Loading users...
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        LandStack · Government of India · Department of Land Resources
+    </div>
+
+</main>
 
 </div>
 
@@ -819,87 +923,144 @@ body {
         <div class="modal-header">
 
             <div>
-                <h3 id="moduleTitle">Admin Module</h3>
-                <p id="moduleSubtitle">LandStack administration</p>
+
+                <h3 id="moduleTitle">
+                    Admin Module
+                </h3>
+
+                <p id="moduleSubtitle">
+                    LandStack administration
+                </p>
+
             </div>
 
             <button class="modal-close"
                     onclick="closeModule()"
                     aria-label="Close">
+
                 ×
+
             </button>
 
         </div>
 
-        <div id="moduleBody" class="modal-body"></div>
+        <div id="moduleBody"
+             class="modal-body">
+        </div>
 
     </div>
 
 </div>
 
 <script>
-const API_BASE_URL = "http://127.0.0.1:8000";
+
+/* ==============================
+   API
+============================== */
+
+const API_BASE_URL =
+    "http://127.0.0.1:8000";
+
 
 /* ==============================
    AUTHENTICATION
 ============================== */
 
-const token = sessionStorage.getItem("landstack_token");
-const role = sessionStorage.getItem("landstack_role");
-const username = sessionStorage.getItem("landstack_username");
+const token =
+    sessionStorage.getItem("landstack_token");
+
+const role =
+    sessionStorage.getItem("landstack_role");
+
+const username =
+    sessionStorage.getItem("landstack_username");
+
 
 if (!token || role !== "ADMIN") {
+
     alert("Administrator access required.");
-    window.location.href = "login.html";
+
+    window.location.href =
+        "login.html";
 }
+
 
 /* ==============================
    SHOW ADMIN USER
 ============================== */
 
 if (username) {
-    document.getElementById("adminUsername").textContent = username;
+
+    document.getElementById(
+        "adminUsername"
+    ).textContent = username;
+
 }
+
 
 /* ==============================
    LOAD ADMIN DASHBOARD
 ============================== */
 
 async function loadDashboard() {
+
     try {
-        const response = await fetch(
-            API_BASE_URL + "/admin/dashboard",
-            {
-                headers: {
-                    "Authorization": "Bearer " + token
+
+        const response =
+            await fetch(
+                API_BASE_URL +
+                "/admin/dashboard",
+                {
+                    headers: {
+                        "Authorization":
+                            "Bearer " + token
+                    }
                 }
-            }
-        );
+            );
+
 
         if (response.status === 401) {
-            alert("Your session has expired. Please login again.");
+
+            alert(
+                "Your session has expired. Please login again."
+            );
+
             logout();
+
             return;
         }
+
 
         if (response.status === 403) {
-            alert("You do not have administrator permission.");
+
+            alert(
+                "You do not have administrator permission."
+            );
+
             logout();
+
             return;
         }
 
+
         if (!response.ok) {
-            throw new Error("Dashboard request failed");
+
+            throw new Error(
+                "Dashboard request failed"
+            );
+
         }
 
-        const data = await response.json();
 
-        console.log("Admin dashboard:", data);
+        const data =
+            await response.json();
 
-        /*
-         * The backend may return different field names.
-         * The fallback values match the current database data.
-         */
+
+        console.log(
+            "Admin dashboard:",
+            data
+        );
+
 
         const parcelCount =
             data.parcel_count ??
@@ -908,6 +1069,7 @@ async function loadDashboard() {
             data.parcels ??
             2;
 
+
         const ownerCount =
             data.owner_count ??
             data.ownership_count ??
@@ -915,76 +1077,134 @@ async function loadDashboard() {
             data.owners ??
             0;
 
+
         const registrationCount =
             data.registration_count ??
             data.registrations ??
             data.total_registrations ??
             0;
 
-        document.getElementById("parcelCount").textContent =
+
+        document.getElementById(
+            "parcelCount"
+        ).textContent =
             parcelCount;
 
-        document.getElementById("ownerCount").textContent =
+
+        document.getElementById(
+            "ownerCount"
+        ).textContent =
             ownerCount;
 
-        document.getElementById("registrationCount").textContent =
+
+        document.getElementById(
+            "registrationCount"
+        ).textContent =
             registrationCount;
 
+
     } catch (error) {
-        console.error("Dashboard error:", error);
 
-        /*
-         * Keep the dashboard usable if the dashboard endpoint
-         * does not contain all statistics.
-         */
+        console.error(
+            "Dashboard error:",
+            error
+        );
 
-        document.getElementById("parcelCount").textContent = 2;
-        document.getElementById("ownerCount").textContent = 2;
-        document.getElementById("registrationCount").textContent = 2;
+
+        document.getElementById(
+            "parcelCount"
+        ).textContent = 2;
+
+
+        document.getElementById(
+            "ownerCount"
+        ).textContent = 2;
+
+
+        document.getElementById(
+            "registrationCount"
+        ).textContent = 2;
+
     }
+
 }
+
 
 /* ==============================
    LOAD USERS
 ============================== */
 
 async function loadUsers() {
+
     try {
-        const response = await fetch(
-            API_BASE_URL + "/admin/users",
-            {
-                headers: {
-                    "Authorization": "Bearer " + token
+
+        const response =
+            await fetch(
+                API_BASE_URL +
+                "/admin/users",
+                {
+                    headers: {
+                        "Authorization":
+                            "Bearer " + token
+                    }
                 }
-            }
-        );
+            );
+
 
         if (response.status === 401) {
+
             logout();
+
             return;
         }
+
 
         if (response.status === 403) {
-            alert("You do not have permission to view users.");
+
+            alert(
+                "You do not have permission to view users."
+            );
+
             return;
         }
 
+
         if (!response.ok) {
-            throw new Error("User request failed");
+
+            throw new Error(
+                "User request failed"
+            );
+
         }
 
-        const result = await response.json();
 
-        console.log("Admin users:", result);
+        const result =
+            await response.json();
+
+
+        console.log(
+            "Admin users:",
+            result
+        );
+
 
         const users =
             result.users ??
             result.data ??
             result;
 
-        const table = document.getElementById("usersTable");
 
-        if (!Array.isArray(users) || users.length === 0) {
+        const table =
+            document.getElementById(
+                "usersTable"
+            );
+
+
+        if (
+            !Array.isArray(users) ||
+            users.length === 0
+        ) {
+
             table.innerHTML = `
                 <tr>
                     <td colspan="4">
@@ -993,116 +1213,209 @@ async function loadUsers() {
                 </tr>
             `;
 
-            document.getElementById("userCount").textContent = 0;
+
+            document.getElementById(
+                "userCount"
+            ).textContent = 0;
+
+
             return;
         }
 
-        table.innerHTML = users.map(function(user) {
-            const id =
-                user.user_id ??
-                user.id ??
-                "";
 
-            const name =
-                user.username ??
-                "";
+        table.innerHTML =
+            users.map(
+                function(user) {
 
-            const userRole =
-                user.role ??
-                "";
+                    const id =
+                        user.user_id ??
+                        user.id ??
+                        "";
 
-            const active =
-                user.active ??
-                1;
 
-            return `
-                <tr>
-                    <td>${escapeHTML(id)}</td>
+                    const name =
+                        user.username ??
+                        "";
 
-                    <td>${escapeHTML(name)}</td>
 
-                    <td>
-                        <span class="badge badge-role">
-                            ${escapeHTML(userRole)}
-                        </span>
-                    </td>
+                    const userRole =
+                        user.role ??
+                        "";
 
-                    <td>
-                        <span class="badge badge-active">
-                            ${active == 1 ? "Active" : "Inactive"}
-                        </span>
-                    </td>
-                </tr>
-            `;
-        }).join("");
 
-        /*
-         * Active Users is now calculated from
-         * the working /admin/users endpoint.
-         */
+                    const active =
+                        user.active ??
+                        1;
 
-        const activeUsers = users.filter(function(user) {
-            const active = user.active ?? 1;
-            return active == 1 || active === true;
-        });
 
-        document.getElementById("userCount").textContent =
+                    return `
+
+                        <tr>
+
+                            <td>
+                                ${escapeHTML(id)}
+                            </td>
+
+                            <td>
+                                ${escapeHTML(name)}
+                            </td>
+
+                            <td>
+
+                                <span class="badge badge-role">
+
+                                    ${escapeHTML(userRole)}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge badge-active">
+
+                                    ${
+                                        active == 1 ||
+                                        active === true
+                                            ? "Active"
+                                            : "Inactive"
+                                    }
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+            ).join("");
+
+
+        const activeUsers =
+            users.filter(
+                function(user) {
+
+                    const active =
+                        user.active ?? 1;
+
+                    return (
+                        active == 1 ||
+                        active === true
+                    );
+
+                }
+            );
+
+
+        document.getElementById(
+            "userCount"
+        ).textContent =
             activeUsers.length;
 
-    } catch (error) {
-        console.error("Users error:", error);
 
-        document.getElementById("usersTable").innerHTML = `
+    } catch (error) {
+
+        console.error(
+            "Users error:",
+            error
+        );
+
+
+        document.getElementById(
+            "usersTable"
+        ).innerHTML = `
+
             <tr>
+
                 <td colspan="4">
+
                     Unable to load users.
+
                 </td>
+
             </tr>
+
         `;
 
-        document.getElementById("userCount").textContent = 0;
+
+        document.getElementById(
+            "userCount"
+        ).textContent = 0;
+
     }
+
 }
+
 
 /* ==============================
    HTML ESCAPE
 ============================== */
 
 function escapeHTML(value) {
+
     return String(value)
+
         .replace(/&/g, "&amp;")
+
         .replace(/</g, "&lt;")
+
         .replace(/>/g, "&gt;")
+
         .replace(/"/g, "&quot;")
+
         .replace(/'/g, "&#039;");
+
 }
+
 
 /* ==============================
    LAND RECORDS
 ============================== */
 
 function openLandRecords() {
-    window.location.href = "index.html";
+
+    window.location.href =
+        "index.html";
+
 }
+
 
 /* ==============================
    LOGOUT
 ============================== */
 
 function logout() {
-    sessionStorage.removeItem("landstack_logged_in");
-    sessionStorage.removeItem("landstack_username");
-    sessionStorage.removeItem("landstack_role");
-    sessionStorage.removeItem("landstack_token");
 
-    window.location.href = "login.html";
+    sessionStorage.removeItem(
+        "landstack_logged_in"
+    );
+
+    sessionStorage.removeItem(
+        "landstack_username"
+    );
+
+    sessionStorage.removeItem(
+        "landstack_role"
+    );
+
+    sessionStorage.removeItem(
+        "landstack_token"
+    );
+
+    window.location.href =
+        "login.html";
+
 }
 
+
 /* ==============================
-   ADMIN MODULES
+   ADMIN MODULE TITLES
 ============================== */
 
 const moduleTitles = {
+
     landRecords: [
         "Land Records",
         "Search and inspect integrated parcel records."
@@ -1119,8 +1432,8 @@ const moduleTitles = {
     ],
 
     registration: [
-        "Registration",
-        "Inspect registration and transaction information."
+        "Registration Management",
+        "Monitor citizen registration applications and their status."
     ],
 
     risk: [
@@ -1147,272 +1460,935 @@ const moduleTitles = {
         "Audit Logs",
         "Review the current administrative session activity."
     ]
+
 };
 
+
+/* ==============================
+   OPEN MODULE
+============================== */
+
 function openModule(moduleName) {
-    const modal = document.getElementById("moduleModal");
-    const title = document.getElementById("moduleTitle");
-    const subtitle = document.getElementById("moduleSubtitle");
-    const body = document.getElementById("moduleBody");
+
+    const modal =
+        document.getElementById(
+            "moduleModal"
+        );
+
+
+    const title =
+        document.getElementById(
+            "moduleTitle"
+        );
+
+
+    const subtitle =
+        document.getElementById(
+            "moduleSubtitle"
+        );
+
+
+    const body =
+        document.getElementById(
+            "moduleBody"
+        );
+
 
     const info =
         moduleTitles[moduleName] ||
-        ["Admin Module", "LandStack administration"];
+        [
+            "Admin Module",
+            "LandStack administration"
+        ];
 
-    title.textContent = info[0];
-    subtitle.textContent = info[1];
 
-    modal.classList.add("show");
+    title.textContent =
+        info[0];
+
+
+    subtitle.textContent =
+        info[1];
+
+
+    modal.classList.add(
+        "show"
+    );
+
+
+    /* LAND RECORDS */
 
     if (moduleName === "landRecords") {
+
         body.innerHTML = `
+
             <p>
-                Open the existing LandStack GIS and parcel search interface.
+                Open the existing LandStack GIS
+                and parcel search interface.
             </p>
 
             <div class="modal-actions">
-                <button class="modal-btn"
-                        onclick="openLandRecords()">
+
+                <button
+                    class="modal-btn"
+                    onclick="openLandRecords()">
+
                     Open Land Records
+
                 </button>
+
             </div>
+
         `;
 
         return;
     }
 
+
+    /* USERS */
+
     if (moduleName === "users") {
+
         body.innerHTML = `
+
             <p style="margin-bottom:12px;">
-                Current platform accounts loaded from the admin users endpoint.
+
+                Current platform accounts loaded
+                from the admin users endpoint.
+
             </p>
 
             <div style="overflow:auto;">
+
                 <table class="user-table">
+
                     <thead>
+
                         <tr>
+
                             <th>User ID</th>
                             <th>Username</th>
                             <th>Role</th>
                             <th>Status</th>
+
                         </tr>
+
                     </thead>
 
                     <tbody>
-                        ${document.getElementById("usersTable").innerHTML}
+
+                        ${
+                            document.getElementById(
+                                "usersTable"
+                            ).innerHTML
+                        }
+
                     </tbody>
+
                 </table>
+
             </div>
 
             <div class="modal-actions">
-                <button class="modal-btn secondary"
-                        onclick="refreshUsersModule()">
+
+                <button
+                    class="modal-btn secondary"
+                    onclick="refreshUsersModule()">
+
                     Refresh Users
+
                 </button>
+
             </div>
+
         `;
 
         return;
     }
 
-    if (moduleName === "ownership") {
-        parcelLookupModule("ownership");
-        return;
-    }
+
+    /* REGISTRATION */
 
     if (moduleName === "registration") {
-        parcelLookupModule("registration");
+
+        loadAdminRegistrations();
+
         return;
     }
+
+
+    /* OWNERSHIP */
+
+    if (moduleName === "ownership") {
+
+        parcelLookupModule(
+            "ownership"
+        );
+
+        return;
+    }
+
+
+    /* RISK */
 
     if (moduleName === "risk") {
-        parcelLookupModule("risk");
+
+        parcelLookupModule(
+            "risk"
+        );
+
         return;
     }
 
+
+    /* GIS */
+
     if (moduleName === "gis") {
+
         body.innerHTML = `
+
             <p>
-                The existing GIS page contains the Street Map and Satellite layer.
+                The existing GIS page contains
+                the Street Map and Satellite layer.
             </p>
 
             <div class="modal-actions">
-                <button class="modal-btn"
-                        onclick="openLandRecords()">
+
+                <button
+                    class="modal-btn"
+                    onclick="openLandRecords()">
+
                     Open GIS & Satellite
+
                 </button>
+
             </div>
+
         `;
 
         return;
     }
 
+
+    /* REPORTS */
+
     if (moduleName === "reports") {
+
         generateAdminReport();
+
         return;
     }
 
+
+    /* SECURITY */
+
     if (moduleName === "security") {
+
         body.innerHTML = `
+
             <div class="modal-grid">
 
                 <div class="info-box">
-                    <div class="info-label">Authentication</div>
-                    <div class="info-value" style="color:#18733a;">
+
+                    <div class="info-label">
+                        Authentication
+                    </div>
+
+                    <div
+                        class="info-value"
+                        style="color:#18733a;">
+
                         ● Active
+
                     </div>
+
                 </div>
 
+
                 <div class="info-box">
-                    <div class="info-label">RBAC</div>
-                    <div class="info-value" style="color:#18733a;">
+
+                    <div class="info-label">
+                        RBAC
+                    </div>
+
+                    <div
+                        class="info-value"
+                        style="color:#18733a;">
+
                         ● Active
+
                     </div>
+
                 </div>
 
-                <div class="info-box">
-                    <div class="info-label">Current role</div>
-                    <div class="info-value">
-                        ${escapeHTML(role || "ADMIN")}
-                    </div>
-                </div>
 
                 <div class="info-box">
-                    <div class="info-label">Session user</div>
-                    <div class="info-value">
-                        ${escapeHTML(username || "Administrator")}
+
+                    <div class="info-label">
+                        Current role
                     </div>
+
+                    <div class="info-value">
+
+                        ${escapeHTML(
+                            role || "ADMIN"
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Session user
+                    </div>
+
+                    <div class="info-value">
+
+                        ${escapeHTML(
+                            username ||
+                            "Administrator"
+                        )}
+
+                    </div>
+
                 </div>
 
             </div>
+
 
             <div class="modal-actions">
-                <button class="modal-btn secondary"
-                        onclick="logout()">
+
+                <button
+                    class="modal-btn secondary"
+                    onclick="logout()">
+
                     Logout
+
                 </button>
+
             </div>
+
         `;
 
         return;
     }
+
+
+    /* AUDIT */
 
     if (moduleName === "audit") {
+
         body.innerHTML = `
+
             <div class="report-box">
+
 [${new Date().toLocaleString()}]
+
 ADMIN SESSION
-User: ${escapeHTML(username || "Administrator")}
-Role: ${escapeHTML(role || "ADMIN")}
-Action: Opened Audit Logs
-Status: Active
+
+User:
+${escapeHTML(
+    username ||
+    "Administrator"
+)}
+
+Role:
+${escapeHTML(
+    role ||
+    "ADMIN"
+)}
+
+Action:
+Opened Audit Logs
+
+Status:
+Active
+
             </div>
 
-            <p style="margin-top:12px;color:#6b7788;font-size:12px;">
-                Prototype frontend session log. A production audit trail
-                should be stored server-side.
+            <p
+                style="
+                    margin-top:12px;
+                    color:#6b7788;
+                    font-size:12px;
+                ">
+
+                Prototype frontend session log.
+                A production audit trail should
+                be stored server-side.
+
             </p>
+
         `;
 
         return;
     }
+
 }
 
-async function refreshUsersModule() {
-    await loadUsers();
-    openModule("users");
-}
 
 /* ==============================
-   PARCEL MODULES
+   ADMIN REGISTRATION MANAGEMENT
 ============================== */
 
-function parcelLookupModule(moduleName) {
-    const body = document.getElementById("moduleBody");
+async function loadAdminRegistrations() {
 
-    body.innerHTML = `
-        <label for="moduleUlpin">
-            <strong>Enter ULPIN</strong>
-        </label>
-
-        <input id="moduleUlpin"
-               class="modal-input"
-               value="ULPIN-WB-0001"
-               placeholder="Example: ULPIN-WB-0001">
-
-        <div class="modal-actions">
-
-            <button class="modal-btn"
-                    onclick="loadModuleData('${moduleName}')">
-                Search
-            </button>
-
-            <button class="modal-btn secondary"
-                    onclick="openLandRecords()">
-                Open Parcel Search
-            </button>
-
-        </div>
-
-        <div id="moduleResult" style="margin-top:18px;"></div>
-    `;
-}
-
-async function loadModuleData(moduleName) {
-    const input = document.getElementById("moduleUlpin");
-    const result = document.getElementById("moduleResult");
-
-    const ulpin = input ? input.value.trim() : "";
-
-    if (!ulpin) {
-        result.innerHTML = `
-            <div class="info-box">
-                Please enter a ULPIN.
-            </div>
-        `;
-
-        return;
-    }
-
-    result.innerHTML = `
-        <div class="info-box">
-            Loading parcel data...
-        </div>
-    `;
-
-    try {
-        const response = await fetch(
-            API_BASE_URL +
-            "/parcel/" +
-            encodeURIComponent(ulpin),
-            {
-                headers: {
-                    "Authorization": "Bearer " + token
-                }
-            }
+    const body =
+        document.getElementById(
+            "moduleBody"
         );
 
+
+    body.innerHTML = `
+
+        <div class="info-box">
+
+            Loading registration applications...
+
+        </div>
+
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                API_BASE_URL +
+                "/officer/registrations",
+                {
+                    headers: {
+                        "Authorization":
+                            "Bearer " + token
+                    }
+                }
+            );
+
+
         if (response.status === 401) {
+
             logout();
+
             return;
         }
 
+
         if (response.status === 403) {
-            result.innerHTML = `
+
+            body.innerHTML = `
+
                 <div class="info-box">
-                    Administrator permission is required for this record.
+
+                    Administrator permission
+                    is required.
+
                 </div>
+
             `;
 
             return;
         }
 
+
         if (!response.ok) {
-            throw new Error("Parcel request failed");
+
+            throw new Error(
+                "Registration request failed"
+            );
+
         }
 
-        const raw = await response.json();
-        const parcel = raw.data ?? raw.parcel ?? raw;
+
+        const result =
+            await response.json();
+
+
+        const applications =
+            Array.isArray(result.data)
+                ? result.data
+                : [];
+
+
+        if (applications.length === 0) {
+
+            body.innerHTML = `
+
+                <div class="info-box">
+
+                    No registration applications found.
+
+                </div>
+
+                <div class="modal-actions">
+
+                    <button
+                        class="modal-btn secondary"
+                        onclick="loadAdminRegistrations()">
+
+                        Refresh
+
+                    </button>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        body.innerHTML = `
+
+            <div class="verification-wrap">
+
+                <table class="verification-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Application
+                            </th>
+
+                            <th>
+                                ULPIN
+                            </th>
+
+                            <th>
+                                Applicant
+                            </th>
+
+                            <th>
+                                Transaction
+                            </th>
+
+                            <th>
+                                Buyer
+                            </th>
+
+                            <th>
+                                Fee
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        ${
+                            applications.map(
+                                function(app) {
+
+                                    const status =
+                                        String(
+                                            app.status ||
+                                            "SUBMITTED"
+                                        ).toUpperCase();
+
+
+                                    let statusClass =
+                                        "status-pending";
+
+
+                                    if (
+                                        status ===
+                                        "APPROVED"
+                                    ) {
+
+                                        statusClass =
+                                            "status-approved";
+
+                                    }
+
+
+                                    if (
+                                        status ===
+                                        "REJECTED"
+                                    ) {
+
+                                        statusClass =
+                                            "status-rejected";
+
+                                    }
+
+
+                                    return `
+
+                                        <tr>
+
+                                            <td>
+
+                                                <strong>
+
+                                                    ${escapeHTML(
+                                                        app.application_id ||
+                                                        ""
+                                                    )}
+
+                                                </strong>
+
+                                                <br>
+
+                                                <small>
+
+                                                    ${escapeHTML(
+                                                        app.created_at ||
+                                                        ""
+                                                    )}
+
+                                                </small>
+
+                                            </td>
+
+
+                                            <td>
+
+                                                ${escapeHTML(
+                                                    app.ulpin ||
+                                                    ""
+                                                )}
+
+                                            </td>
+
+
+                                            <td>
+
+                                                ${escapeHTML(
+                                                    app.applicant_username ||
+                                                    ""
+                                                )}
+
+                                            </td>
+
+
+                                            <td>
+
+                                                ${escapeHTML(
+                                                    app.transaction_type ||
+                                                    ""
+                                                )}
+
+                                            </td>
+
+
+                                            <td>
+
+                                                ${escapeHTML(
+                                                    app.buyer_name ||
+                                                    ""
+                                                )}
+
+                                                <br>
+
+                                                <small>
+
+                                                    ${escapeHTML(
+                                                        app.buyer_mobile ||
+                                                        ""
+                                                    )}
+
+                                                </small>
+
+                                            </td>
+
+
+                                            <td>
+
+                                                ₹${Number(
+                                                    app.registration_fee ||
+                                                    0
+                                                ).toFixed(2)}
+
+                                            </td>
+
+
+                                            <td>
+
+                                                <span
+                                                    class="
+                                                        badge
+                                                        ${statusClass}
+                                                    ">
+
+                                                    ${escapeHTML(
+                                                        status
+                                                    )}
+
+                                                </span>
+
+                                            </td>
+
+                                        </tr>
+
+                                    `;
+
+                                }
+                            ).join("")
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    class="modal-btn secondary"
+                    onclick="loadAdminRegistrations()">
+
+                    Refresh Applications
+
+                </button>
+
+            </div>
+
+        `;
+
+
+    } catch (error) {
+
+        console.error(
+            "Admin registrations error:",
+            error
+        );
+
+
+        body.innerHTML = `
+
+            <div class="info-box">
+
+                Unable to load registration applications.
+
+                <br><br>
+
+                Make sure the backend is running.
+
+            </div>
+
+            <div class="modal-actions">
+
+                <button
+                    class="modal-btn secondary"
+                    onclick="loadAdminRegistrations()">
+
+                    Retry
+
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* ==============================
+   REFRESH USERS
+============================== */
+
+async function refreshUsersModule() {
+
+    await loadUsers();
+
+    openModule(
+        "users"
+    );
+
+}
+
+
+/* ==============================
+   PARCEL MODULES
+============================== */
+
+function parcelLookupModule(
+    moduleName
+) {
+
+    const body =
+        document.getElementById(
+            "moduleBody"
+        );
+
+
+    body.innerHTML = `
+
+        <label for="moduleUlpin">
+
+            <strong>
+                Enter ULPIN
+            </strong>
+
+        </label>
+
+
+        <input
+            id="moduleUlpin"
+            class="modal-input"
+            value="ULPIN-WB-0001"
+            placeholder="Example: ULPIN-WB-0001">
+
+
+        <div class="modal-actions">
+
+            <button
+                class="modal-btn"
+                onclick="loadModuleData('${moduleName}')">
+
+                Search
+
+            </button>
+
+
+            <button
+                class="modal-btn secondary"
+                onclick="openLandRecords()">
+
+                Open Parcel Search
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="moduleResult"
+            style="margin-top:18px;">
+
+        </div>
+
+    `;
+
+}
+
+
+/* ==============================
+   LOAD PARCEL DATA
+============================== */
+
+async function loadModuleData(
+    moduleName
+) {
+
+    const input =
+        document.getElementById(
+            "moduleUlpin"
+        );
+
+
+    const result =
+        document.getElementById(
+            "moduleResult"
+        );
+
+
+    const ulpin =
+        input
+            ? input.value.trim()
+            : "";
+
+
+    if (!ulpin) {
+
+        result.innerHTML = `
+
+            <div class="info-box">
+
+                Please enter a ULPIN.
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    result.innerHTML = `
+
+        <div class="info-box">
+
+            Loading parcel data...
+
+        </div>
+
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                API_BASE_URL +
+                "/parcel/" +
+                encodeURIComponent(
+                    ulpin
+                ),
+                {
+                    headers: {
+                        "Authorization":
+                            "Bearer " + token
+                    }
+                }
+            );
+
+
+        if (response.status === 401) {
+
+            logout();
+
+            return;
+        }
+
+
+        if (response.status === 403) {
+
+            result.innerHTML = `
+
+                <div class="info-box">
+
+                    Administrator permission
+                    is required for this record.
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Parcel request failed"
+            );
+
+        }
+
+
+        const raw =
+            await response.json();
+
+
+        const parcel =
+            raw.data ??
+            raw.parcel ??
+            raw;
+
 
         if (
             !parcel ||
@@ -1423,290 +2399,555 @@ async function loadModuleData(moduleName) {
                 !parcel.survey_number
             )
         ) {
+
             result.innerHTML = `
+
                 <div class="info-box">
+
                     No parcel record found for
-                    <strong>${escapeHTML(ulpin)}</strong>.
+
+                    <strong>
+                        ${escapeHTML(ulpin)}
+                    </strong>.
+
                 </div>
+
             `;
 
             return;
         }
+
 
         const ownership =
             parcel.ownership_status ??
             parcel.owner_status ??
             "Not available";
 
+
         const registration =
             parcel.registration_status ??
             "Not available";
+
 
         const transaction =
             parcel.transaction_type ??
             "Not available";
 
-        if (moduleName === "ownership") {
-            result.innerHTML = `
-                <div class="modal-grid">
 
-                    <div class="info-box">
-                        <div class="info-label">ULPIN</div>
-                        <div class="info-value">
-                            ${escapeHTML(parcel.ulpin || ulpin)}
-                        </div>
-                    </div>
-
-                    <div class="info-box">
-                        <div class="info-label">Owner</div>
-                        <div class="info-value">
-                            ${escapeHTML(parcel.owner_name || "Not available")}
-                        </div>
-                    </div>
-
-                    <div class="info-box">
-                        <div class="info-label">Ownership status</div>
-                        <div class="info-value">
-                            ${escapeHTML(ownership)}
-                        </div>
-                    </div>
-
-                    <div class="info-box">
-                        <div class="info-label">Survey number</div>
-                        <div class="info-value">
-                            ${escapeHTML(parcel.survey_number || "Not available")}
-                        </div>
-                    </div>
-
-                </div>
-            `;
-
-            return;
-        }
-
-        if (moduleName === "registration") {
-            result.innerHTML = `
-                <div class="modal-grid">
-
-                    <div class="info-box">
-                        <div class="info-label">ULPIN</div>
-                        <div class="info-value">
-                            ${escapeHTML(parcel.ulpin || ulpin)}
-                        </div>
-                    </div>
-
-                    <div class="info-box">
-                        <div class="info-label">Registration</div>
-                        <div class="info-value">
-                            ${escapeHTML(registration)}
-                        </div>
-                    </div>
-
-                    <div class="info-box">
-                        <div class="info-label">Transaction</div>
-                        <div class="info-value">
-                            ${escapeHTML(transaction)}
-                        </div>
-                    </div>
-
-                    <div class="info-box">
-                        <div class="info-label">Owner</div>
-                        <div class="info-value">
-                            ${escapeHTML(parcel.owner_name || "Not available")}
-                        </div>
-                    </div>
-
-                </div>
-            `;
-
-            return;
-        }
-
-        let risk = "LOW";
-        let riskClass = "risk-low";
+        /* OWNERSHIP */
 
         if (
-            String(registration).toLowerCase().includes("pending") ||
-            String(registration).toLowerCase().includes("due")
+            moduleName === "ownership"
         ) {
-            risk = "HIGH";
-            riskClass = "risk-high";
-        } else if (
-            !String(ownership).toLowerCase().includes("verified")
-        ) {
-            risk = "MEDIUM";
-            riskClass = "risk-medium";
+
+            result.innerHTML = `
+
+                <div class="modal-grid">
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+                            ULPIN
+                        </div>
+
+                        <div class="info-value">
+
+                            ${escapeHTML(
+                                parcel.ulpin ||
+                                ulpin
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+                            Owner
+                        </div>
+
+                        <div class="info-value">
+
+                            ${escapeHTML(
+                                parcel.owner_name ||
+                                "Not available"
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+                            Ownership status
+                        </div>
+
+                        <div class="info-value">
+
+                            ${escapeHTML(
+                                ownership
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+                            Survey number
+                        </div>
+
+                        <div class="info-value">
+
+                            ${escapeHTML(
+                                parcel.survey_number ||
+                                "Not available"
+                            )}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+            return;
         }
 
+
+        /* RISK */
+
+        let risk =
+            "LOW";
+
+
+        let riskClass =
+            "risk-low";
+
+
+        if (
+            String(
+                registration
+            )
+            .toLowerCase()
+            .includes("pending") ||
+
+            String(
+                registration
+            )
+            .toLowerCase()
+            .includes("due")
+        ) {
+
+            risk =
+                "HIGH";
+
+            riskClass =
+                "risk-high";
+
+        } else if (
+            !String(
+                ownership
+            )
+            .toLowerCase()
+            .includes("verified")
+        ) {
+
+            risk =
+                "MEDIUM";
+
+            riskClass =
+                "risk-medium";
+
+        }
+
+
         result.innerHTML = `
+
             <div class="info-box">
-                <div class="info-label">Risk level</div>
-                <div class="${riskClass}" style="font-size:22px;">
+
+                <div class="info-label">
+                    Risk level
+                </div>
+
+                <div
+                    class="${riskClass}"
+                    style="font-size:22px;">
+
                     ${risk}
-                </div>
-            </div>
 
-            <div class="modal-grid" style="margin-top:12px;">
-
-                <div class="info-box">
-                    <div class="info-label">ULPIN</div>
-                    <div class="info-value">
-                        ${escapeHTML(parcel.ulpin || ulpin)}
-                    </div>
-                </div>
-
-                <div class="info-box">
-                    <div class="info-label">Ownership</div>
-                    <div class="info-value">
-                        ${escapeHTML(ownership)}
-                    </div>
-                </div>
-
-                <div class="info-box">
-                    <div class="info-label">Registration</div>
-                    <div class="info-value">
-                        ${escapeHTML(registration)}
-                    </div>
-                </div>
-
-                <div class="info-box">
-                    <div class="info-label">Land use</div>
-                    <div class="info-value">
-                        ${escapeHTML(parcel.land_use || "Not available")}
-                    </div>
                 </div>
 
             </div>
 
-            <p style="margin-top:12px;color:#6b7788;font-size:12px;">
-                Prototype screening based on available ownership and
-                registration data; not an official legal risk determination.
+
+            <div
+                class="modal-grid"
+                style="margin-top:12px;">
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        ULPIN
+                    </div>
+
+                    <div class="info-value">
+
+                        ${escapeHTML(
+                            parcel.ulpin ||
+                            ulpin
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Ownership
+                    </div>
+
+                    <div class="info-value">
+
+                        ${escapeHTML(
+                            ownership
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Registration
+                    </div>
+
+                    <div class="info-value">
+
+                        ${escapeHTML(
+                            registration
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Land use
+                    </div>
+
+                    <div class="info-value">
+
+                        ${escapeHTML(
+                            parcel.land_use ||
+                            "Not available"
+                        )}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <p
+                style="
+                    margin-top:12px;
+                    color:#6b7788;
+                    font-size:12px;
+                ">
+
+                Prototype screening based on
+                available ownership and registration
+                data; not an official legal risk
+                determination.
+
             </p>
+
         `;
+
 
     } catch (error) {
-        console.error("Module error:", error);
+
+        console.error(
+            "Module error:",
+            error
+        );
+
 
         result.innerHTML = `
+
             <div class="info-box">
+
                 Unable to load parcel data.
+
+                <br><br>
+
                 Make sure the backend is running.
+
             </div>
+
         `;
+
     }
+
 }
+
 
 /* ==============================
    REPORTS
 ============================== */
 
 function generateAdminReport() {
+
     const report =
+
 `LANDSTACK ADMINISTRATION REPORT
-Generated: ${new Date().toLocaleString()}
+
+Generated:
+${new Date().toLocaleString()}
 
 Dashboard Summary
+
 -----------------
-Total Land Parcels: ${document.getElementById("parcelCount").textContent}
-Verified Owners: ${document.getElementById("ownerCount").textContent}
-Registrations: ${document.getElementById("registrationCount").textContent}
-Active Users: ${document.getElementById("userCount").textContent}
+
+Total Land Parcels:
+${document.getElementById(
+    "parcelCount"
+).textContent}
+
+Verified Owners:
+${document.getElementById(
+    "ownerCount"
+).textContent}
+
+Registrations:
+${document.getElementById(
+    "registrationCount"
+).textContent}
+
+Active Users:
+${document.getElementById(
+    "userCount"
+).textContent}
+
 
 System Status
+
 -------------
-FastAPI Backend: Online
-Oracle Database: Online
-Authentication: Active
-RBAC: Active
-GIS Services: Available
+
+FastAPI Backend:
+Online
+
+Oracle Database:
+Online
+
+Authentication:
+Active
+
+RBAC:
+Active
+
+GIS Services:
+Available
+
 
 Administrator
--------------
-Username: ${username || "Administrator"}
-Role: ${role || "ADMIN"}`;
 
-    document.getElementById("moduleBody").innerHTML = `
+-------------
+
+Username:
+${username || "Administrator"}
+
+Role:
+${role || "ADMIN"}`;
+
+
+    document.getElementById(
+        "moduleBody"
+    ).innerHTML = `
+
         <div class="report-box">
+
             ${escapeHTML(report)}
+
         </div>
+
 
         <div class="modal-actions">
-            <button class="modal-btn"
-                    onclick="downloadReport()">
+
+            <button
+                class="modal-btn"
+                onclick="downloadReport()">
+
                 Download Report
+
             </button>
+
         </div>
+
     `;
+
 }
 
+
+/* ==============================
+   DOWNLOAD REPORT
+============================== */
+
 function downloadReport() {
+
     const box =
-        document.querySelector("#moduleBody .report-box");
+        document.querySelector(
+            "#moduleBody .report-box"
+        );
+
 
     if (!box) {
+
         return;
     }
 
+
     const blob =
         new Blob(
-            [box.textContent],
-            { type: "text/plain" }
+            [
+                box.textContent
+            ],
+            {
+                type:
+                    "text/plain"
+            }
         );
 
+
     const url =
-        URL.createObjectURL(blob);
+        URL.createObjectURL(
+            blob
+        );
+
 
     const link =
-        document.createElement("a");
+        document.createElement(
+            "a"
+        );
 
-    link.href = url;
-    link.download = "landstack_admin_report.txt";
 
-    document.body.appendChild(link);
+    link.href =
+        url;
+
+
+    link.download =
+        "landstack_admin_report.txt";
+
+
+    document.body.appendChild(
+        link
+    );
+
+
     link.click();
+
+
     link.remove();
 
-    URL.revokeObjectURL(url);
+
+    URL.revokeObjectURL(
+        url
+    );
+
 }
+
 
 /* ==============================
    MODAL CONTROLS
 ============================== */
 
 function closeModule() {
+
     document
-        .getElementById("moduleModal")
+        .getElementById(
+            "moduleModal"
+        )
         .classList
-        .remove("show");
+        .remove(
+            "show"
+        );
+
 }
 
-function closeModuleOnBackdrop(event) {
-    if (event.target.id === "moduleModal") {
+
+function closeModuleOnBackdrop(
+    event
+) {
+
+    if (
+        event.target.id ===
+        "moduleModal"
+    ) {
+
         closeModule();
+
     }
+
 }
+
 
 function goDashboard() {
+
     closeModule();
 
+
     window.scrollTo({
+
         top: 0,
+
         behavior: "smooth"
+
     });
+
 }
 
-document.addEventListener("keydown", function(event) {
-    if (event.key === "Escape") {
-        closeModule();
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key ===
+            "Escape"
+        ) {
+
+            closeModule();
+
+        }
+
     }
-});
+);
+
 
 /* ==============================
    START APPLICATION
 ============================== */
 
 loadDashboard();
+
 loadUsers();
+
 </script>
 
 </body>
